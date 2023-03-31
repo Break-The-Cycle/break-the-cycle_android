@@ -12,7 +12,7 @@ import kau.brave.breakthecycle.domain.model.ApplicationState
 import kau.brave.breakthecycle.utils.Constants.ONBOARD_ROUTE
 
 @Composable
-fun SignInScreen(appstate: ApplicationState) {
+fun SignInPhoneVerify(appstate: ApplicationState) {
 
     Column(
         modifier = Modifier.fillMaxSize(),

@@ -9,33 +9,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import kau.brave.breakthecycle.domain.model.ApplicationState
-import kau.brave.breakthecycle.utils.Constants.AUTH_GRAPH
-import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH
-import kau.brave.breakthecycle.utils.Constants.SIGNIN_GENDER_ROUTE
+import kau.brave.breakthecycle.utils.Constants.ONBOARD_ROUTE
 
 @Composable
-fun LoginScreen(appstate: ApplicationState) {
+fun SignInGenderScreen(appstate: ApplicationState) {
 
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Login Screen")
+        Text(text = "SignIn Screen")
         Button(onClick = {
-            appstate.navController.navigate(MAIN_GRAPH) {
-                popUpTo(AUTH_GRAPH) {
-                    inclusive = true
-                }
-            }
+            appstate.navController.navigate(ONBOARD_ROUTE)
         }) {
-            Text(text = "Navigate to Main Graph")
-        }
-
-        Button(onClick = {
-            appstate.navigate(SIGNIN_GENDER_ROUTE)
-        }) {
-            Text(text = "Navigate to SignIn Graph")
+            Text(text = "Navigate to OnBoard Screen")
         }
     }
 }
