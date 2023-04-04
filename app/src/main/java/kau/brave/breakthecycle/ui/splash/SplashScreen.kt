@@ -1,5 +1,6 @@
 package kau.brave.breakthecycle.ui.splash
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,7 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import kau.brave.breakthecycle.domain.model.ApplicationState
+import kau.brave.breakthecycle.ui.theme.Main
+import kau.brave.breakthecycle.ui.theme.White
 import kau.brave.breakthecycle.utils.Constants.AUTH_GRAPH
 import kau.brave.breakthecycle.utils.Constants.SPLASH_ROUTE
 import kotlinx.coroutines.delay
@@ -26,10 +31,12 @@ fun SplashScreen(appState: ApplicationState) {
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Main),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Splash Screen")
+        Text(text = "ROSE DAYS", color = White, fontSize = 30.sp, fontWeight = FontWeight.Bold)
     }
 }
