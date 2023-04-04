@@ -4,6 +4,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.navigation.NavHostController
+import com.google.accompanist.systemuicontroller.SystemUiController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -12,6 +13,7 @@ class ApplicationState(
     val bottomBarState: MutableState<Boolean>,
     val navController: NavHostController,
     val scaffoldState: ScaffoldState,
+    val uiController: SystemUiController,
     private val coroutineScope: CoroutineScope,
 ) {
 
