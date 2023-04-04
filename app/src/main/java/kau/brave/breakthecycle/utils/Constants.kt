@@ -5,7 +5,10 @@ import kau.brave.breakthecycle.ui.model.Screen
 object Constants {
 
     val BOTTOM_NAV_ITEMS = listOf<Screen>(Screen.Home, Screen.Calendar, Screen.Mypage)
+    val PASSWD_REGEX =
+        Regex("""^(?=.*[A-Za-z])(?=.*\d)(?=.*[@${'$'}!%*#?&])[A-Za-z\d@${'$'}!%*#?&]{8,}${'$'}""")
 
+    
     const val SPLASH_ROUTE = "nav-splash"
 
     const val LOGIN_ROUTE = "nav-login"
