@@ -30,10 +30,11 @@ private val LightColorPalette = lightColors(
 @Composable
 fun BreakTheCycleTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colors = if (darkTheme) {
-        DarkColorPalette
+//        DarkColorPalette
+        LightColorPalette
     } else {
         LightColorPalette
     }
