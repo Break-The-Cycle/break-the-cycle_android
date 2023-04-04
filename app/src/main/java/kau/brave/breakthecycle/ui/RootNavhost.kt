@@ -37,8 +37,7 @@ fun RootNavhost(appState: ApplicationState) {
             }
             mainGraph(appState)
             authGraph(appState)
-
-            composable(route = DIARY_WRITE_ROUTE) { entry ->
+            composable(route = DIARY_WRITE_ROUTE) {
                 val userObject =
                     appState.navController.previousBackStackEntry?.arguments?.getParcelable<Uri>(
                         "uri"
