@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.ui.auth.login
+package kau.brave.breakthecycle.ui.auth
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf

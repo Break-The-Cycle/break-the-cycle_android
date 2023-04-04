@@ -1,22 +1,13 @@
 package kau.brave.breakthecycle.ui.auth.login
 
-import android.graphics.ColorMatrix
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,17 +16,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.domain.model.ApplicationState
 import kau.brave.breakthecycle.domain.rememberApplicationState
+import kau.brave.breakthecycle.ui.auth.LoginViewModel
 import kau.brave.breakthecycle.ui.auth.components.LoginIdPasswd
-import kau.brave.breakthecycle.ui.component.CustomTextField
 import kau.brave.breakthecycle.ui.component.HeightSpacer
 import kau.brave.breakthecycle.ui.splash.SocialLoginBtn
 import kau.brave.breakthecycle.ui.theme.*
-import kau.brave.breakthecycle.utils.Constants.PASSWD_REGEX
+import kau.brave.breakthecycle.utils.Constants.SIGNIN_ID_PASSWD_ROUTE
+import kau.brave.breakthecycle.utils.Constants.SIGNIN_PHONE_VERIFY_ROUTE
 
 
 @Preview
 @Composable
-fun LoginIdPasswdScreen(applicationState: ApplicationState = rememberApplicationState()) {
+fun LoginIdPasswdScreen(appstate: ApplicationState = rememberApplicationState()) {
 
     val viewModel: LoginViewModel = hiltViewModel()
 
@@ -72,8 +64,7 @@ fun LoginIdPasswdScreen(applicationState: ApplicationState = rememberApplication
                     fontSize = 12.sp,
                     color = Sub2,
                     modifier = Modifier.clickable {
-                        // TODO 회원가입 진행
-                        // appstate.navigate(Constants.SIGNIN_GENDER_ROUTE)
+                        appstate.navigate(SIGNIN_PHONE_VERIFY_ROUTE)
                     },
                     textDecoration = TextDecoration.Underline
                 )
