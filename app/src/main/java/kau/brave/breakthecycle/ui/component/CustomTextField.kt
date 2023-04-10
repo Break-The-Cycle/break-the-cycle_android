@@ -1,12 +1,11 @@
 package kau.brave.breakthecycle.ui.component
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,13 +18,16 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kau.brave.breakthecycle.ui.theme.Error_Color
+import kau.brave.breakthecycle.R
+import kau.brave.breakthecycle.ui.theme.ErrorColor
 import kau.brave.breakthecycle.ui.theme.Gray300
 import kau.brave.breakthecycle.ui.theme.Gray600
+import kau.brave.breakthecycle.ui.theme.Main
 import kau.brave.breakthecycle.utils.bottomBorder
 
 /**
@@ -46,6 +48,7 @@ fun CustomTextField(
     keyboardActions: KeyboardActions? = null,
     onFocuseChange: (Boolean) -> Unit = {},
     onErrorState: Boolean = false,
+    maxSize: Int = 25,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     errorMessage: String = "",
 ) {
@@ -64,14 +67,14 @@ fun CustomTextField(
                         bottomLineColor.value = Gray300
                     }
                 }
-                .bottomBorder(1.dp, if (onErrorState) Error_Color else bottomLineColor.value)
+                .bottomBorder(1.dp, if (onErrorState) ErrorColor else bottomLineColor.value)
                 .focusRequester(focusRequest ?: FocusRequester()),
             value = value,
             onValueChange = {
-                if (it.length <= 25) onvalueChanged(it)
+                if (it.length <= maxSize) onvalueChanged(it)
             },
             singleLine = true,
-            cursorBrush = SolidColor(Color.Black),
+            cursorBrush = SolidColor(Main),
             textStyle = LocalTextStyle.current.copy(
                 color = Color.Black,
                 fontSize = fontSize,
@@ -96,10 +99,21 @@ fun CustomTextField(
                         }
                         innerTextField()
                     }
+                    if (value.isNotBlank()) {
+                        IconButton(
+                            onClick = { onvalueChanged("") },
+                            modifier = Modifier.size(16.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_close_24),
+                                contentDescription = "IC_CLOSE"
+                            )
+                        }
+                    }
                     if (trailingIcon != null) trailingIcon()
                 }
             },
-            visualTransformation = VisualTransformation.None,
+            visualTransformation = visualTransformation,
         )
 //        if (onErrorState && errorMessage.isNotBlank())  ErrorMessage(message = errorMessage)
     }
