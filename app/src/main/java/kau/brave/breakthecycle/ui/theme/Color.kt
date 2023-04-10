@@ -26,6 +26,8 @@ val Gray700 = Color(0xFF535659)
 val Gray800 = Color(0xFF36383A)
 val Gray900 = Color(0xFF242528)
 
-val Error_Color = Color(0xFFEF5B52)
+val ErrorColor = Color(0xFFEF5B52)
+val AbleColor = Color(0xFF5CC02D)
+
 val KakaoColor = Color(0xFFFDDC3F)
 val NaverColor = Color(0xFF00C75A)
