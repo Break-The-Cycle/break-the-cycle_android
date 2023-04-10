@@ -27,9 +27,8 @@ fun LoginIdPasswd(
     passwd: String = "",
     updateId: (String) -> Unit = {},
     updatePasswd: (String) -> Unit = {},
+    navigateToMainGraph: () -> Unit = {},
 ) {
-    val loginEnabled = id.length >= 7 && Constants.PASSWD_REGEX.matches(passwd)
-
     Text(text = "안녕하세요.\n로즈데이즈입니다.", fontSize = 18.sp, fontWeight = FontWeight.Bold)
     HeightSpacer(30.dp)
     Text(text = "아이디", fontSize = 16.sp)
@@ -55,18 +54,10 @@ fun LoginIdPasswd(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(5.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor =
-            if (loginEnabled) Main else Disabled,
+            backgroundColor = Main,
             contentColor = White
         ),
-        onClick = {
-//            appstate.navController.navigate(Constants.MAIN_GRAPH) {
-//                popUpTo(Constants.AUTH_GRAPH) {
-//                    inclusive = true
-//                }
-//            }
-        },
-        enabled = loginEnabled
+        onClick = navigateToMainGraph,
     ) {
         Text(text = "로그인", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = White)
     }

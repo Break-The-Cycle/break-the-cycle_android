@@ -25,6 +25,8 @@ import kau.brave.breakthecycle.ui.auth.components.LoginIdPasswd
 import kau.brave.breakthecycle.ui.component.HeightSpacer
 import kau.brave.breakthecycle.ui.splash.SocialLoginBtn
 import kau.brave.breakthecycle.ui.theme.*
+import kau.brave.breakthecycle.utils.Constants
+import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_GRAPH
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_ID_PASSWD_ROUTE
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_PHONE_VERIFY_ROUTE
@@ -61,7 +63,14 @@ fun LoginIdPasswdScreen(appstate: ApplicationState = rememberApplicationState())
                     id = viewModel.id.value,
                     passwd = viewModel.passwd.value,
                     updateId = viewModel::updateId,
-                    updatePasswd = viewModel::updatePasswd
+                    updatePasswd = viewModel::updatePasswd,
+                    navigateToMainGraph = {
+                        appstate.navController.navigate(MAIN_GRAPH) {
+                            popUpTo(Constants.AUTH_GRAPH) {
+                                inclusive = true
+                            }
+                        }
+                    }
                 )
 
                 HeightSpacer(20.dp)

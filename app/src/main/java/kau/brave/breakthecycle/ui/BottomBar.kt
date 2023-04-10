@@ -25,6 +25,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import kau.brave.breakthecycle.domain.model.ApplicationState
 import kau.brave.breakthecycle.ui.theme.*
 import kau.brave.breakthecycle.utils.Constants
+import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH
 
 @Composable
 fun BottomBar(appState: ApplicationState) {
@@ -65,7 +66,7 @@ fun BottomBar(appState: ApplicationState) {
                         onClick = {
                             if (!isSelected) {
                                 appState.navController.navigate(screen.route) {
-                                    popUpTo(Constants.MAIN_GRAPH) {
+                                    popUpTo(MAIN_GRAPH) {
                                         saveState = true
                                     }
                                     launchSingleTop = true
