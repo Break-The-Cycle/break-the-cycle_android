@@ -8,13 +8,14 @@ object Constants {
     val PASSWD_REGEX =
         Regex("""^(?=.*[A-Za-z])(?=.*\d)(?=.*[@${'$'}!%*#?&])[A-Za-z\d@${'$'}!%*#?&]{8,}${'$'}""")
 
-    
+
     const val SPLASH_ROUTE = "nav-splash"
 
     const val LOGIN_ROUTE = "nav-login"
     const val SIGNIN_GENDER_ROUTE = "nav-signin-gender"
     const val SIGNIN_PHONE_VERIFY_ROUTE = "nav-signin-phone-verify"
     const val SIGNIN_ID_PASSWD_ROUTE = "nav-signin-id-passwd"
+    const val SIGNIN_SETTING_ROUTE = "nav-signin-setting"
     const val SIGNIN_COMPLETE_ROUTE = "nav-signin-complete"
 
     // 시크릿 온보딩 라욷트
@@ -25,9 +26,13 @@ object Constants {
     const val SECERET_ONBOARD_MYPAGE_ROUTE = "nav-onboard-mypage"
 
 
-    const val ONBOARD_ROUTE = "nav-onboard"
+    const val ONBOARD_CYCLE_ROUTE = "nav-onboard-cycle"
+    const val ONBOARD_DATE_WRITE_ROUTE = "nav-onboard-date-write"
+
     const val DIARY_WRITE_ROUTE = "nav-diary-write"
 
     const val MAIN_GRAPH = "main_graph"
     const val AUTH_GRAPH = "login_graph"
+    const val SIGNIN_GRAPH = "signin_graph"
+    const val ONBOARD_GRAPH = "onboard_graph"
 }
