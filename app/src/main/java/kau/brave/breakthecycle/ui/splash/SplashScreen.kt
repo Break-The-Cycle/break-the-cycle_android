@@ -1,16 +1,19 @@
 package kau.brave.breakthecycle.ui.splash
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.domain.model.ApplicationState
 import kau.brave.breakthecycle.ui.theme.Main
 import kau.brave.breakthecycle.ui.theme.White
@@ -33,10 +36,20 @@ fun SplashScreen(appState: ApplicationState) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Main),
+            .background(White),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "ROSE DAYS", color = White, fontSize = 30.sp, fontWeight = FontWeight.Bold)
+        Image(
+            painter = painterResource(id = R.drawable.img_logo),
+            contentDescription = "IMG_LOGO",
+            modifier = Modifier.size(134.dp)
+        )
+        Text(
+            text = "ROSE DAYS",
+            fontSize = 39.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black, modifier = Modifier.padding(top = 10.dp)
+        )
     }
 }
