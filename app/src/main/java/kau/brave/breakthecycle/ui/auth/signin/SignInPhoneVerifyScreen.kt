@@ -1,33 +1,32 @@
 package kau.brave.breakthecycle.ui.auth.signin
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.domain.model.ApplicationState
 import kau.brave.breakthecycle.domain.rememberApplicationState
+import kau.brave.breakthecycle.ui.auth.components.SignInGraphBottomConfirmButton
 import kau.brave.breakthecycle.ui.component.CustomTextField
 import kau.brave.breakthecycle.ui.component.HeightSpacer
-import kau.brave.breakthecycle.ui.theme.Error_Color
+import kau.brave.breakthecycle.ui.theme.Disabled
+import kau.brave.breakthecycle.ui.theme.ErrorColor
 import kau.brave.breakthecycle.ui.theme.Main
 import kau.brave.breakthecycle.ui.theme.White
-import kau.brave.breakthecycle.utils.Constants.ONBOARD_ROUTE
+import kau.brave.breakthecycle.utils.Constants.SIGNIN_ID_PASSWD_ROUTE
 
 @Preview
 @Composable
@@ -44,70 +43,61 @@ fun SignInPhoneVerify(appstate: ApplicationState = rememberApplicationState()) {
     ) {
         Box(
             modifier = Modifier
-                .padding(bottom = 65.dp)
-                .clip(RoundedCornerShape(bottomEnd = 70.dp))
+                .padding(bottom = 44.dp)
                 .fillMaxSize()
+                .shadow(5.dp, RoundedCornerShape(bottomEnd = 70.dp))
+                .clip(RoundedCornerShape(bottomEnd = 70.dp))
                 .background(White),
         ) {
             Column(
                 modifier = Modifier
                     .statusBarsPadding()
                     .fillMaxSize()
+                    .background(White)
                     .padding(horizontal = 28.dp)
             ) {
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 12.dp)
-                ) {
-                    IconButton(
-                        onClick = {
-                            appstate.popBackStack()
-                        },
-                        modifier = Modifier.size(24.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
-                            contentDescription = "IC_ARROW_BACK"
-                        )
-                    }
+                BackIcon {
+                    appstate.navController.popBackStack()
                 }
+                HeightSpacer(dp = 45.dp)
 
-                HeightSpacer(dp = 54.dp)
-
-                Text(text = "전화번호 인증을\n진행해 주세요.", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                HeightSpacer(dp = 70.dp)
+                Text(text = "전화번호 인증을\n진행해 주세요.", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                HeightSpacer(dp = 60.dp)
 
                 Text(text = "전화번호", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.Bottom,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     CustomTextField(
                         modifier = Modifier.weight(5f),
                         value = phone,
+                        maxSize = 11,
                         placeholderText = "전화번호를 입력해주세요.",
                         onvalueChanged = { phone = it }
                     )
-                    Text(
-                        text = "인증 번호 요청",
-                        modifier = Modifier
-                            .weight(3f)
-                            .clip(RoundedCornerShape(5.dp))
-                            .background(Main)
-                            .height(IntrinsicSize.Max)
-                            .padding(vertical = 6.dp)
-                            .clickable {
 
-                            },
-                        color = White,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
+                    Button(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier
+                            .weight(3f),
+                        contentPadding = PaddingValues(vertical = 0.dp, horizontal = 3.dp),
+                        shape = RoundedCornerShape(5.dp),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = if (phone.length == 11) Main else Disabled),
+                    ) {
+                        Text(
+                            "인증 번호 요청",
+                            color = White,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
                 }
+
                 HeightSpacer(dp = 30.dp)
+
                 Text(text = "인증번호", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 Row(
                     modifier = Modifier.wrapContentHeight(),
@@ -117,43 +107,35 @@ fun SignInPhoneVerify(appstate: ApplicationState = rememberApplicationState()) {
                     CustomTextField(
                         modifier = Modifier.weight(5f),
                         value = phone,
+                        maxSize = 6,
                         placeholderText = "인증번호를 입력해주세요.",
                         onvalueChanged = { phone = it }
                     )
-                    Text(
-                        text = "인증",
+                    Button(
+                        onClick = { /*TODO*/ },
                         modifier = Modifier
-                            .weight(3f)
-                            .clip(RoundedCornerShape(5.dp))
-                            .background(Main)
-                            .padding(vertical = 6.dp)
-                            .clickable {
-
-                            },
-                        color = White,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
+                            .weight(3f),
+                        contentPadding = PaddingValues(vertical = 0.dp, horizontal = 3.dp),
+                        shape = RoundedCornerShape(5.dp),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = if (phone.length == 6) Main else Disabled),
+                    ) {
+                        Text(
+                            "인증",
+                            color = White,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
                 }
-                Text(text = "03:00", color = Error_Color, fontSize = 14.sp)
+                Text(text = "03:00", color = ErrorColor, fontSize = 14.sp)
 
-                Spacer(modifier = Modifier.weight(1f))
-
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 90.dp),
-                    shape = RoundedCornerShape(5.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Main),
+                SignInGraphBottomConfirmButton(
+                    enabled = true,
                     onClick = {
-                        appstate.navController.navigate(ONBOARD_ROUTE)
-                    }) {
-                    Text(
-                        text = "완료", color = White, fontSize = 16.sp, fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(vertical = 3.dp)
-                    )
-                }
+                        appstate.navController.navigate(SIGNIN_ID_PASSWD_ROUTE)
+                    }
+                )
             }
         }
     }
