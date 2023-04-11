@@ -162,7 +162,7 @@ fun SignInIdPasswdScreen(appstate: ApplicationState) {
                     visualTransformation = PasswordVisualTransformation()
                 )
                 Text(
-                    text = "비밀번호는 8~12글자, 숫자, 대소문자, 특수문자 포함이여야 합니다.",
+                    text = "8~12글자, 숫자, 대소문자, 특수문자 포함이여야 합니다.",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     color = when (passwdStatus) {
@@ -174,7 +174,7 @@ fun SignInIdPasswdScreen(appstate: ApplicationState) {
 
                 /** 비밀번호 확인 */
                 CustomTextField(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(top=10.dp),
                     value = passwdConfirm,
                     placeholderText = "비밀번호를 확인해주세요.",
                     onvalueChanged = {

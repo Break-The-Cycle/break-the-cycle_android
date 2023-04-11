@@ -84,7 +84,7 @@ fun CustomTextField(
             decorationBox = { innerTextField ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(0.dp, 15.dp)
+                    modifier = Modifier.padding(0.dp, 10.dp)
                 ) {
                     if (leadingIcon != null) leadingIcon()
                     Box(Modifier.weight(1f)) {

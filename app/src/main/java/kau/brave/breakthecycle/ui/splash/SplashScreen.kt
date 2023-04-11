@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kau.brave.breakthecycle.R
@@ -50,6 +51,15 @@ fun SplashScreen(appState: ApplicationState) {
             fontSize = 39.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black, modifier = Modifier.padding(top = 10.dp)
+        )
+
+        Text(
+            text = "여성 안심 어플\n안녕하세요 로즈 데이즈 입니다.",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF767676),
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 18.dp)
         )
     }
 }

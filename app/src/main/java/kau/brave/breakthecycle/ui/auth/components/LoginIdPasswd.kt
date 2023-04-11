@@ -29,7 +29,7 @@ fun LoginIdPasswd(
     updatePasswd: (String) -> Unit = {},
     navigateToMainGraph: () -> Unit = {},
 ) {
-    Text(text = "안녕하세요.\n로즈데이즈입니다.", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+    Text(text = "안녕하세요.\n로즈 데이즈입니다.", fontSize = 18.sp, fontWeight = FontWeight.Bold)
     HeightSpacer(30.dp)
     Text(text = "아이디", fontSize = 16.sp)
     CustomTextField(

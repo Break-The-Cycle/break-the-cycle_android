@@ -47,7 +47,7 @@ fun SocialLoginBtn(
                 modifier = Modifier.align(Alignment.Center),
                 text = text,
                 color = White,
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
         }
