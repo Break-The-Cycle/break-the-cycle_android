@@ -1,7 +1,6 @@
 package kau.brave.breakthecycle.ui.auth.signin
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,40 +10,27 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.domain.model.ApplicationState
-import kau.brave.breakthecycle.ui.component.HeightSpacer
-import kau.brave.breakthecycle.ui.theme.Gray300
 import kau.brave.breakthecycle.ui.theme.Main
 import kau.brave.breakthecycle.ui.theme.White
-import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_DURATION_ROUTE
+import kau.brave.breakthecycle.utils.Constants
+import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_DATE_ROUTE
+
 
 @Composable
-fun SignInSettingScreen(appstate: ApplicationState) {
+fun SignInMenstruationDuration(appState: ApplicationState) {
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Main),
     ) {
-        Image(
-            painter = painterResource(id = R.mipmap.img_login_background),
-            contentDescription = "IMG_LOGIN_BACKGROUND",
-            modifier = Modifier
-                .fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-
         Box(
             modifier = Modifier
                 .padding(bottom = 44.dp)
@@ -62,39 +48,44 @@ fun SignInSettingScreen(appstate: ApplicationState) {
                     .padding(horizontal = 28.dp)
             ) {
 
-                Image(
-                    painter = painterResource(id = R.drawable.img_logo),
-                    contentDescription = "IMG_LOGO",
-                    modifier = Modifier
-                        .padding(top = 60.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .size(100.dp),
-                    contentScale = ContentScale.Crop
-                )
                 Text(
-                    text = "로즈 데이즈에 오신걸\n환영합니다.",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp),
-                    textAlign = TextAlign.Center,
+                    text = "생리 주기를 설정해주세요.",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-                HeightSpacer(dp = 65.dp)
-                Text(
-                    text = "간단한 기본설정이 필요해요.",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 84.dp)
                 )
 
-                Spacer(modifier = Modifier.weight(1f))
-
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Button(onClick = { /*TODO*/ }) {
+                        Text(text = "-")
+                    }
+                    Box(
+                        modifier = Modifier.size(150.dp)
+                    ) {
+                        Canvas(modifier = Modifier.fillMaxSize()) {
+                            drawCircle(color = Main)
+                        }
+                        Text(
+                            text = "3",
+                            fontSize = 60.sp,
+                            color = White,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                    Button(onClick = { /*TODO*/ }) {
+                        Text(text = "+")
+                    }
+                }
                 Button(
                     onClick = {
-                        appstate.navigate(USERINFO_MENSTRUATION_DURATION_ROUTE)
+                        appState.navigate(USERINFO_MENSTRUATION_DATE_ROUTE)
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -103,7 +94,7 @@ fun SignInSettingScreen(appstate: ApplicationState) {
                     colors = ButtonDefaults.buttonColors(Main)
                 ) {
                     Text(
-                        text = "좋아요",
+                        text = "다음",
                         color = White,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold

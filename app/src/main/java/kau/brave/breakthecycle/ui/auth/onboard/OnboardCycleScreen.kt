@@ -27,6 +27,7 @@ import kau.brave.breakthecycle.utils.Constants
 import kau.brave.breakthecycle.utils.Constants.AUTH_GRAPH
 import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_SETTING_ROUTE
+import kau.brave.breakthecycle.utils.Constants.USERINFO_GRAPH
 
 @Composable
 fun OnboardCycleScreen(appstate: ApplicationState) {
@@ -68,7 +69,7 @@ fun OnboardCycleScreen(appstate: ApplicationState) {
                 Text(text = "간단하게 다음 생리가 언제인지 예측할 수 있어요.", fontSize = 16.sp, color = Gray300)
 
                 SignInGraphBottomConfirmButton(onClick = {
-                    appstate.navController.navigate(SIGNIN_SETTING_ROUTE)
+                    appstate.navController.navigate(USERINFO_GRAPH)
                 }, enabled = true)
             }
         }
