@@ -5,7 +5,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import kau.brave.breakthecycle.domain.model.ApplicationState
 import kau.brave.breakthecycle.ui.calendar.CalendarScreen
-import kau.brave.breakthecycle.ui.home.HomeScreen
+import kau.brave.breakthecycle.ui.home.view.HomeScreen
 import kau.brave.breakthecycle.ui.model.Screen
 import kau.brave.breakthecycle.ui.mypage.MypageScreen
 import kau.brave.breakthecycle.utils.Constants
