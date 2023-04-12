@@ -1,24 +1,33 @@
 package kau.brave.breakthecycle.ui.calendar
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Button
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.domain.model.ApplicationState
 import kau.brave.breakthecycle.ui.calendar.viewmodel.CalendarViewModel
+import kau.brave.breakthecycle.ui.theme.Gray300
+import kau.brave.breakthecycle.ui.theme.Main
+import kau.brave.breakthecycle.utils.bottomBorder
 import java.util.*
 
 @Composable
@@ -41,6 +50,35 @@ fun CalendarScreen(appState: ApplicationState) {
         )
 
         CalendarView()
+
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .padding(top = 15.dp)
+                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                .background(Color.White)
+                .border(1.dp, Gray300, RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                .bottomBorder(2.dp, Color.White)
+                .padding(horizontal = 24.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(top = 10.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .size(80.dp, 5.dp)
+                    .clip(RoundedCornerShape(50))
+                    .background(Color.Black)
+            )
+
+            Text(
+                text = "오늘의 일기",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 20.dp)
+            )
+
+        }
     }
 
 }
@@ -71,7 +109,7 @@ fun CalendarView() {
 
         days.addAll((1..calendar.getActualMaximum(Calendar.DAY_OF_MONTH)).toList())
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        
+
         /** 지난 달 날짜 가져오기 */
         if (dayOfWeek != Calendar.SUNDAY) {
             val lastMonth = calendar.clone() as Calendar
@@ -95,29 +133,57 @@ fun CalendarView() {
         }
     }
 
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        Button(onClick = {
-            calendar = calendar.apply {
-                add(Calendar.MONTH, -1)
-            }
-            month = if (month == 1) 12 else (month - 1)
-        }) {
-            Text(text = "이전")
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 20.dp, end = 20.dp, top = 30.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(
+            modifier = Modifier.size(50.dp), onClick = {
+                calendar = calendar.apply {
+                    add(Calendar.MONTH, -1)
+                }
+                month = if (month == 1) 12 else (month - 1)
+            }) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_arrow_24),
+                contentDescription = "IC_ARROW",
+                tint = Main,
+                modifier = Modifier.size(36.dp)
+            )
         }
-        Text(text = date)
-        Button(onClick = {
-            calendar = calendar.apply {
-                add(Calendar.MONTH, 1)
-            }
-            month = if (month == 12) 1 else (month + 1)
-        }) {
-            Text(text = "다음")
+        Text(
+            text = date,
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Main
+        )
+
+        IconButton(
+            modifier = Modifier.size(50.dp), onClick = {
+                calendar = calendar.apply {
+                    add(Calendar.MONTH, 1)
+                }
+                month = if (month == 12) 1 else (month + 1)
+            }) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_arrow_24),
+                contentDescription = "IC_ARROW",
+                tint = Main,
+                modifier = Modifier
+                    .size(36.dp)
+                    .rotate(180f)
+            )
         }
     }
 
-
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
-
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 10.dp, end = 10.dp, top = 20.dp)
+    ) {
         itemsIndexed(items = days.chunked(7)) { index, week ->
             CalendarRow(days = week)
         }
@@ -142,6 +208,7 @@ fun RowScope.DateCell(date: Int) {
         modifier = Modifier
             .background(Color.White)
             .weight(1f)
+            .aspectRatio(1f)
     ) {
         Text(
             text = date.toString(),

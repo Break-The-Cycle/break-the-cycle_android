@@ -11,10 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.LinearGradient
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
@@ -27,14 +25,13 @@ import kau.brave.breakthecycle.domain.model.ApplicationState
 import kau.brave.breakthecycle.domain.model.DayOfWeek
 import kau.brave.breakthecycle.ui.theme.Gray100
 import kau.brave.breakthecycle.ui.theme.Main
-import kau.brave.breakthecycle.ui.theme.Sub1
-import kau.brave.breakthecycle.ui.theme.Sub2
 import java.util.*
 
 @Composable
 fun HomeScreen(appstate: ApplicationState) {
 
     val density = LocalDensity.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -111,6 +108,36 @@ fun HomeScreen(appstate: ApplicationState) {
                 )
             }
 
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(horizontal = 50.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            for (i in 0 until 3) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Canvas(
+                        modifier = Modifier.size(20.dp),
+                    ) {
+                        drawCircle(
+                            color = Main,
+                            radius = with(density) { 10.dp.toPx() },
+                        )
+                    }
+                    Text(
+                        text = "ㅇㅇ 기간",
+                        fontSize = 15.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+            }
         }
     }
 }
