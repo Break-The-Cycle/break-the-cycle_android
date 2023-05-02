@@ -1,7 +1,6 @@
 package kau.brave.breakthecycle.ui.auth.signin
 
 import kau.brave.breakthecycle.ui.auth.model.VerificationStatus
-import kau.brave.breakthecycle.ui.auth.signin.SignInViewModel.Companion.DEFAULT_RETRY_TIME
 
 
 data class SignInPhoneVerifyScreenUiState(
@@ -12,9 +11,10 @@ data class SignInPhoneVerifyScreenUiState(
 )
 
 data class SignInIdPasswordScreenUiState(
-    val nickname: String = "",
-    val nicknameDupCheck: VerificationStatus = VerificationStatus.NONE,
+    val id: String = "",
+    val idDupCheck: VerificationStatus = VerificationStatus.NONE,
     val password: String = "",
+    val passwordRegexCheck: VerificationStatus = VerificationStatus.NONE,
     val secondPassword: String = "",
     val passwordCorrectCheck: VerificationStatus = VerificationStatus.NONE
 )

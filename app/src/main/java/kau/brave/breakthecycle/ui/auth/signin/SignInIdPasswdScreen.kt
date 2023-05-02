@@ -16,6 +16,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kau.brave.breakthecycle.domain.model.ApplicationState
 import kau.brave.breakthecycle.ui.auth.components.SignInGraphBottomConfirmButton
 import kau.brave.breakthecycle.ui.auth.model.VerificationStatus
@@ -27,29 +29,8 @@ import kau.brave.breakthecycle.utils.Constants.SIGNIN_GRAPH
 @Composable
 fun SignInIdPasswdScreen(appstate: ApplicationState) {
 
-    var id by remember {
-        mutableStateOf("")
-    }
-
-    var idStatus by remember {
-        mutableStateOf(VerificationStatus.NONE)
-    }
-
-    var passwd by remember {
-        mutableStateOf("")
-    }
-
-    var passwdConfirm by remember {
-        mutableStateOf("")
-    }
-
-    var passwdStatus by remember {
-        mutableStateOf(VerificationStatus.NONE)
-    }
-
-    var passwdConfirmStatus by remember {
-        mutableStateOf(VerificationStatus.NONE)
-    }
+    val viewModel: SignInViewModel = hiltViewModel()
+    val uiState by viewModel.signInIdPasswordScreenUiState.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier
@@ -89,18 +70,12 @@ fun SignInIdPasswdScreen(appstate: ApplicationState) {
                 ) {
                     CustomTextField(
                         modifier = Modifier.weight(5f),
-                        value = id,
+                        value = uiState.id,
                         placeholderText = "아이디를 입력해주세요.",
-                        onvalueChanged = {
-                            id = it
-                            idStatus = VerificationStatus.NONE
-                        }
+                        onvalueChanged = viewModel::updateId
                     )
                     Button(
-                        onClick = {
-                            /*TODO*/
-                            idStatus = VerificationStatus.COMPLETE
-                        },
+                        onClick = viewModel::checkIdDuplication,
                         modifier = Modifier
                             .weight(3f),
                         contentPadding = PaddingValues(vertical = 0.dp, horizontal = 3.dp),
@@ -116,7 +91,7 @@ fun SignInIdPasswdScreen(appstate: ApplicationState) {
                         )
                     }
                 }
-                when (idStatus) {
+                when (uiState.idDupCheck) {
                     VerificationStatus.ERROR -> {
                         Text(
                             text = "이미 사용중인 아이디입니다.",
@@ -125,7 +100,7 @@ fun SignInIdPasswdScreen(appstate: ApplicationState) {
                             color = ErrorColor
                         )
                     }
-                    VerificationStatus.COMPLETE -> {
+                    VerificationStatus.SUCCESS -> {
                         Text(
                             text = "사용 가능한 아이디입니다.",
                             fontSize = 12.sp,
@@ -147,46 +122,33 @@ fun SignInIdPasswdScreen(appstate: ApplicationState) {
                 )
                 CustomTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = passwd,
+                    value = uiState.password,
                     placeholderText = "비밀번호를 입력해주세요.",
-                    onvalueChanged = {
-                        passwd = it
-                        passwdStatus =
-                            if (it.isEmpty()) VerificationStatus.NONE else {
-                                if (it.length in 8..12 && it.matches(Regex(".*\\d.*")) && it.matches(
-                                        Regex(".*[a-z].*")
-                                    ) && it.matches(Regex(".*[A-Z].*")) && it.matches(Regex(".*[!@#\$%^&*(),.?\":{}|<>].*"))
-                                ) VerificationStatus.COMPLETE else VerificationStatus.ERROR
-                            }
-                    },
+                    onvalueChanged = viewModel::updatePassword,
                     visualTransformation = PasswordVisualTransformation()
                 )
                 Text(
                     text = "8~12글자, 숫자, 대소문자, 특수문자 포함이여야 합니다.",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
-                    color = when (passwdStatus) {
+                    color = when (uiState.passwordRegexCheck) {
                         VerificationStatus.ERROR -> ErrorColor
-                        VerificationStatus.COMPLETE -> AbleColor
+                        VerificationStatus.SUCCESS -> AbleColor
                         else -> Disabled
                     },
                 )
 
                 /** 비밀번호 확인 */
                 CustomTextField(
-                    modifier = Modifier.fillMaxWidth().padding(top=10.dp),
-                    value = passwdConfirm,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
+                    value = uiState.secondPassword,
                     placeholderText = "비밀번호를 확인해주세요.",
-                    onvalueChanged = {
-                        passwdConfirm = it
-                        passwdConfirmStatus =
-                            if (it.isEmpty()) VerificationStatus.NONE else {
-                                if (passwd == passwdConfirm) VerificationStatus.COMPLETE else VerificationStatus.ERROR
-                            }
-                    },
+                    onvalueChanged = viewModel::updateSecondPassword,
                     visualTransformation = PasswordVisualTransformation()
                 )
-                when (passwdConfirmStatus) {
+                when (uiState.passwordCorrectCheck) {
                     VerificationStatus.ERROR -> {
                         Text(
                             text = "비밀번호가 일치하지 않습니다.",
@@ -195,7 +157,7 @@ fun SignInIdPasswdScreen(appstate: ApplicationState) {
                             color = ErrorColor
                         )
                     }
-                    VerificationStatus.COMPLETE -> {
+                    VerificationStatus.SUCCESS -> {
                         Text(
                             text = "비밀번호가 일치합니다.",
                             fontSize = 12.sp,
@@ -216,7 +178,9 @@ fun SignInIdPasswdScreen(appstate: ApplicationState) {
                             }
                         }
                     },
-                    enabled = true //idStatus == VerificationStatus.COMPLETE && passwdStatus == VerificationStatus.COMPLETE && passwdConfirmStatus == VerificationStatus.COMPLETE
+                    enabled = uiState.idDupCheck == VerificationStatus.SUCCESS &&
+                            uiState.passwordCorrectCheck == VerificationStatus.SUCCESS &&
+                            uiState.passwordRegexCheck == VerificationStatus.SUCCESS
                 )
             }
         }

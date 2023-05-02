@@ -15,9 +15,10 @@ class SignInViewModel : ViewModel() {
     private val _retryTime = MutableStateFlow(0)
 
     /** 아이디 패드워드 인증 State */
-    private val _nickname = MutableStateFlow("")
-    private val _nicknameDupCheck = MutableStateFlow(VerificationStatus.NONE)
+    private val _id = MutableStateFlow("")
+    private val _idDupCheck = MutableStateFlow(VerificationStatus.NONE)
     private val _password = MutableStateFlow("")
+    private val _passwordRegexCheck = MutableStateFlow(VerificationStatus.NONE)
     private val _secondPassword = MutableStateFlow("")
     private val _passwordCorrectCheck = MutableStateFlow(VerificationStatus.NONE)
 
@@ -64,14 +65,15 @@ class SignInViewModel : ViewModel() {
     )
 
     val signInIdPasswordScreenUiState: StateFlow<SignInIdPasswordScreenUiState> = combine(
-        _nickname, _nicknameDupCheck, _password, _secondPassword, _passwordCorrectCheck
-    ) { nickname, nicknameDupCheck, password, secondPassword, passwordCorrectCheck ->
+        _id, _idDupCheck, _password, _secondPassword, _passwordCorrectCheck, _passwordRegexCheck
+    ) {
         SignInIdPasswordScreenUiState(
-            nickname = nickname,
-            nicknameDupCheck = nicknameDupCheck,
-            password = password,
-            secondPassword = secondPassword,
-            passwordCorrectCheck = passwordCorrectCheck
+            id = it[0] as String,
+            idDupCheck = it[1] as VerificationStatus,
+            password = it[2] as String,
+            secondPassword = it[3] as String,
+            passwordCorrectCheck = it[4] as VerificationStatus,
+            passwordRegexCheck = it[5] as VerificationStatus
         )
     }.stateIn(
         viewModelScope, SharingStarted.WhileSubscribed(5000), SignInIdPasswordScreenUiState()
@@ -91,6 +93,11 @@ class SignInViewModel : ViewModel() {
         resetTimer()
     }
 
+    fun checkIdDuplication() {
+        // TODO 아이디 중복 검사
+        _idDupCheck.value = VerificationStatus.SUCCESS
+    }
+
     fun updateVerifyPhoneNumber(phoneNumber: String) {
         _verifyPhoneNumber.value = phoneNumber
     }
@@ -99,12 +106,19 @@ class SignInViewModel : ViewModel() {
         _verifyCode.value = code
     }
 
-    fun updateNickname(nickname: String) {
-        _nickname.value = nickname
+    fun updateId(id: String) {
+        _id.value = id
+        _idDupCheck.value = VerificationStatus.NONE
     }
 
     fun updatePassword(password: String) {
         _password.value = password
+        _passwordRegexCheck.value = if (password.isEmpty()) VerificationStatus.NONE else {
+            if (password.length in 8..12 && password.matches(Regex(".*\\d.*")) && password.matches(
+                    Regex(".*[a-z].*")
+                ) && password.matches(Regex(".*[A-Z].*")) && password.matches(Regex(".*[!@#\$%^&*(),.?\":{}|<>].*"))
+            ) VerificationStatus.SUCCESS else VerificationStatus.ERROR
+        }
     }
 
     fun updateSecondPassword(secondPassword: String) {
