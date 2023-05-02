@@ -3,6 +3,7 @@ package kau.brave.breakthecycle.ui.auth.signin
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -13,10 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kau.brave.breakthecycle.domain.model.ApplicationState
 import kau.brave.breakthecycle.domain.rememberApplicationState
 import kau.brave.breakthecycle.ui.auth.components.SignInGraphBottomConfirmButton
@@ -28,13 +32,13 @@ import kau.brave.breakthecycle.ui.theme.Main
 import kau.brave.breakthecycle.ui.theme.White
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_ID_PASSWD_ROUTE
 
+
 @Preview
 @Composable
 fun SignInPhoneVerify(appstate: ApplicationState = rememberApplicationState()) {
 
-    var phone by remember {
-        mutableStateOf("")
-    }
+    val viewModel: SignInViewModel = hiltViewModel()
+    val uiState by viewModel.verifyPhoneUiState.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier
@@ -72,19 +76,21 @@ fun SignInPhoneVerify(appstate: ApplicationState = rememberApplicationState()) {
                 ) {
                     CustomTextField(
                         modifier = Modifier.weight(5f),
-                        value = phone,
+                        value = uiState.phone,
                         maxSize = 11,
                         placeholderText = "전화번호를 입력해주세요.",
-                        onvalueChanged = { phone = it }
+                        onvalueChanged = viewModel::updateVerifyPhoneNumber,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
 
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = viewModel::sendVerficyCode,
                         modifier = Modifier
                             .weight(3f),
                         contentPadding = PaddingValues(vertical = 0.dp, horizontal = 3.dp),
                         shape = RoundedCornerShape(5.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = if (phone.length == 11) Main else Disabled),
+                        enabled = uiState.phone.length == 11,
+                        colors = ButtonDefaults.buttonColors(backgroundColor = if (uiState.phone.length == 11) Main else Disabled),
                     ) {
                         Text(
                             "인증 번호 요청",
@@ -106,18 +112,22 @@ fun SignInPhoneVerify(appstate: ApplicationState = rememberApplicationState()) {
                 ) {
                     CustomTextField(
                         modifier = Modifier.weight(5f),
-                        value = phone,
+                        value = uiState.verifyCode,
                         maxSize = 6,
                         placeholderText = "인증번호를 입력해주세요.",
-                        onvalueChanged = { phone = it }
+                        onvalueChanged = viewModel::updateVerifyCode,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            viewModel.verifyCode()
+                        },
                         modifier = Modifier
                             .weight(3f),
                         contentPadding = PaddingValues(vertical = 0.dp, horizontal = 3.dp),
                         shape = RoundedCornerShape(5.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = if (phone.length == 6) Main else Disabled),
+                        enabled = uiState.verifyCode.length == 6,
+                        colors = ButtonDefaults.buttonColors(backgroundColor = if (uiState.verifyCode.length == 6) Main else Disabled),
                     ) {
                         Text(
                             "인증",
@@ -128,10 +138,17 @@ fun SignInPhoneVerify(appstate: ApplicationState = rememberApplicationState()) {
                         )
                     }
                 }
-                Text(text = "03:00", color = ErrorColor, fontSize = 14.sp)
+
+                if (uiState.retryTime > 0) {
+                    Text(
+                        text = "${uiState.retryTime / 60}:${"%02d".format(uiState.retryTime % 60)}",
+                        color = ErrorColor,
+                        fontSize = 14.sp
+                    )
+                }
 
                 SignInGraphBottomConfirmButton(
-                    enabled = true,
+                    enabled = uiState.isVerfified,
                     onClick = {
                         appstate.navController.navigate(SIGNIN_ID_PASSWD_ROUTE)
                     }
