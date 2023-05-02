@@ -14,13 +14,11 @@ import kau.brave.breakthecycle.utils.Constants.USERINFO_GRAPH
 import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_DATE_ROUTE
 import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_DURATION_ROUTE
 
-
 fun NavGraphBuilder.userInfoGraph(appState: ApplicationState) {
     navigation(
         route = USERINFO_GRAPH,
         startDestination = SIGNIN_SETTING_ROUTE
     ) {
-
         composable(SIGNIN_SETTING_ROUTE) {
             SignInSettingScreen(appState)
         }
