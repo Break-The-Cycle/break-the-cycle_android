@@ -1,8 +1,10 @@
 package kau.brave.breakthecycle.ui.calendar
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -15,23 +17,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.domain.model.ApplicationState
+import kau.brave.breakthecycle.domain.rememberApplicationState
 import kau.brave.breakthecycle.ui.calendar.viewmodel.CalendarViewModel
 import kau.brave.breakthecycle.ui.theme.Gray300
 import kau.brave.breakthecycle.ui.theme.Main
 import kau.brave.breakthecycle.utils.bottomBorder
 import java.util.*
 
+@Preview
 @Composable
-fun CalendarScreen(appState: ApplicationState) {
+fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
 
     val viewModel: CalendarViewModel = hiltViewModel()
 
@@ -94,11 +98,21 @@ fun CalendarView() {
     }
 
     val days = remember {
-        mutableStateListOf<Int>()
+        mutableStateListOf<Triple<Int, Int, Int>>()
     }
 
     var date by remember {
         mutableStateOf("${calendar.get(Calendar.YEAR)}년 ${calendar.get(Calendar.MONTH) + 1}월")
+    }
+
+    var selectedDay by remember {
+        mutableStateOf(
+            Triple(
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) + 1,
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+        )
     }
 
     LaunchedEffect(key1 = month) {
@@ -107,7 +121,15 @@ fun CalendarView() {
 
         date = "${calendar.get(Calendar.YEAR)}년 ${calendar.get(Calendar.MONTH) + 1}월"
 
-        days.addAll((1..calendar.getActualMaximum(Calendar.DAY_OF_MONTH)).toList())
+        days.addAll(
+            (1..calendar.getActualMaximum(Calendar.DAY_OF_MONTH)).map {
+                Triple(
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH) + 1,
+                    it
+                )
+            }
+        )
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
 
         /** 지난 달 날짜 가져오기 */
@@ -115,7 +137,11 @@ fun CalendarView() {
             val lastMonth = calendar.clone() as Calendar
             lastMonth.add(Calendar.MONTH, -1)
             val emptyDays = (1 until dayOfWeek).map {
-                lastMonth.getActualMaximum(Calendar.DAY_OF_MONTH) - it + 1
+                Triple(
+                    lastMonth.get(Calendar.YEAR),
+                    lastMonth.get(Calendar.MONTH) + 1,
+                    lastMonth.getActualMaximum(Calendar.DAY_OF_MONTH) - it + 1
+                )
             }.reversed()
             days.addAll(0, emptyDays)
         }
@@ -127,7 +153,11 @@ fun CalendarView() {
         val nextDayOfWeek = nextMonth.get(Calendar.DAY_OF_WEEK)
         if (nextDayOfWeek != Calendar.SUNDAY) {
             val emptyDays = (1..(8 - nextDayOfWeek)).map {
-                it
+                Triple(
+                    nextMonth.get(Calendar.YEAR),
+                    nextMonth.get(Calendar.MONTH) + 1,
+                    it
+                )
             }
             days.addAll(emptyDays)
         }
@@ -185,35 +215,45 @@ fun CalendarView() {
             .padding(start = 10.dp, end = 10.dp, top = 20.dp)
     ) {
         itemsIndexed(items = days.chunked(7)) { index, week ->
-            CalendarRow(days = week)
+            CalendarRow(
+                days = week,
+                selectedDay = selectedDay
+            ) { year, month, day ->
+                selectedDay = Triple(year, month, day)
+            }
         }
     }
 }
 
 
 @Composable
-fun CalendarRow(days: List<Int>) {
+fun CalendarRow(
+    days: List<Triple<Int, Int, Int>>,
+    selectedDay: Triple<Int, Int, Int>,
+    setSelectDay: (year: Int, month: Int, day: Int) -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth()
     ) {
         for (day in days) {
-            DateCell(date = day)
+            val isSelcted = selectedDay.third == day.third
+            Box(
+                modifier = Modifier
+                    .background(Main)
+                    .background(if (isSelcted) Main else Color.White)
+                    .clickable {
+                        setSelectDay(day.first, day.second, day.third)
+                    }
+                    .weight(1f)
+                    .aspectRatio(1f)
+            ) {
+                Text(
+                    text = day.third.toString(),
+                    modifier = Modifier
+                        .align(Alignment.Center),
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
-    }
-}
-
-@Composable
-fun RowScope.DateCell(date: Int) {
-    Box(
-        modifier = Modifier
-            .background(Color.White)
-            .weight(1f)
-            .aspectRatio(1f)
-    ) {
-        Text(
-            text = date.toString(),
-            modifier = Modifier.align(Alignment.Center),
-            fontWeight = FontWeight.Bold
-        )
     }
 }
