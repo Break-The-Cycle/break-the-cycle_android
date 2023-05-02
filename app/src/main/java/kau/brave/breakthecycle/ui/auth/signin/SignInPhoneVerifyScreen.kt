@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -147,11 +146,12 @@ fun SignInPhoneVerify(appstate: ApplicationState = rememberApplicationState()) {
                     )
                 }
 
+                Spacer(modifier = Modifier.weight(1f))
                 SignInGraphBottomConfirmButton(
-                    enabled = uiState.isVerfified,
                     onClick = {
                         appstate.navController.navigate(SIGNIN_ID_PASSWD_ROUTE)
-                    }
+                    },
+                    enabled = uiState.isVerfified
                 )
             }
         }

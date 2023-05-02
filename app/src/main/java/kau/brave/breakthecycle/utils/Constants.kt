@@ -24,13 +24,8 @@ object Constants {
     const val USERINFO_MENSTRUATION_DATE_ROUTE = "nav-userinfo-menstruation-date"
 
     // Onboard Graph
-    const val SECERET_ONBOARD_ENTER_ROUTE = "nav-onboard-secret-enter"
-    const val SECERET_ONBOARD_DATE_WRITE_ROUTE = "nav-onboard-date-write"
-    const val SECERET_ONBOARD_DATE_INFO_ROUTE = "nav-onboard-date-info"
-    const val SECERET_ONBOARD_REPORT_ROUTE = "nav-onboard-report"
-    const val SECERET_ONBOARD_MYPAGE_ROUTE = "nav-onboard-mypage"
-    const val ONBOARD_CYCLE_ROUTE = "nav-onboard-cycle"
-    const val ONBOARD_DATE_WRITE_ROUTE = "nav-onboard-date-write"
+    const val SECERET_ONBOARD_ROUTE = "nav-secret-onboard"
+    const val ONBOARD_ROUTE = "nav-onboard"
 
     const val DIARY_WRITE_ROUTE = "nav-diary-write"
 
@@ -40,4 +35,5 @@ object Constants {
     const val SIGNIN_GRAPH = "signin_graph"
     const val USERINFO_GRAPH = "userinfo_graph"
     const val ONBOARD_GRAPH = "onboard_graph"
+    const val SECERT_ONBOARD_GRAPH = "onboard_graph"
 }

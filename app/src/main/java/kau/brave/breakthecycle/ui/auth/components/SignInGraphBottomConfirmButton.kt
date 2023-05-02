@@ -1,7 +1,5 @@
 package kau.brave.breakthecycle.ui.auth.components
 
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,11 +16,10 @@ import kau.brave.breakthecycle.ui.theme.Main
 import kau.brave.breakthecycle.ui.theme.White
 
 @Composable
-fun ColumnScope.SignInGraphBottomConfirmButton(
+fun SignInGraphBottomConfirmButton(
     onClick: () -> Unit,
     enabled: Boolean,
 ) {
-    Spacer(modifier = Modifier.weight(1f))
 
     Button(
         modifier = Modifier

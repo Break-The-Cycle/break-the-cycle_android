@@ -1,6 +1,4 @@
-@file:OptIn(ExperimentalPagerApi::class)
-
-package kau.brave.breakthecycle.ui.auth.onboard
+package kau.brave.breakthecycle.ui.auth.secretonboard
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -32,13 +30,29 @@ import kau.brave.breakthecycle.ui.component.HeightSpacer
 import kau.brave.breakthecycle.ui.theme.Gray300
 import kau.brave.breakthecycle.ui.theme.Main
 import kau.brave.breakthecycle.ui.theme.White
-import kau.brave.breakthecycle.utils.Constants.SECERT_ONBOARD_GRAPH
 import kau.brave.breakthecycle.utils.Constants.USERINFO_GRAPH
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalPagerApi::class)
 @Preview
 @Composable
-fun OnboardCycleScreen(appstate: ApplicationState = rememberApplicationState()) {
+fun SecretOnboard(
+    appState: ApplicationState = rememberApplicationState(),
+    @DrawableRes images: List<Int> = listOf(
+        R.mipmap.img_secret_onboard_enter,
+        R.mipmap.img_secret_onboard_dialog,
+        R.mipmap.img_secret_onboard_dialog,
+        R.mipmap.img_secret_onboard_report,
+        R.mipmap.img_secret_onboard_setting
+    ),
+    texts: List<String> = listOf(
+        "로고를 5번 클릭하면 시크릿 모드로 진입할 수 있어요!",
+        "시크릿모드에서는 캘린더에서 날짜를 선택하면\n나만 볼 수 있는 일기를 작성할 수 있어요.",
+        "한번 작성한 일기는 삭제, 수정이 불가능한걸 알아주세요.",
+        "시크릿 모드에서는 위급상황일 때 주변 지인 및 경찰에\n신고할 수 있는 버튼이 보여져요.",
+        "관련 설정은 시크릿모드 마이페이지에서 할 수 있어요."
+    )
+) {
 
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
@@ -73,29 +87,29 @@ fun OnboardCycleScreen(appstate: ApplicationState = rememberApplicationState()) 
             ) {
                 HeightSpacer(dp = 80.dp)
                 Text(
-                    text = "다음 생리가 언제인지\n간단하게 알아봐요.",
+                    text = "쉿!",
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "우리만의 비밀 기능이예요!",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
-                Text(text = "간단하게 다음 생리가 언제인지 예측할 수 있어요.", fontSize = 16.sp, color = Gray300)
-
+                Text(text = texts[pagerState.currentPage], fontSize = 14.sp, color = Gray300)
                 HorizontalPager(
                     state = pagerState,
-                    count = 2,
+                    count = images.size,
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f)
                         .padding(vertical = 20.dp, horizontal = 30.dp)
                 ) {
                     Image(
-                        painter = painterResource(
-                            id =
-                            if (it == 0) R.mipmap.img_onboard_cycle
-                            else R.mipmap.img_onboard_callendar
-                        ),
+                        painter = painterResource(id = images[it]),
                         contentDescription = "IMG_ONBOARD_CYCLE",
                         modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Fit
                     )
                 }
                 HorizontalPagerIndicator(
@@ -107,15 +121,16 @@ fun OnboardCycleScreen(appstate: ApplicationState = rememberApplicationState()) 
                     inactiveColor = Gray300
                 )
 
-
                 SignInGraphBottomConfirmButton(
                     onClick = {
-                        if (pagerState.currentPage == 0) {
+                        if (pagerState.currentPage == images.size - 1) {
                             coroutineScope.launch {
-                                pagerState.animateScrollToPage(1)
+                                appState.navigate(USERINFO_GRAPH)
                             }
-                        } else if (pagerState.currentPage == 1) {
-                            appstate.navController.navigate(SECERT_ONBOARD_GRAPH)
+                        } else {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            }
                         }
                     },
                     enabled = true
@@ -123,4 +138,5 @@ fun OnboardCycleScreen(appstate: ApplicationState = rememberApplicationState()) 
             }
         }
     }
+
 }

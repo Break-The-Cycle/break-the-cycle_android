@@ -38,6 +38,8 @@ fun RootNavhost(appState: ApplicationState) {
                 signInGraph(appState)
                 onboardGraph(appState)
                 userInfoGraph(appState)
+                secretOnboardGraph(appState)
+                
                 composable(route = DIARY_WRITE_ROUTE) {
                     val userObject =
                         appState.navController.previousBackStackEntry?.arguments?.getParcelable<Uri>(
@@ -51,3 +53,5 @@ fun RootNavhost(appState: ApplicationState) {
         }
     }
 }
+
+

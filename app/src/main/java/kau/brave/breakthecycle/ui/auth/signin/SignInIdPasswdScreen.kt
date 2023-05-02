@@ -170,6 +170,7 @@ fun SignInIdPasswdScreen(appstate: ApplicationState) {
                     }
                 }
 
+                Spacer(modifier = Modifier.weight(1f))
                 SignInGraphBottomConfirmButton(
                     onClick = {
                         appstate.navController.navigate(ONBOARD_GRAPH) {

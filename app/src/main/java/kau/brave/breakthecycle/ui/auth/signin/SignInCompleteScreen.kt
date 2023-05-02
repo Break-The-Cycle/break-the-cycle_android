@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,8 +21,6 @@ import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.domain.model.ApplicationState
 import kau.brave.breakthecycle.ui.theme.Main
 import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH
-import kau.brave.breakthecycle.utils.Constants.ONBOARD_CYCLE_ROUTE
-import kau.brave.breakthecycle.utils.Constants.SIGNIN_GRAPH
 import kau.brave.breakthecycle.utils.Constants.USERINFO_GRAPH
 import kotlinx.coroutines.delay
 
