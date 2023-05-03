@@ -22,7 +22,6 @@ import kau.brave.breakthecycle.utils.rememberApplicationState
 import kau.brave.breakthecycle.ui.auth.components.LoginIdPasswd
 import kau.brave.breakthecycle.ui.component.HeightSpacer
 import kau.brave.breakthecycle.ui.splash.SocialLoginBtn
-import kau.brave.breakthecycle.ui.theme.*
 import kau.brave.breakthecycle.utils.Constants
 import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_GRAPH
@@ -30,7 +29,7 @@ import kau.brave.breakthecycle.utils.Constants.SIGNIN_GRAPH
 
 @Preview
 @Composable
-fun LoginIdPasswdScreen(appstate: ApplicationState = rememberApplicationState()) {
+fun LoginIdPasswdScreen(appState: ApplicationState = rememberApplicationState()) {
 
     val viewModel: LoginViewModel = hiltViewModel()
 
@@ -61,7 +60,7 @@ fun LoginIdPasswdScreen(appstate: ApplicationState = rememberApplicationState())
                     updateId = viewModel::updateId,
                     updatePasswd = viewModel::updatePasswd,
                     navigateToMainGraph = {
-                        appstate.navController.navigate(MAIN_GRAPH) {
+                        appState.navController.navigate(MAIN_GRAPH) {
                             popUpTo(Constants.AUTH_GRAPH) {
                                 inclusive = true
                             }
@@ -80,7 +79,7 @@ fun LoginIdPasswdScreen(appstate: ApplicationState = rememberApplicationState())
                         fontSize = 12.sp,
                         color = Sub2,
                         modifier = Modifier.clickable {
-                            appstate.navigate(SIGNIN_GRAPH)
+                            appState.navigate(SIGNIN_GRAPH)
                         },
                         textDecoration = TextDecoration.Underline
                     )

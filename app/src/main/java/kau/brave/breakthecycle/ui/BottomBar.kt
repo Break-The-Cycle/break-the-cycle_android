@@ -25,7 +25,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import kau.brave.breakthecycle.theme.Gray100
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.ui.model.ApplicationState
-import kau.brave.breakthecycle.ui.theme.*
 import kau.brave.breakthecycle.utils.Constants
 import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH
 
@@ -40,8 +39,8 @@ fun BottomBar(appState: ApplicationState) {
         exit = slideOutVertically { it },
         modifier = Modifier
             .fillMaxWidth()
+            .background(color = Color.White)
             .padding(start = 32.dp, end = 32.dp, bottom = 10.dp)
-            .background(color = Color.Transparent)
             .navigationBarsPadding(),
     ) {
         Row(
@@ -49,6 +48,7 @@ fun BottomBar(appState: ApplicationState) {
                 .fillMaxWidth()
                 .height(76.dp)
                 .clip(RoundedCornerShape(50))
+                .background(color = Color.White)
                 .border(BorderStroke(1.dp, Gray100), RoundedCornerShape(50))
                 .padding(horizontal = 24.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -104,5 +104,6 @@ fun BottomBar(appState: ApplicationState) {
                 }
             }
         }
+
     }
 }

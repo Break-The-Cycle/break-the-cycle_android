@@ -8,6 +8,7 @@ val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
 val Main = Color(0xFFFF82A7)
+val ReportColor = Color(0xFFF8638E)
 val Sub1 = Color(0xFFFFD1C1)
 val Sub2 = Color(0xFFE3B3866)
 val RDBlack = Color(0xFF282828)

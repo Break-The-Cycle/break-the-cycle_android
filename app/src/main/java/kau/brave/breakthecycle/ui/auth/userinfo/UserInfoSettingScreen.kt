@@ -26,7 +26,7 @@ import kau.brave.breakthecycle.theme.White
 import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_DURATION_ROUTE
 
 @Composable
-fun UserInfoSettingScreen(appstate: ApplicationState, viewModel: UserInfoViewModel) {
+fun UserInfoSettingScreen(appState: ApplicationState, viewModel: UserInfoViewModel) {
 
     Box(
         modifier = Modifier
@@ -96,7 +96,7 @@ fun UserInfoSettingScreen(appstate: ApplicationState, viewModel: UserInfoViewMod
 
                 Button(
                     onClick = {
-                        appstate.navigate(USERINFO_MENSTRUATION_DURATION_ROUTE)
+                        appState.navigate(USERINFO_MENSTRUATION_DURATION_ROUTE)
                     },
                     modifier = Modifier
                         .fillMaxWidth()

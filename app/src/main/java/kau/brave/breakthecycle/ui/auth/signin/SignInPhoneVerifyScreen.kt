@@ -34,7 +34,7 @@ import kau.brave.breakthecycle.utils.Constants.SIGNIN_ID_PASSWD_ROUTE
 
 @Preview
 @Composable
-fun SignInPhoneVerify(appstate: ApplicationState = rememberApplicationState()) {
+fun SignInPhoneVerify(appState: ApplicationState = rememberApplicationState()) {
 
     val viewModel: SignInViewModel = hiltViewModel()
     val uiState by viewModel.verifyPhoneUiState.collectAsStateWithLifecycle()
@@ -61,7 +61,7 @@ fun SignInPhoneVerify(appstate: ApplicationState = rememberApplicationState()) {
             ) {
 
                 BackIcon {
-                    appstate.navController.popBackStack()
+                    appState.navController.popBackStack()
                 }
                 HeightSpacer(dp = 45.dp)
 
@@ -149,7 +149,7 @@ fun SignInPhoneVerify(appstate: ApplicationState = rememberApplicationState()) {
                 Spacer(modifier = Modifier.weight(1f))
                 SignInGraphBottomConfirmButton(
                     onClick = {
-                        appstate.navController.navigate(SIGNIN_ID_PASSWD_ROUTE)
+                        appState.navController.navigate(SIGNIN_ID_PASSWD_ROUTE)
                     },
                     enabled = uiState.isVerfified
                 )

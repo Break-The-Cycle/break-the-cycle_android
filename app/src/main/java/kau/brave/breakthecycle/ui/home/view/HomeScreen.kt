@@ -1,15 +1,16 @@
 package kau.brave.breakthecycle.ui.home.view
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -21,16 +22,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kau.brave.breakthecycle.R
+import kau.brave.breakthecycle.RoseDaysApplication.Companion.isSecretMode
 import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.model.DayOfWeek
 import kau.brave.breakthecycle.theme.Gray100
 import kau.brave.breakthecycle.theme.Main
+import kau.brave.breakthecycle.theme.ReportColor
+import kau.brave.breakthecycle.ui.component.BraveLogoIcon
+import kau.brave.breakthecycle.ui.model.DurationInfo
 import java.util.*
 
 @Composable
-fun HomeScreen(appstate: ApplicationState) {
+fun HomeScreen(appState: ApplicationState) {
 
     val density = LocalDensity.current
+
+    val legends = listOf(
+        DurationInfo("생리 기간", Color(0xFFFE91B0)),
+        DurationInfo("평일", Color(0xFFF2F1F3)),
+        DurationInfo("가임기", Color(0xFF8342EB)),
+    )
 
     Column(
         modifier = Modifier
@@ -38,14 +49,9 @@ fun HomeScreen(appstate: ApplicationState) {
             .statusBarsPadding(),
     ) {
 
-        Image(
-            painter = painterResource(id = R.drawable.img_logo_small),
-            contentDescription = "IMG_LOGO_SMALL",
-            modifier = Modifier
-                .padding(vertical = 20.dp)
-                .size(56.dp)
-                .align(Alignment.CenterHorizontally)
-        )
+        BraveLogoIcon {
+            appState.showSnackbar("시크릿 모드에 진입했습니다.")
+        }
 
         WeekCalendar()
 
@@ -63,14 +69,20 @@ fun HomeScreen(appstate: ApplicationState) {
                     startAngle = 100f,
                     sweepAngle = 50f,
                     useCenter = false,
-                    style = Stroke(width = with(density) { 20.dp.toPx() }, cap = StrokeCap.Round),
+                    style = Stroke(
+                        width = with(density) { 20.dp.toPx() },
+                        cap = StrokeCap.Round
+                    ),
                 )
                 drawArc(
                     color = Gray100,
                     startAngle = 230f,
                     sweepAngle = 180f,
                     useCenter = false,
-                    style = Stroke(width = with(density) { 20.dp.toPx() }, cap = StrokeCap.Round),
+                    style = Stroke(
+                        width = with(density) { 20.dp.toPx() },
+                        cap = StrokeCap.Round
+                    ),
                 )
                 drawArc(
                     brush = Brush.verticalGradient(
@@ -79,7 +91,10 @@ fun HomeScreen(appstate: ApplicationState) {
                     startAngle = 0f,
                     sweepAngle = 110f,
                     useCenter = false,
-                    style = Stroke(width = with(density) { 30.dp.toPx() }, cap = StrokeCap.Round),
+                    style = Stroke(
+                        width = with(density) { 30.dp.toPx() },
+                        cap = StrokeCap.Round
+                    ),
                 )
                 drawArc(
                     brush = Brush.verticalGradient(
@@ -88,50 +103,72 @@ fun HomeScreen(appstate: ApplicationState) {
                     startAngle = 140f,
                     sweepAngle = 100f,
                     useCenter = false,
-                    style = Stroke(width = with(density) { 30.dp.toPx() }, cap = StrokeCap.Round),
+                    style = Stroke(
+                        width = with(density) { 30.dp.toPx() },
+                        cap = StrokeCap.Round
+                    ),
                 )
             }
 
-            Column(
-                modifier = Modifier.align(Alignment.Center)
-            ) {
-                Text(
-                    text = "생리까지",
-                    fontSize = 24.sp,
-                    color = Color.Black,
-                )
-                Text(
-                    text = "N일",
-                    fontSize = 50.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                )
-            }
+            if (isSecretMode.value) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.7f)
+                        .fillMaxHeight(0.7f)
+                        .align(Alignment.Center)
+                        .clip(CircleShape)
+                        .clickable {
 
+                        }
+                        .background(ReportColor)
+                ) {
+                    Text(
+                        text = "신고하기", color = Color.White, fontSize = 34.sp,
+                        modifier = Modifier.align(Alignment.Center),
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+            } else {
+                Column(
+                    modifier = Modifier.align(Alignment.Center)
+                ) {
+                    Text(
+                        text = "생리까지",
+                        fontSize = 24.sp,
+                        color = Color.Black,
+                    )
+                    Text(
+                        text = "N일",
+                        fontSize = 50.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                    )
+                }
+            }
         }
 
-        Row(
+        LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
-                .padding(horizontal = 50.dp),
+                .padding(horizontal = 50.dp, vertical = 20.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            for (i in 0 until 3) {
+            items(legends) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     Canvas(
                         modifier = Modifier.size(20.dp),
                     ) {
                         drawCircle(
-                            color = Main,
+                            color = it.color,
                             radius = with(density) { 10.dp.toPx() },
                         )
                     }
                     Text(
-                        text = "ㅇㅇ 기간",
+                        text = it.title,
                         fontSize = 15.sp,
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,

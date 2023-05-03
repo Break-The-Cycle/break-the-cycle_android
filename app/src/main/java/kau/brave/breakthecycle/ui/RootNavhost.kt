@@ -12,7 +12,6 @@ import androidx.navigation.compose.composable
 import kau.brave.breakthecycle.graph.*
 import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.diary.DiaryWriteScreen
-import kau.brave.breakthecycle.ui.graph.*
 import kau.brave.breakthecycle.ui.splash.SplashScreen
 import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_ROUTE
 import kau.brave.breakthecycle.utils.Constants.SPLASH_ROUTE

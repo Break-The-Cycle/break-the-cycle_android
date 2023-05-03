@@ -26,12 +26,12 @@ import kau.brave.breakthecycle.utils.Constants.USERINFO_GRAPH
 import kotlinx.coroutines.delay
 
 @Composable
-fun UserInfoCompleteScreen(appstate: ApplicationState, viewModel: UserInfoViewModel) {
+fun UserInfoCompleteScreen(appState: ApplicationState, viewModel: UserInfoViewModel) {
 
     LaunchedEffect(key1 = Unit) {
         delay(2000L)
 //        viewModel.fetchUserInfo()
-        appstate.navController.navigate(MAIN_GRAPH) {
+        appState.navController.navigate(MAIN_GRAPH) {
             popUpTo(USERINFO_GRAPH) {
                 inclusive = true
             }

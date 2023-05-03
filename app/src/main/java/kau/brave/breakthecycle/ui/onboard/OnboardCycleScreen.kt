@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 
 @Preview
 @Composable
-fun OnboardCycleScreen(appstate: ApplicationState = rememberApplicationState()) {
+fun OnboardCycleScreen(appState: ApplicationState = rememberApplicationState()) {
 
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
@@ -113,7 +113,7 @@ fun OnboardCycleScreen(appstate: ApplicationState = rememberApplicationState()) 
                                 pagerState.animateScrollToPage(1)
                             }
                         } else if (pagerState.currentPage == 1) {
-                            appstate.navController.navigate(SECERT_ONBOARD_GRAPH)
+                            appState.navController.navigate(SECERT_ONBOARD_GRAPH)
                         }
                     },
                     enabled = true

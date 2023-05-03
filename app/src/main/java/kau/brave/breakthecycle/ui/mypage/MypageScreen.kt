@@ -16,7 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kau.brave.breakthecycle.R
+import kau.brave.breakthecycle.RoseDaysApplication.Companion.isSecretMode
 import kau.brave.breakthecycle.theme.Gray300
+import kau.brave.breakthecycle.ui.component.BraveLogoIcon
 import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.utils.Constants.ONBOARD_GRAPH
 import kau.brave.breakthecycle.utils.Constants.SECERET_ONBOARD_ROUTE
@@ -35,6 +37,10 @@ fun MypageScreen(appState: ApplicationState) {
         }),
         MypageItem(title = "비밀번호 변경", onClick = {
             // TODO 비밀번호 변경 그래프 이동
+        }),
+        MypageItem(title = "개인 정보 이용 약관", onClick = {
+        }),
+        MypageItem(title = "이용 약관", onClick = {
         }),
         MypageItem(title = "로그아웃", onClick = {
             // TODO 로그아웃
@@ -64,13 +70,9 @@ fun MypageScreen(appState: ApplicationState) {
             .fillMaxSize()
             .statusBarsPadding(),
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.img_logo_small),
-            contentDescription = "IMG_LOGO_SMALL",
-            modifier = Modifier
-                .size(56.dp)
-                .align(Alignment.CenterHorizontally)
-        )
+        BraveLogoIcon {
+            appState.showSnackbar("시크릿 모드에 진입했습니다.")
+        }
 
         Column(
             modifier = Modifier
@@ -79,6 +81,18 @@ fun MypageScreen(appState: ApplicationState) {
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
         ) {
+            if (isSecretMode.value) {
+                Text(
+                    text = "시크릿모드 설정",
+                    fontSize = 22.sp,
+                    modifier = Modifier.padding(20.dp),
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold
+                )
+                secretModeItem.forEach {
+                    MypageContent(item = it)
+                }
+            }
             Text(
                 text = "설정",
                 fontSize = 22.sp,
@@ -87,16 +101,6 @@ fun MypageScreen(appState: ApplicationState) {
                 fontWeight = FontWeight.Bold
             )
             mypageItem.forEach {
-                MypageContent(item = it)
-            }
-            Text(
-                text = "시크릿모드 설정",
-                fontSize = 22.sp,
-                modifier = Modifier.padding(20.dp),
-                color = Color.Black,
-                fontWeight = FontWeight.Bold
-            )
-            secretModeItem.forEach {
                 MypageContent(item = it)
             }
         }
