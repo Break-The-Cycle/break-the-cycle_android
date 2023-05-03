@@ -1,6 +1,5 @@
 package kau.brave.breakthecycle.ui.component
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.size
@@ -26,7 +25,6 @@ fun ColumnScope.BraveLogoIcon(onClick: () -> Unit) {
             isSecretMode.value = !isSecretMode.value
         }
         delay(2000L)
-        Log.i("dlgocks1", "초기화됌")
         count = 0
     }
 

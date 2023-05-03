@@ -27,6 +27,7 @@ object Constants {
     const val SECERET_ONBOARD_ROUTE = "nav-secret-onboard"
     const val ONBOARD_ROUTE = "nav-onboard"
 
+    const val DIARY_WRITE_PHOTO_ROUTE = "nav-diary-photo-write"
     const val DIARY_WRITE_ROUTE = "nav-diary-write"
 
     // Garphs

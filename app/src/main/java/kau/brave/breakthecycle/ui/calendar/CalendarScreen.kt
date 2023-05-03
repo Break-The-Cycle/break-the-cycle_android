@@ -12,6 +12,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +26,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,10 +61,13 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
     var pickHeight by remember {
         mutableStateOf(0.dp)
     }
-    
+
     LaunchedEffect(key1 = columnHeightDp) {
         pickHeight = screenHeight - columnHeightDp + 86.dp
     }
+
+//    val dummyDiary = List(3) { "테스트$it" }
+    val dummyDiary = emptyList<String>()
 
     BottomSheetScaffold(
         modifier = Modifier
@@ -99,9 +105,34 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(20.dp)
+                        verticalArrangement = Arrangement.spacedBy(20.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        items(List(3) { "테스트$it" }) {
+                        if (dummyDiary.isEmpty()) {
+                            item {
+                                Text(
+                                    text = "작성된 일기가 없습니다.",
+                                    fontSize = 18.sp,
+                                    color = Color.Black,
+                                    textAlign = TextAlign.Center,
+                                    fontWeight = FontWeight.Bold,
+                                )
+                            }
+                            item {
+                                Button(
+                                    colors = ButtonDefaults.buttonColors(Main),
+                                    shape = RoundedCornerShape(10.dp),
+                                    onClick = {
+
+                                    }) {
+                                    Text(
+                                        text = "일기 작성하기", fontSize = 18.sp,
+                                        color = Color.White, fontWeight = FontWeight.Bold
+                                    )
+                                }
+                            }
+                        }
+                        items(dummyDiary) {
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()

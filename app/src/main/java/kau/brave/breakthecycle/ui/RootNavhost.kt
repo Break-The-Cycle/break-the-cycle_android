@@ -11,9 +11,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kau.brave.breakthecycle.graph.*
 import kau.brave.breakthecycle.ui.model.ApplicationState
-import kau.brave.breakthecycle.ui.diary.DiaryWriteScreen
+import kau.brave.breakthecycle.ui.diary.DiaryWritePhotoScreen
 import kau.brave.breakthecycle.ui.splash.SplashScreen
-import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_ROUTE
+import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_PHOTO_ROUTE
 import kau.brave.breakthecycle.utils.Constants.SPLASH_ROUTE
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -39,12 +39,12 @@ fun RootNavhost(appState: ApplicationState) {
                 userInfoGraph(appState)
                 secretOnboardGraph(appState)
 
-                composable(route = DIARY_WRITE_ROUTE) {
+                composable(route = DIARY_WRITE_PHOTO_ROUTE) {
                     val userObject =
                         appState.navController.previousBackStackEntry?.arguments?.getParcelable<Uri>(
                             "uri"
                         )
-                    DiaryWriteScreen(appState, userObject)
+                    DiaryWritePhotoScreen(appState, userObject)
                 }
             }
 

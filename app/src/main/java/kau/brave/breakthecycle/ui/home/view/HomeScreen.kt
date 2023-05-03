@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -55,12 +56,14 @@ fun HomeScreen(appState: ApplicationState) {
 
         WeekCalendar()
 
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(64.dp)
                 .aspectRatio(1f)
         ) {
+
             Canvas(
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -144,6 +147,21 @@ fun HomeScreen(appState: ApplicationState) {
                         color = Color.Black,
                     )
                 }
+            }
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .offset(y = (-10).dp)
+            ) {
+                Text(text = "TODAY")
+                Image(
+                    painter = painterResource(id = R.drawable.ic_location_brave_24),
+                    contentDescription = "IC_LOCATION_BRAVE_24",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(17.dp, 24.dp)
+                )
             }
         }
 
