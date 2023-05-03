@@ -1,6 +1,5 @@
-package kau.brave.breakthecycle.ui.auth.signin
+package kau.brave.breakthecycle.ui.auth.userinfo
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,7 +10,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -22,15 +20,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kau.brave.breakthecycle.R
-import kau.brave.breakthecycle.domain.model.ApplicationState
-import kau.brave.breakthecycle.ui.component.HeightSpacer
-import kau.brave.breakthecycle.ui.theme.Gray300
-import kau.brave.breakthecycle.ui.theme.Main
-import kau.brave.breakthecycle.ui.theme.White
+import kau.brave.breakthecycle.ui.model.ApplicationState
+import kau.brave.breakthecycle.theme.Main
+import kau.brave.breakthecycle.theme.White
 import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_DURATION_ROUTE
 
 @Composable
-fun SignInSettingScreen(appstate: ApplicationState) {
+fun UserInfoSettingScreen(appstate: ApplicationState, viewModel: UserInfoViewModel) {
 
     Box(
         modifier = Modifier
@@ -81,16 +77,22 @@ fun SignInSettingScreen(appstate: ApplicationState) {
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
-                HeightSpacer(dp = 65.dp)
-                Text(
-                    text = "간단한 기본설정이 필요해요.",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                )
 
-                Spacer(modifier = Modifier.weight(1f))
+                Column(
+                    modifier = Modifier
+                        .weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "시작하기전\n간단한 기본설정이 필요해요.",
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
 
                 Button(
                     onClick = {
@@ -109,7 +111,6 @@ fun SignInSettingScreen(appstate: ApplicationState) {
                         fontWeight = FontWeight.Bold
                     )
                 }
-
             }
         }
     }

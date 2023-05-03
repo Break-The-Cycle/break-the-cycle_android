@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.ui.auth.signin
+package kau.brave.breakthecycle.ui.auth.userinfo
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -11,35 +11,31 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kau.brave.breakthecycle.R
-import kau.brave.breakthecycle.domain.model.ApplicationState
-import kau.brave.breakthecycle.domain.rememberApplicationState
-import kau.brave.breakthecycle.ui.theme.Gray300
-import kau.brave.breakthecycle.ui.theme.Main
-import kau.brave.breakthecycle.ui.theme.White
+import kau.brave.breakthecycle.ui.model.ApplicationState
+import kau.brave.breakthecycle.utils.rememberApplicationState
+import kau.brave.breakthecycle.theme.Gray300
+import kau.brave.breakthecycle.theme.Main
+import kau.brave.breakthecycle.theme.White
 import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_DATE_ROUTE
 
 
-@Preview
 @Composable
-fun SignInMenstruationDuration(appState: ApplicationState = rememberApplicationState()) {
+fun UserInfoMenstruationDuration(
+    appState: ApplicationState = rememberApplicationState(),
+    viewModel: UserInfoViewModel
+) {
 
-    val duration by remember {
-        mutableStateOf(7)
-    }
+    val duration by viewModel.duration
 
     Box(
         modifier = Modifier
@@ -88,8 +84,8 @@ fun SignInMenstruationDuration(appState: ApplicationState = rememberApplicationS
                             modifier = Modifier
                                 .size(50.dp)
                                 .clickable {
-                                    if (duration >= 3) {
-                                        duration - 1
+                                    if (duration > 3) {
+                                        viewModel.updateDuration(duration - 1)
                                     }
                                 },
                             contentScale = ContentScale.Fit
@@ -115,8 +111,8 @@ fun SignInMenstruationDuration(appState: ApplicationState = rememberApplicationS
                             modifier = Modifier
                                 .size(50.dp)
                                 .clickable {
-                                    if (duration <= 7) {
-                                        duration + 1
+                                    if (duration < 7) {
+                                        viewModel.updateDuration(duration + 1)
                                     }
                                 },
                             contentScale = ContentScale.Fit

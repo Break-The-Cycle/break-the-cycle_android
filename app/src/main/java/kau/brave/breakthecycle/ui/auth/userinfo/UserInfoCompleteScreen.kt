@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.ui.auth.signin
+package kau.brave.breakthecycle.ui.auth.userinfo
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,20 +15,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kau.brave.breakthecycle.R
-import kau.brave.breakthecycle.domain.model.ApplicationState
-import kau.brave.breakthecycle.ui.theme.Main
+import kau.brave.breakthecycle.ui.model.ApplicationState
+import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH
 import kau.brave.breakthecycle.utils.Constants.USERINFO_GRAPH
 import kotlinx.coroutines.delay
 
 @Composable
-fun SignInCompleteScreen(appstate: ApplicationState) {
+fun UserInfoCompleteScreen(appstate: ApplicationState, viewModel: UserInfoViewModel) {
 
     LaunchedEffect(key1 = Unit) {
         delay(2000L)
+//        viewModel.fetchUserInfo()
         appstate.navController.navigate(MAIN_GRAPH) {
             popUpTo(USERINFO_GRAPH) {
                 inclusive = true
@@ -54,6 +56,7 @@ fun SignInCompleteScreen(appstate: ApplicationState) {
                 text = "당신을 위한\n앱 준비 완료!",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
                 color = Color.White
             )
         }
