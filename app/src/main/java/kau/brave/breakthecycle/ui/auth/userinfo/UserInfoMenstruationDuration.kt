@@ -74,7 +74,9 @@ fun UserInfoMenstruationDuration(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
@@ -82,7 +84,7 @@ fun UserInfoMenstruationDuration(
                             painter = painterResource(id = R.drawable.ic_minus_24),
                             contentDescription = "IC_MINUS",
                             modifier = Modifier
-                                .size(50.dp)
+                                .size(40.dp)
                                 .clickable {
                                     if (duration > 3) {
                                         viewModel.updateDuration(duration - 1)
@@ -109,7 +111,7 @@ fun UserInfoMenstruationDuration(
                             painter = painterResource(id = R.drawable.ic_plus_24),
                             contentDescription = "IC_PLUS",
                             modifier = Modifier
-                                .size(50.dp)
+                                .size(40.dp)
                                 .clickable {
                                     if (duration < 7) {
                                         viewModel.updateDuration(duration + 1)

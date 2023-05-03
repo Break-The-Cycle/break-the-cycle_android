@@ -251,13 +251,12 @@ fun CalendarRow(
                     .weight(1f)
                     .aspectRatio(1f)
             ) {
-                val dayOfWeek = DayOfWeek.getDayOfWeekFromDate(day) // 요일 추출
                 Text(
                     text = day.third.toString(),
                     modifier = Modifier
                         .align(Alignment.Center),
                     fontWeight = FontWeight.Bold,
-                    color = if (dayOfWeek.day == 1) Color.Red else if (dayOfWeek.day == 7) Color.Blue else Color.Black,
+                    color = DayOfWeek.getDayOfWeekFromDate(day).color,
                 )
             }
         }

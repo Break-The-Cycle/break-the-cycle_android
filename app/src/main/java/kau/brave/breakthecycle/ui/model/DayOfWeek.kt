@@ -1,17 +1,17 @@
 package kau.brave.breakthecycle.ui.model
 
-import android.graphics.Color
+import androidx.compose.ui.graphics.Color
 import kau.brave.breakthecycle.ui.auth.userinfo.BraveDate
 import java.util.*
 
-enum class DayOfWeek(val day: Int, val dayName: String, val color: Int) {
-    SUNDAY(1, "일", Color.RED),
-    MONDAY(2, "월", Color.BLACK),
-    TUESDAY(3, "화", Color.BLACK),
-    WEDNESDAY(4, "수", Color.BLACK),
-    THURSDAY(5, "목", Color.BLACK),
-    FRIDAY(6, "금", Color.BLACK),
-    SATURDAY(7, "토", Color.BLUE);
+enum class DayOfWeek(val day: Int, val dayName: String, val color: Color) {
+    SUNDAY(1, "일", Color.Red),
+    MONDAY(2, "월", Color.Black),
+    TUESDAY(3, "화", Color.Black),
+    WEDNESDAY(4, "수", Color.Black),
+    THURSDAY(5, "목", Color.Black),
+    FRIDAY(6, "금", Color.Black),
+    SATURDAY(7, "토", Color.Blue);
 
     companion object {
         fun find(day: Int): String = values().find { it.day == day }?.dayName ?: ""
