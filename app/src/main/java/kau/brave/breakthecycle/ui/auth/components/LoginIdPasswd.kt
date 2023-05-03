@@ -15,9 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kau.brave.breakthecycle.ui.component.CustomTextField
 import kau.brave.breakthecycle.ui.component.HeightSpacer
-import kau.brave.breakthecycle.ui.theme.Disabled
-import kau.brave.breakthecycle.ui.theme.Main
-import kau.brave.breakthecycle.ui.theme.White
+import kau.brave.breakthecycle.theme.Disabled
+import kau.brave.breakthecycle.theme.Main
+import kau.brave.breakthecycle.theme.White
 import kau.brave.breakthecycle.utils.Constants
 
 @Preview

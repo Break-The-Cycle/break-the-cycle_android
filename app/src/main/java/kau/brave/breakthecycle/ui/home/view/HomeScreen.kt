@@ -21,10 +21,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kau.brave.breakthecycle.R
-import kau.brave.breakthecycle.domain.model.ApplicationState
-import kau.brave.breakthecycle.domain.model.DayOfWeek
-import kau.brave.breakthecycle.ui.theme.Gray100
-import kau.brave.breakthecycle.ui.theme.Main
+import kau.brave.breakthecycle.ui.model.ApplicationState
+import kau.brave.breakthecycle.ui.model.DayOfWeek
+import kau.brave.breakthecycle.theme.Gray100
+import kau.brave.breakthecycle.theme.Main
 import java.util.*
 
 @Composable

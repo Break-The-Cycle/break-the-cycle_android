@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kau.brave.breakthecycle.ui.theme.White
+import kau.brave.breakthecycle.theme.White
 
 @Composable
 fun SocialLoginBtn(

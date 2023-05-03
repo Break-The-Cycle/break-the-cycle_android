@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.ui.theme
+package kau.brave.breakthecycle.theme
 
 import androidx.compose.ui.graphics.Color
 

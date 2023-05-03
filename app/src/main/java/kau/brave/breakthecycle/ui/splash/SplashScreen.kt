@@ -15,9 +15,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kau.brave.breakthecycle.R
-import kau.brave.breakthecycle.domain.model.ApplicationState
-import kau.brave.breakthecycle.ui.theme.Main
-import kau.brave.breakthecycle.ui.theme.White
+import kau.brave.breakthecycle.ui.model.ApplicationState
+import kau.brave.breakthecycle.theme.White
 import kau.brave.breakthecycle.utils.Constants.AUTH_GRAPH
 import kau.brave.breakthecycle.utils.Constants.SPLASH_ROUTE
 import kotlinx.coroutines.delay

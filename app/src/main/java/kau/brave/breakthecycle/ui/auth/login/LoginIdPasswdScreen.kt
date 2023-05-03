@@ -3,13 +3,11 @@ package kau.brave.breakthecycle.ui.auth.login
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
@@ -18,9 +16,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kau.brave.breakthecycle.R
-import kau.brave.breakthecycle.domain.model.ApplicationState
-import kau.brave.breakthecycle.domain.rememberApplicationState
-import kau.brave.breakthecycle.ui.auth.LoginViewModel
+import kau.brave.breakthecycle.theme.*
+import kau.brave.breakthecycle.ui.model.ApplicationState
+import kau.brave.breakthecycle.utils.rememberApplicationState
 import kau.brave.breakthecycle.ui.auth.components.LoginIdPasswd
 import kau.brave.breakthecycle.ui.component.HeightSpacer
 import kau.brave.breakthecycle.ui.splash.SocialLoginBtn
@@ -28,8 +26,6 @@ import kau.brave.breakthecycle.ui.theme.*
 import kau.brave.breakthecycle.utils.Constants
 import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_GRAPH
-import kau.brave.breakthecycle.utils.Constants.SIGNIN_ID_PASSWD_ROUTE
-import kau.brave.breakthecycle.utils.Constants.SIGNIN_PHONE_VERIFY_ROUTE
 
 
 @Preview

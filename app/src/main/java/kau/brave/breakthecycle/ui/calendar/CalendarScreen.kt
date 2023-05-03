@@ -1,6 +1,5 @@
 package kau.brave.breakthecycle.ui.calendar
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,11 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kau.brave.breakthecycle.R
-import kau.brave.breakthecycle.domain.model.ApplicationState
-import kau.brave.breakthecycle.domain.rememberApplicationState
+import kau.brave.breakthecycle.ui.model.ApplicationState
+import kau.brave.breakthecycle.utils.rememberApplicationState
 import kau.brave.breakthecycle.ui.calendar.viewmodel.CalendarViewModel
-import kau.brave.breakthecycle.ui.theme.Gray300
-import kau.brave.breakthecycle.ui.theme.Main
+import kau.brave.breakthecycle.theme.Gray300
+import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.utils.bottomBorder
 import java.util.*
 
@@ -114,6 +113,7 @@ fun CalendarView() {
             )
         )
     }
+
 
     LaunchedEffect(key1 = month) {
         days.clear()
@@ -236,7 +236,8 @@ fun CalendarRow(
         modifier = Modifier.fillMaxWidth()
     ) {
         for (day in days) {
-            val isSelcted = selectedDay.third == day.third
+            val isSelcted =
+                selectedDay.third == day.third && selectedDay.second == day.second && selectedDay.first == day.first
             Box(
                 modifier = Modifier
                     .background(Main)

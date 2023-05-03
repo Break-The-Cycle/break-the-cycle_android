@@ -2,7 +2,6 @@ package kau.brave.breakthecycle.ui
 
 import android.annotation.SuppressLint
 import android.net.Uri
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
@@ -10,7 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import kau.brave.breakthecycle.domain.model.ApplicationState
+import kau.brave.breakthecycle.graph.*
+import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.diary.DiaryWriteScreen
 import kau.brave.breakthecycle.ui.graph.*
 import kau.brave.breakthecycle.ui.splash.SplashScreen
@@ -39,7 +39,7 @@ fun RootNavhost(appState: ApplicationState) {
                 onboardGraph(appState)
                 userInfoGraph(appState)
                 secretOnboardGraph(appState)
-                
+
                 composable(route = DIARY_WRITE_ROUTE) {
                     val userObject =
                         appState.navController.previousBackStackEntry?.arguments?.getParcelable<Uri>(

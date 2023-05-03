@@ -22,7 +22,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import kau.brave.breakthecycle.domain.model.ApplicationState
+import kau.brave.breakthecycle.theme.Gray100
+import kau.brave.breakthecycle.theme.Main
+import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.theme.*
 import kau.brave.breakthecycle.utils.Constants
 import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH

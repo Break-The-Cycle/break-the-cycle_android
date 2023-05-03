@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.ui.auth
+package kau.brave.breakthecycle.ui.auth.login
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -24,5 +24,5 @@ class LoginViewModel @Inject constructor(
     fun updatePasswd(passwd: String) {
         _passwd.value = passwd
     }
-    
+
 }

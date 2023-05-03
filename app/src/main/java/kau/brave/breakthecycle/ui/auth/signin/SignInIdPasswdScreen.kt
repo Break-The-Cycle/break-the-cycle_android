@@ -18,9 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kau.brave.breakthecycle.domain.model.ApplicationState
+import kau.brave.breakthecycle.theme.*
+import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.auth.components.SignInGraphBottomConfirmButton
-import kau.brave.breakthecycle.ui.auth.model.VerificationStatus
+import kau.brave.breakthecycle.ui.model.VerificationStatus
 import kau.brave.breakthecycle.ui.component.CustomTextField
 import kau.brave.breakthecycle.ui.theme.*
 import kau.brave.breakthecycle.utils.Constants.ONBOARD_GRAPH

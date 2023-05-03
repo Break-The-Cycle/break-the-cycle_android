@@ -11,10 +11,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import dagger.hilt.android.AndroidEntryPoint
-import kau.brave.breakthecycle.domain.ManageBottomBarState
-import kau.brave.breakthecycle.domain.rememberApplicationState
+import kau.brave.breakthecycle.utils.ManageBottomBarState
+import kau.brave.breakthecycle.utils.rememberApplicationState
 import kau.brave.breakthecycle.ui.RootNavhost
-import kau.brave.breakthecycle.ui.theme.BreakTheCycleTheme
+import kau.brave.breakthecycle.theme.BreakTheCycleTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

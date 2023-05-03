@@ -2,7 +2,6 @@
 
 package kau.brave.breakthecycle.ui.auth.onboard
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -25,15 +24,14 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import kau.brave.breakthecycle.R
-import kau.brave.breakthecycle.domain.model.ApplicationState
-import kau.brave.breakthecycle.domain.rememberApplicationState
+import kau.brave.breakthecycle.ui.model.ApplicationState
+import kau.brave.breakthecycle.utils.rememberApplicationState
 import kau.brave.breakthecycle.ui.auth.components.SignInGraphBottomConfirmButton
 import kau.brave.breakthecycle.ui.component.HeightSpacer
-import kau.brave.breakthecycle.ui.theme.Gray300
-import kau.brave.breakthecycle.ui.theme.Main
-import kau.brave.breakthecycle.ui.theme.White
+import kau.brave.breakthecycle.theme.Gray300
+import kau.brave.breakthecycle.theme.Main
+import kau.brave.breakthecycle.theme.White
 import kau.brave.breakthecycle.utils.Constants.SECERT_ONBOARD_GRAPH
-import kau.brave.breakthecycle.utils.Constants.USERINFO_GRAPH
 import kotlinx.coroutines.launch
 
 @Preview

@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.ui.diary.model
+package kau.brave.breakthecycle.ui.model
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color

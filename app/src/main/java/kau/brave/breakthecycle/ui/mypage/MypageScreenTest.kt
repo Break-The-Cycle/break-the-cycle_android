@@ -14,7 +14,7 @@
 //import androidx.compose.ui.Modifier
 //import androidx.compose.ui.platform.LocalContext
 //import kau.brave.breakthecycle.contentprovider.CameraFileProvider
-//import kau.brave.breakthecycle.domain.model.ApplicationState
+//import kau.brave.breakthecycle.ui.model.ApplicationState
 //import kau.brave.breakthecycle.utils.Constants
 //
 //@Composable

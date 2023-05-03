@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.domain.model
+package kau.brave.breakthecycle.ui.model
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.MutableState

@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.domain
+package kau.brave.breakthecycle.utils
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kau.brave.breakthecycle.domain.model.ApplicationState
+import kau.brave.breakthecycle.ui.model.ApplicationState
 import kotlinx.coroutines.CoroutineScope
 
 

@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.domain.model
+package kau.brave.breakthecycle.ui.model
 
 enum class DayOfWeek(val day: Int, val dayName: String) {
     SUNDAY(1, "일"),

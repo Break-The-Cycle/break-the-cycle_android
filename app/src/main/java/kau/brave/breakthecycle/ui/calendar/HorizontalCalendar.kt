@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kau.brave.breakthecycle.ui.theme.Main
+import kau.brave.breakthecycle.theme.Main
 import java.time.LocalDate
 import java.time.YearMonth
 

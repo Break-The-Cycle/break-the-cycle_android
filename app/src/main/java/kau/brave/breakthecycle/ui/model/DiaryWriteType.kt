@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.ui.diary.model
+package kau.brave.breakthecycle.ui.model
 
 enum class DiaryWriteType {
     WRITE,

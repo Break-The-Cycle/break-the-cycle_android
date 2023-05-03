@@ -20,15 +20,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kau.brave.breakthecycle.domain.model.ApplicationState
-import kau.brave.breakthecycle.domain.rememberApplicationState
+import kau.brave.breakthecycle.ui.model.ApplicationState
+import kau.brave.breakthecycle.utils.rememberApplicationState
 import kau.brave.breakthecycle.ui.auth.components.SignInGraphBottomConfirmButton
 import kau.brave.breakthecycle.ui.component.CustomTextField
 import kau.brave.breakthecycle.ui.component.HeightSpacer
-import kau.brave.breakthecycle.ui.theme.Disabled
-import kau.brave.breakthecycle.ui.theme.ErrorColor
-import kau.brave.breakthecycle.ui.theme.Main
-import kau.brave.breakthecycle.ui.theme.White
+import kau.brave.breakthecycle.theme.Disabled
+import kau.brave.breakthecycle.theme.ErrorColor
+import kau.brave.breakthecycle.theme.Main
+import kau.brave.breakthecycle.theme.White
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_ID_PASSWD_ROUTE
 
 

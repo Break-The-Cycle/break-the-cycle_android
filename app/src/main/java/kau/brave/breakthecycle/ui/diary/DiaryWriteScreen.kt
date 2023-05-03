@@ -19,9 +19,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import kau.brave.breakthecycle.domain.model.ApplicationState
-import kau.brave.breakthecycle.ui.diary.model.DiaryDrawing
-import kau.brave.breakthecycle.ui.diary.model.DiaryWriteType
+import kau.brave.breakthecycle.ui.model.ApplicationState
+import kau.brave.breakthecycle.ui.model.DiaryDrawing
+import kau.brave.breakthecycle.ui.model.DiaryWriteType
 
 @Composable
 fun DiaryWriteScreen(

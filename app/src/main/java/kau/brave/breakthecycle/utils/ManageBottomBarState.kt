@@ -1,8 +1,8 @@
-package kau.brave.breakthecycle.domain
+package kau.brave.breakthecycle.utils
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
-import kau.brave.breakthecycle.domain.model.ApplicationState
+import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.model.Screen
 
 @Composable

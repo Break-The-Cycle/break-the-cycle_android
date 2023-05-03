@@ -1,9 +1,9 @@
-package kau.brave.breakthecycle.ui.graph
+package kau.brave.breakthecycle.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import kau.brave.breakthecycle.domain.model.ApplicationState
+import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.calendar.CalendarScreen
 import kau.brave.breakthecycle.ui.home.view.HomeScreen
 import kau.brave.breakthecycle.ui.model.Screen

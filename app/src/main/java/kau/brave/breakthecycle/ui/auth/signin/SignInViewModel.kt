@@ -2,7 +2,7 @@ package kau.brave.breakthecycle.ui.auth.signin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kau.brave.breakthecycle.ui.auth.model.VerificationStatus
+import kau.brave.breakthecycle.ui.model.VerificationStatus
 import kotlinx.coroutines.flow.*
 import java.util.*
 

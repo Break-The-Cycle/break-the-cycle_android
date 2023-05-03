@@ -24,10 +24,10 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kau.brave.breakthecycle.R
-import kau.brave.breakthecycle.ui.theme.ErrorColor
-import kau.brave.breakthecycle.ui.theme.Gray300
-import kau.brave.breakthecycle.ui.theme.Gray600
-import kau.brave.breakthecycle.ui.theme.Main
+import kau.brave.breakthecycle.theme.ErrorColor
+import kau.brave.breakthecycle.theme.Gray300
+import kau.brave.breakthecycle.theme.Gray600
+import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.utils.bottomBorder
 
 /**

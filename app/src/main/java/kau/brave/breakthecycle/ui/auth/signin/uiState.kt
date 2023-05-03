@@ -1,6 +1,6 @@
 package kau.brave.breakthecycle.ui.auth.signin
 
-import kau.brave.breakthecycle.ui.auth.model.VerificationStatus
+import kau.brave.breakthecycle.ui.model.VerificationStatus
 
 
 data class SignInPhoneVerifyScreenUiState(

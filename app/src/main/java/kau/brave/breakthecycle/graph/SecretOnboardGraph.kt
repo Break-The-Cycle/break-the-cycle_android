@@ -1,9 +1,9 @@
-package kau.brave.breakthecycle.ui.graph
+package kau.brave.breakthecycle.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import kau.brave.breakthecycle.domain.model.ApplicationState
+import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.auth.secretonboard.SecretOnboard
 import kau.brave.breakthecycle.utils.Constants.SECERET_ONBOARD_ROUTE
 import kau.brave.breakthecycle.utils.Constants.SECERT_ONBOARD_GRAPH
