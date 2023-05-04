@@ -29,6 +29,7 @@ import kau.brave.breakthecycle.theme.Disabled
 import kau.brave.breakthecycle.theme.ErrorColor
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.theme.White
+import kau.brave.breakthecycle.ui.auth.components.BackIcon
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_ID_PASSWD_ROUTE
 
 

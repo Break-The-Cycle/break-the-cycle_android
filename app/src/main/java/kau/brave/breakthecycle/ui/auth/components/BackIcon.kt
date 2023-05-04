@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.ui.auth.signin
+package kau.brave.breakthecycle.ui.auth.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row

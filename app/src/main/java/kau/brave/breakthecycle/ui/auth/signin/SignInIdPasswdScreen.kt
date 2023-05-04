@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kau.brave.breakthecycle.theme.*
+import kau.brave.breakthecycle.ui.auth.components.BackIcon
 import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.auth.components.SignInGraphBottomConfirmButton
 import kau.brave.breakthecycle.ui.model.VerificationStatus

@@ -105,15 +105,15 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(20.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         if (dummyDiary.isEmpty()) {
                             item {
                                 Text(
                                     text = "작성된 일기가 없습니다.",
-                                    fontSize = 18.sp,
-                                    color = Color.Black,
+                                    fontSize = 16.sp,
+                                    color = Gray300,
                                     textAlign = TextAlign.Center,
                                     fontWeight = FontWeight.Bold,
                                 )

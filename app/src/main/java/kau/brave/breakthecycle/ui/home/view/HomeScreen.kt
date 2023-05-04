@@ -56,114 +56,123 @@ fun HomeScreen(appState: ApplicationState) {
 
         WeekCalendar()
 
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(64.dp)
-                .aspectRatio(1f)
-        ) {
-
-            Canvas(
-                modifier = Modifier.fillMaxSize()
+        Box(modifier = Modifier.padding(top = 20.dp)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(64.dp)
+                    .aspectRatio(1f)
             ) {
-                drawArc(
-                    color = Gray100,
-                    startAngle = 100f,
-                    sweepAngle = 50f,
-                    useCenter = false,
-                    style = Stroke(
-                        width = with(density) { 20.dp.toPx() },
-                        cap = StrokeCap.Round
-                    ),
-                )
-                drawArc(
-                    color = Gray100,
-                    startAngle = 230f,
-                    sweepAngle = 180f,
-                    useCenter = false,
-                    style = Stroke(
-                        width = with(density) { 20.dp.toPx() },
-                        cap = StrokeCap.Round
-                    ),
-                )
-                drawArc(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(Main, Main, Color(0xFFFFC2C2)),
-                    ),
-                    startAngle = 0f,
-                    sweepAngle = 110f,
-                    useCenter = false,
-                    style = Stroke(
-                        width = with(density) { 30.dp.toPx() },
-                        cap = StrokeCap.Round
-                    ),
-                )
-                drawArc(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(Color(0xFFE742EB), Color(0xFF3D70F1)),
-                    ),
-                    startAngle = 140f,
-                    sweepAngle = 100f,
-                    useCenter = false,
-                    style = Stroke(
-                        width = with(density) { 30.dp.toPx() },
-                        cap = StrokeCap.Round
-                    ),
-                )
-            }
 
-            if (isSecretMode.value) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.7f)
-                        .fillMaxHeight(0.7f)
-                        .align(Alignment.Center)
-                        .clip(CircleShape)
-                        .clickable {
-
-                        }
-                        .background(ReportColor)
+                Canvas(
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Text(
-                        text = "신고하기", color = Color.White, fontSize = 34.sp,
-                        modifier = Modifier.align(Alignment.Center),
-                        fontWeight = FontWeight.Bold,
+                    drawArc(
+                        color = Gray100,
+                        startAngle = 100f,
+                        sweepAngle = 50f,
+                        useCenter = false,
+                        style = Stroke(
+                            width = with(density) { 20.dp.toPx() },
+                            cap = StrokeCap.Round
+                        ),
+                    )
+                    drawArc(
+                        color = Gray100,
+                        startAngle = 230f,
+                        sweepAngle = 180f,
+                        useCenter = false,
+                        style = Stroke(
+                            width = with(density) { 20.dp.toPx() },
+                            cap = StrokeCap.Round
+                        ),
+                    )
+                    drawArc(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(Main, Main, Color(0xFFFFC2C2)),
+                        ),
+                        startAngle = 0f,
+                        sweepAngle = 110f,
+                        useCenter = false,
+                        style = Stroke(
+                            width = with(density) { 30.dp.toPx() },
+                            cap = StrokeCap.Round
+                        ),
+                    )
+                    drawArc(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(Color(0xFFE742EB), Color(0xFF3D70F1)),
+                        ),
+                        startAngle = 140f,
+                        sweepAngle = 100f,
+                        useCenter = false,
+                        style = Stroke(
+                            width = with(density) { 30.dp.toPx() },
+                            cap = StrokeCap.Round
+                        ),
                     )
                 }
-            } else {
-                Column(
-                    modifier = Modifier.align(Alignment.Center)
-                ) {
-                    Text(
-                        text = "생리까지",
-                        fontSize = 24.sp,
-                        color = Color.Black,
-                    )
-                    Text(
-                        text = "N일",
-                        fontSize = 50.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black,
-                    )
+
+                if (isSecretMode.value) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(0.7f)
+                            .fillMaxHeight(0.7f)
+                            .align(Alignment.Center)
+                            .clip(CircleShape)
+                            .clickable {
+
+                            }
+                            .background(ReportColor)
+                    ) {
+                        Text(
+                            text = "신고하기", color = Color.White, fontSize = 34.sp,
+                            modifier = Modifier.align(Alignment.Center),
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier.align(Alignment.Center)
+                    ) {
+                        Text(
+                            text = "생리까지",
+                            fontSize = 24.sp,
+                            color = Color.Black,
+                        )
+                        Text(
+                            text = "N일",
+                            fontSize = 50.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                        )
+                    }
                 }
             }
 
             Column(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .offset(y = (-10).dp)
+                    .padding(5.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                Text(text = "TODAY")
+                Text(
+                    text = "TODAY",
+                    color = Color.Black,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
                 Image(
                     painter = painterResource(id = R.drawable.ic_location_brave_24),
                     contentDescription = "IC_LOCATION_BRAVE_24",
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
-                        .size(17.dp, 24.dp)
+                        .size(24.dp, 34.dp)
                 )
             }
         }
+
 
         LazyRow(
             modifier = Modifier
