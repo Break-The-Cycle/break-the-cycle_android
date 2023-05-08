@@ -38,14 +38,7 @@ fun RootNavhost(appState: ApplicationState) {
                 onboardGraph(appState)
                 userInfoGraph(appState)
                 secretOnboardGraph(appState)
-
-                composable(route = DIARY_WRITE_PHOTO_ROUTE) {
-                    val userObject =
-                        appState.navController.previousBackStackEntry?.arguments?.getParcelable<Uri>(
-                            "uri"
-                        )
-                    DiaryWritePhotoScreen(appState, userObject)
-                }
+                diaryWriteGraph(appState)
             }
 
             if (appState.bottomBarState.value) BottomBar(appState)

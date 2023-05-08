@@ -37,4 +37,5 @@ object Constants {
     const val USERINFO_GRAPH = "userinfo_graph"
     const val ONBOARD_GRAPH = "onboard_graph"
     const val SECERT_ONBOARD_GRAPH = "secret-onboard_graph"
+    const val DIARY_WRITE_GRAPH = "diary-write_graph"
 }

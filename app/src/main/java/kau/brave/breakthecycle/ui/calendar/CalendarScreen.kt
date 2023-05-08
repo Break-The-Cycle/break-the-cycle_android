@@ -41,6 +41,8 @@ import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.ui.auth.userinfo.BraveDate
 import kau.brave.breakthecycle.ui.component.BraveLogoIcon
 import kau.brave.breakthecycle.ui.model.DayOfWeek
+import kau.brave.breakthecycle.utils.Constants
+import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_GRAPH
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -123,7 +125,7 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                                     colors = ButtonDefaults.buttonColors(Main),
                                     shape = RoundedCornerShape(10.dp),
                                     onClick = {
-
+                                        appState.navigate(DIARY_WRITE_GRAPH)
                                     }) {
                                     Text(
                                         text = "일기 작성하기", fontSize = 18.sp,
@@ -210,7 +212,7 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                                     .clip(RoundedCornerShape(50))
                                     .border(1.dp, Main, RoundedCornerShape(50))
                                     .clickable {
-                                        // TODO 기분 기록 
+                                        // TODO 기분 기록
                                     }
                                     .padding(10.dp, 5.dp)
 

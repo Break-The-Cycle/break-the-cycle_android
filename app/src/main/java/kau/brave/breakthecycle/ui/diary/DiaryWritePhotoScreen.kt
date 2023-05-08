@@ -2,6 +2,8 @@ package kau.brave.breakthecycle.ui.diary
 
 import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,11 +19,14 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import kau.brave.breakthecycle.contentprovider.CameraFileProvider
 import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.model.DiaryDrawing
 import kau.brave.breakthecycle.ui.model.DiaryWriteType
+import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_ROUTE
 
 @Composable
 fun DiaryWritePhotoScreen(
