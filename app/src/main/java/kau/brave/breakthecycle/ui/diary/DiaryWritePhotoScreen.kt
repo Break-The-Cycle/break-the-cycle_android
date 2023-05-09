@@ -2,8 +2,6 @@ package kau.brave.breakthecycle.ui.diary
 
 import android.net.Uri
 import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,19 +17,16 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import kau.brave.breakthecycle.contentprovider.CameraFileProvider
 import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.model.DiaryDrawing
 import kau.brave.breakthecycle.ui.model.DiaryWriteType
-import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_ROUTE
 
 @Composable
 fun DiaryWritePhotoScreen(
     appState: ApplicationState,
-    imageUri: Uri?,
+    imageUri: Uri? = null,
 ) {
 
     var diaryWriteType by remember {
@@ -51,9 +46,17 @@ fun DiaryWritePhotoScreen(
         mutableStateOf(10f)
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .navigationBarsPadding()
+    ) {
+
         Image(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black),
             painter = rememberAsyncImagePainter(imageUri),
             contentScale = ContentScale.Crop,
             contentDescription = "SELECETD_IMG",
@@ -75,13 +78,17 @@ fun DiaryWritePhotoScreen(
             DiaryWriteType.WRITE -> {
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .align(Alignment.Center)
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
                         .background(Color.Black.copy(alpha = 0.5f))
                 )
             }
         }
 
-        if (DiaryWriteType.WRITE == diaryWriteType) {
+        TotalDrawings(drawPaths)
+
+        if (diaryWriteType == DiaryWriteType.WRITE) {
             OnDrawings(
                 addDrawing = { drawPaths.add(it) },
                 onConfirm = {
@@ -129,7 +136,6 @@ fun DiaryWritePhotoScreen(
                 }
             }
         }
-        TotalDrawings(drawPaths)
     }
 }
 
@@ -160,10 +166,11 @@ private fun BoxScope.OnDrawings(
                             )
                         )
                         paths.clear()
+                    },
+                    onDrag = { change, _ ->
+                        paths.add(change.position)
                     }
-                ) { change, _ ->
-                    paths.add(change.position)
-                }
+                )
             }) {
         for (path in 0 until paths.size - 1) {
             drawLine(
@@ -187,9 +194,12 @@ private fun BoxScope.OnDrawings(
 
 @Composable
 private fun TotalDrawings(drawPaths: List<DiaryDrawing>) {
-    Canvas(modifier = Modifier.fillMaxSize()) {
+    Canvas(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(1f)
+    ) {
         drawPaths.forEach {
-            Log.i("dlgocks1", it.strokeWidth.toString())
             for (path in 0 until it.paths.size - 1) {
                 drawLine(
                     color = it.color,
