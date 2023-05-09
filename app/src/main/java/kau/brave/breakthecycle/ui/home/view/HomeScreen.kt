@@ -212,6 +212,7 @@ private fun WeekCalendar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(top = 20.dp)
             .padding(horizontal = 24.dp)
             .border(1.dp, Color(0xFFDBDBDB), RoundedCornerShape(20.dp))
             .shadow(15.dp, RoundedCornerShape(20.dp), clip = true, spotColor = Main)

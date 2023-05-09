@@ -2,10 +2,12 @@ package kau.brave.breakthecycle.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import kau.brave.breakthecycle.R
@@ -31,7 +33,9 @@ fun ColumnScope.BraveLogoIcon(onClick: () -> Unit) {
     Image(
         painter = painterResource(id = if (isSecretMode.value) R.mipmap.img_secret_logo_small else R.drawable.img_logo_small),
         contentDescription = "IMG_LOGO_SMALL",
+        contentScale = ContentScale.Crop,
         modifier = Modifier
+            .padding(top = 10.dp)
             .size(56.dp)
             .align(Alignment.CenterHorizontally)
             .noRippleClickable {
