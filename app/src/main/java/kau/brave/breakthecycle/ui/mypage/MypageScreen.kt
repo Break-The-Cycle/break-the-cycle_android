@@ -20,7 +20,7 @@ import kau.brave.breakthecycle.RoseDaysApplication.Companion.isSecretMode
 import kau.brave.breakthecycle.theme.Gray300
 import kau.brave.breakthecycle.ui.component.BraveLogoIcon
 import kau.brave.breakthecycle.ui.model.ApplicationState
-import kau.brave.breakthecycle.utils.Constants.ONBOARD_GRAPH
+import kau.brave.breakthecycle.utils.Constants.ONBOARD_ROUTE
 import kau.brave.breakthecycle.utils.Constants.SECERET_ONBOARD_ROUTE
 import kau.brave.breakthecycle.utils.Constants.USERINFO_GRAPH
 import kau.brave.breakthecycle.utils.noRippleClickable
@@ -33,7 +33,7 @@ fun MypageScreen(appState: ApplicationState) {
             appState.navigate(USERINFO_GRAPH)
         }),
         MypageItem(title = "로즈데이즈에 대하여", onClick = {
-            appState.navigate(ONBOARD_GRAPH)
+            appState.navigate("$ONBOARD_ROUTE/false")
         }),
         MypageItem(title = "비밀번호 변경", onClick = {
             // TODO 비밀번호 변경 그래프 이동
@@ -52,7 +52,7 @@ fun MypageScreen(appState: ApplicationState) {
 
     val secretModeItem = listOf(
         MypageItem(title = "시크릿모드의 기능에 대하여", onClick = {
-            appState.navigate(SECERET_ONBOARD_ROUTE)
+            appState.navigate("$SECERET_ONBOARD_ROUTE/false")
         }),
         MypageItem(title = "흔들어서 신고하기 설정", istoggle = true, onToggleClick = {
             // TODO 흔들어서 신고하기 설정

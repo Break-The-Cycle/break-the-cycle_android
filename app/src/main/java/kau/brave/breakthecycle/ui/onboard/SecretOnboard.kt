@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.ui.auth.secretonboard
+package kau.brave.breakthecycle.ui.onboard
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -30,14 +30,15 @@ import kau.brave.breakthecycle.ui.component.HeightSpacer
 import kau.brave.breakthecycle.theme.Gray300
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.theme.White
+import kau.brave.breakthecycle.utils.Constants.SECERET_ONBOARD_ROUTE
 import kau.brave.breakthecycle.utils.Constants.USERINFO_GRAPH
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
-@Preview
 @Composable
 fun SecretOnboard(
     appState: ApplicationState = rememberApplicationState(),
+    init: Boolean,
     @DrawableRes images: List<Int> = listOf(
         R.mipmap.img_secret_onboard_enter,
         R.mipmap.img_secret_onboard_dialog,
@@ -124,9 +125,13 @@ fun SecretOnboard(
                 SignInGraphBottomConfirmButton(
                     onClick = {
                         if (pagerState.currentPage == images.size - 1) {
-                            coroutineScope.launch {
-                                appState.navigate(USERINFO_GRAPH)
-                            }
+                            if (init) {
+                                appState.navController.navigate(USERINFO_GRAPH) {
+                                    popUpTo(SECERET_ONBOARD_ROUTE) {
+                                        inclusive = true
+                                    }
+                                }
+                            } else appState.popBackStack()
                         } else {
                             coroutineScope.launch {
                                 pagerState.animateScrollToPage(pagerState.currentPage + 1)

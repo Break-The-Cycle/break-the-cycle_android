@@ -24,7 +24,7 @@ import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.auth.components.SignInGraphBottomConfirmButton
 import kau.brave.breakthecycle.ui.model.VerificationStatus
 import kau.brave.breakthecycle.ui.component.CustomTextField
-import kau.brave.breakthecycle.utils.Constants.ONBOARD_GRAPH
+import kau.brave.breakthecycle.utils.Constants.ONBOARD_ROUTE
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_GRAPH
 
 @Composable
@@ -174,7 +174,7 @@ fun SignInIdPasswdScreen(appState: ApplicationState) {
                 Spacer(modifier = Modifier.weight(1f))
                 SignInGraphBottomConfirmButton(
                     onClick = {
-                        appState.navController.navigate(ONBOARD_GRAPH) {
+                        appState.navController.navigate("$ONBOARD_ROUTE/true") {
                             popUpTo(SIGNIN_GRAPH) {
                                 inclusive = true
                             }

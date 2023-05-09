@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalPagerApi::class)
 
-package kau.brave.breakthecycle.ui.auth.onboard
+package kau.brave.breakthecycle.ui.onboard
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,12 +31,11 @@ import kau.brave.breakthecycle.ui.component.HeightSpacer
 import kau.brave.breakthecycle.theme.Gray300
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.theme.White
-import kau.brave.breakthecycle.utils.Constants.SECERT_ONBOARD_GRAPH
+import kau.brave.breakthecycle.utils.Constants.SECERET_ONBOARD_ROUTE
 import kotlinx.coroutines.launch
 
-@Preview
 @Composable
-fun OnboardCycleScreen(appState: ApplicationState = rememberApplicationState()) {
+fun OnboardCycleScreen(appState: ApplicationState = rememberApplicationState(), init: Boolean) {
 
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
@@ -93,7 +92,7 @@ fun OnboardCycleScreen(appState: ApplicationState = rememberApplicationState()) 
                         ),
                         contentDescription = "IMG_ONBOARD_CYCLE",
                         modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Fit
                     )
                 }
                 HorizontalPagerIndicator(
@@ -113,7 +112,11 @@ fun OnboardCycleScreen(appState: ApplicationState = rememberApplicationState()) 
                                 pagerState.animateScrollToPage(1)
                             }
                         } else if (pagerState.currentPage == 1) {
-                            appState.navController.navigate(SECERT_ONBOARD_GRAPH)
+                            if (init) {
+                                appState.navController.navigate("$SECERET_ONBOARD_ROUTE/true") {
+                                    popUpTo(SECERET_ONBOARD_ROUTE) { inclusive = true }
+                                }
+                            } else appState.popBackStack()
                         }
                     },
                     enabled = true
