@@ -3,6 +3,7 @@ package kau.brave.breakthecycle.ui.auth.userinfo
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import kau.brave.breakthecycle.utils.BraveDate
 import java.util.*
 
 class UserInfoViewModel : ViewModel() {
@@ -12,7 +13,7 @@ class UserInfoViewModel : ViewModel() {
 
     private val _mensturationDay = mutableStateOf(
         Calendar.getInstance().let { calendar ->
-            Triple(
+            BraveDate(
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH) + 1,
                 calendar.get(Calendar.DAY_OF_MONTH)

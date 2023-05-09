@@ -26,6 +26,7 @@ import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.theme.White
 import kau.brave.breakthecycle.ui.model.DayOfWeek
+import kau.brave.breakthecycle.utils.BraveDate
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_COMPLETE_ROUTE
 import java.util.*
 
@@ -130,7 +131,7 @@ fun CalendarView(
 
         days.addAll(
             (1..calendar.getActualMaximum(Calendar.DAY_OF_MONTH)).map {
-                Triple(
+                BraveDate(
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH) + 1,
                     it
@@ -144,7 +145,7 @@ fun CalendarView(
             val lastMonth = calendar.clone() as Calendar
             lastMonth.add(Calendar.MONTH, -1)
             val emptyDays = (1 until dayOfWeek).map {
-                Triple(
+                BraveDate(
                     lastMonth.get(Calendar.YEAR),
                     lastMonth.get(Calendar.MONTH) + 1,
                     lastMonth.getActualMaximum(Calendar.DAY_OF_MONTH) - it + 1
@@ -160,7 +161,7 @@ fun CalendarView(
         val nextDayOfWeek = nextMonth.get(Calendar.DAY_OF_WEEK)
         if (nextDayOfWeek != Calendar.SUNDAY) {
             val emptyDays = (1..(8 - nextDayOfWeek)).map {
-                Triple(
+                BraveDate(
                     nextMonth.get(Calendar.YEAR),
                     nextMonth.get(Calendar.MONTH) + 1,
                     it
@@ -252,7 +253,7 @@ fun CalendarRow(
                     .aspectRatio(1f)
             ) {
                 Text(
-                    text = day.third.toString(),
+                    text = day.day.toString(),
                     modifier = Modifier
                         .align(Alignment.Center),
                     fontWeight = FontWeight.Bold,

@@ -1,7 +1,7 @@
 package kau.brave.breakthecycle.ui.model
 
 import androidx.compose.ui.graphics.Color
-import kau.brave.breakthecycle.ui.auth.userinfo.BraveDate
+import kau.brave.breakthecycle.utils.BraveDate
 import java.util.*
 
 enum class DayOfWeek(val day: Int, val dayName: String, val color: Color) {
@@ -33,7 +33,7 @@ enum class DayOfWeek(val day: Int, val dayName: String, val color: Color) {
 
         fun getDayOfWeekFromDate(date: BraveDate): DayOfWeek {
             val calendar = Calendar.getInstance()
-            calendar.set(date.first, date.second - 1, date.third) // month는 0부터 시작하므로 1을 빼줍니다.
+            calendar.set(date.year, date.month - 1, date.day) // month는 0부터 시작하므로 1을 빼줍니다.
 
             return when (calendar.get(Calendar.DAY_OF_WEEK)) {
                 Calendar.SUNDAY -> SUNDAY

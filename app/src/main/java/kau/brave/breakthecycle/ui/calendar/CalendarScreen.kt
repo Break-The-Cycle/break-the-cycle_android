@@ -12,8 +12,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,11 +36,12 @@ import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.utils.rememberApplicationState
 import kau.brave.breakthecycle.ui.calendar.viewmodel.CalendarViewModel
 import kau.brave.breakthecycle.theme.Main
-import kau.brave.breakthecycle.ui.auth.userinfo.BraveDate
+import kau.brave.breakthecycle.utils.BraveDate
 import kau.brave.breakthecycle.ui.component.BraveLogoIcon
 import kau.brave.breakthecycle.ui.model.DayOfWeek
-import kau.brave.breakthecycle.utils.Constants
 import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_GRAPH
+import kau.brave.breakthecycle.utils.Constants.tempBenDays
+import kau.brave.breakthecycle.utils.Constants.tempMenDays
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -57,15 +56,15 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
     val scope = rememberCoroutineScope()
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val localDensity = LocalDensity.current
-    var columnHeightDp by remember {
+    var contentsHeight by remember {
         mutableStateOf(0.dp)
     }
     var pickHeight by remember {
         mutableStateOf(0.dp)
     }
 
-    LaunchedEffect(key1 = columnHeightDp) {
-        pickHeight = screenHeight - columnHeightDp + 86.dp
+    LaunchedEffect(key1 = contentsHeight) {
+        pickHeight = screenHeight - contentsHeight + 106.dp
     }
 
 //    val dummyDiary = List(3) { "테스트$it" }
@@ -99,7 +98,7 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
 
                 if (isSecretMode.value) {
                     Text(
-                        text = "${selectedDay.second}월 ${selectedDay.third}일의 일기",
+                        text = "${selectedDay.month}월 ${selectedDay.day}일의 일기",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(20.dp)
@@ -240,7 +239,7 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                 .fillMaxSize()
                 .statusBarsPadding()
                 .onGloballyPositioned {
-                    columnHeightDp = with(localDensity) { it.size.height.toDp() }
+                    contentsHeight = with(localDensity) { it.size.height.toDp() }
                 },
         ) {
             BraveLogoIcon {
@@ -281,13 +280,13 @@ fun CalendarView(
 
     LaunchedEffect(key1 = month) {
         days.clear()
+
+        /** 이번 달 날짜 가져오기 */
         calendar.set(Calendar.DAY_OF_MONTH, 1)
-
         date = "${calendar.get(Calendar.YEAR)}년 ${calendar.get(Calendar.MONTH) + 1}월"
-
         days.addAll(
             (1..calendar.getActualMaximum(Calendar.DAY_OF_MONTH)).map {
-                Triple(
+                BraveDate(
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH) + 1,
                     it
@@ -301,7 +300,7 @@ fun CalendarView(
             val lastMonth = calendar.clone() as Calendar
             lastMonth.add(Calendar.MONTH, -1)
             val emptyDays = (1 until dayOfWeek).map {
-                Triple(
+                BraveDate(
                     lastMonth.get(Calendar.YEAR),
                     lastMonth.get(Calendar.MONTH) + 1,
                     lastMonth.getActualMaximum(Calendar.DAY_OF_MONTH) - it + 1
@@ -317,7 +316,7 @@ fun CalendarView(
         val nextDayOfWeek = nextMonth.get(Calendar.DAY_OF_WEEK)
         if (nextDayOfWeek != Calendar.SUNDAY) {
             val emptyDays = (1..(8 - nextDayOfWeek)).map {
-                Triple(
+                BraveDate(
                     nextMonth.get(Calendar.YEAR),
                     nextMonth.get(Calendar.MONTH) + 1,
                     it
@@ -331,7 +330,7 @@ fun CalendarView(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp, top = 30.dp),
+            .padding(start = 20.dp, end = 20.dp, top = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -401,21 +400,24 @@ fun CalendarRow(
         modifier = Modifier.fillMaxWidth()
     ) {
         for (day in days) {
-
             Box(
                 modifier = Modifier
-                    .background(Main)
-                    .background(if (selectedDay == day) Main else Color.White)
+                    .background(day.getBackgroundColor(selectedDay, tempMenDays, tempBenDays))
                     .clickable { setSelectDay(day) }
                     .weight(1f)
                     .aspectRatio(1f)
             ) {
                 Text(
-                    text = day.third.toString(),
+                    text = day.day.toString(),
                     modifier = Modifier
                         .align(Alignment.Center),
                     fontWeight = FontWeight.Bold,
-                    color = DayOfWeek.getDayOfWeekFromDate(day).color,
+                    color = day.getTextColor(
+                        selectedDay,
+                        tempMenDays,
+                        tempBenDays,
+                        DayOfWeek.getDayOfWeekFromDate(day).color
+                    ),
                 )
             }
         }
