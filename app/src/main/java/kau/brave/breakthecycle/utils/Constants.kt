@@ -35,7 +35,26 @@ object Constants {
     const val AUTH_GRAPH = "login_graph"
     const val SIGNIN_GRAPH = "signin_graph"
     const val USERINFO_GRAPH = "userinfo_graph"
-    const val ONBOARD_GRAPH = "onboard_graph"
-    const val SECERT_ONBOARD_GRAPH = "secret-onboard_graph"
+
+    //    const val ONBOARD_GRAPH = "onboard_graph"
+//    const val SECERT_ONBOARD_GRAPH = "secret-onboard_graph"
     const val DIARY_WRITE_GRAPH = "diary-write_graph"
+
+    // 생리일 샘플
+    val tempMenDays = listOf<BraveDate>(
+        BraveDate(2023, 5, 10),
+        BraveDate(2023, 5, 11),
+        BraveDate(2023, 5, 12),
+        BraveDate(2023, 5, 13),
+        BraveDate(2023, 5, 14),
+    )
+
+    // 배란일 샘플
+    val tempBenDays = listOf<BraveDate>(
+        BraveDate(2023, 5, 20),
+        BraveDate(2023, 5, 21),
+        BraveDate(2023, 5, 22),
+        BraveDate(2023, 5, 23),
+        BraveDate(2023, 5, 24),
+    )
 }
