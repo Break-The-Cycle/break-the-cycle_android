@@ -2,6 +2,7 @@
 
 package kau.brave.breakthecycle.ui.calendar
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.RoseDaysApplication.Companion.isSecretMode
@@ -36,15 +38,18 @@ import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.utils.rememberApplicationState
 import kau.brave.breakthecycle.ui.calendar.viewmodel.CalendarViewModel
 import kau.brave.breakthecycle.theme.Main
+import kau.brave.breakthecycle.theme.White
 import kau.brave.breakthecycle.utils.BraveDate
 import kau.brave.breakthecycle.ui.component.BraveLogoIcon
 import kau.brave.breakthecycle.ui.model.DayOfWeek
+import kau.brave.breakthecycle.ui.model.Emotions
 import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_GRAPH
 import kau.brave.breakthecycle.utils.Constants.tempBenDays
 import kau.brave.breakthecycle.utils.Constants.tempMenDays
 import kotlinx.coroutines.launch
 import java.util.*
 
+@SuppressLint("RememberReturnType")
 @Preview
 @Composable
 fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
@@ -62,6 +67,10 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
     var pickHeight by remember {
         mutableStateOf(0.dp)
     }
+    var dialogVisiblity by remember {
+        mutableStateOf(false)
+    }
+
 
     LaunchedEffect(key1 = contentsHeight) {
         pickHeight = screenHeight - contentsHeight + 106.dp
@@ -188,14 +197,25 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                                 Text(text = "#금일의 임신 가능성 : 상")
                             }
 
+                            var selected by remember {
+                                mutableStateOf(false)
+                            }
                             Column(
-                                modifier = Modifier.fillMaxHeight(),
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .clickable {
+                                        selected = !selected
+                                    },
                                 horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center,
+                                verticalArrangement = Arrangement.spacedBy(
+                                    10.dp,
+                                    Alignment.CenterVertically
+                                ),
                             ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.img_logo_small),
-                                    contentDescription = "IC_ADD"
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_fill_check_28),
+                                    contentDescription = "IC_CHEKC",
+                                    tint = if (selected) Gray300 else Main,
                                 )
                                 Text(text = "사랑한 날")
                             }
@@ -203,6 +223,9 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                         Spacer(modifier = Modifier.weight(1f))
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(10.dp),
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(bottom = 20.dp)
                         ) {
                             Text(
                                 text = "오늘의 기분 기록하기",
@@ -211,23 +234,21 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                                     .clip(RoundedCornerShape(50))
                                     .border(1.dp, Main, RoundedCornerShape(50))
                                     .clickable {
-                                        // TODO 기분 기록
+                                        dialogVisiblity = true
                                     }
                                     .padding(10.dp, 5.dp)
-
                             )
-                            Text(
-                                text = "이날 생리를 시작했어요.",
-                                fontSize = 14.sp,
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(50))
-                                    .border(1.dp, Main, RoundedCornerShape(50))
-                                    .clickable {
-                                        // TODO 금일 생리 주기로 설정
-                                    }
-                                    .padding(10.dp, 5.dp)
-
-                            )
+//                            Text(
+//                                text = "이날 생리를 시작했어요.",
+//                                fontSize = 14.sp,
+//                                modifier = Modifier
+//                                    .clip(RoundedCornerShape(50))
+//                                    .border(1.dp, Main, RoundedCornerShape(50))
+//                                    .clickable {
+//                                        // TODO 금일 생리 주기로 설정
+//                                    }
+//                                    .padding(10.dp, 5.dp)
+//                            )
                         }
                     }
                 }
@@ -252,6 +273,66 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                 setSelectedDay = viewModel::updateMensturationDay,
                 selectedDay = selectedDay,
             )
+        }
+    }
+
+
+    if (dialogVisiblity) {
+        var selectedEmotion by remember {
+            mutableStateOf(Emotions.NONE)
+        }
+
+        Dialog(onDismissRequest = { dialogVisiblity = false }) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                shape = RoundedCornerShape(20.dp),
+                elevation = 10.dp
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "오늘의 기분을 입력해 보아요.",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Emotions.values().forEach {
+                            Image(
+                                painter = painterResource(id = if (selectedEmotion == it) it.coloredIcon else it.defaultIcon),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .clickable {
+                                        selectedEmotion = it
+                                    },
+                                contentScale = ContentScale.Fit
+                            )
+                        }
+                    }
+                    Button(onClick = {
+                        dialogVisiblity = false
+                    }) {
+                        Text(
+                            text = "완료",
+                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 0.dp),
+                            fontSize = 18.sp,
+                            color = White
+                        )
+                    }
+                }
+            }
+
         }
     }
 }
