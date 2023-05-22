@@ -21,7 +21,8 @@ import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.utils.rememberApplicationState
 import kau.brave.breakthecycle.ui.auth.components.LoginIdPasswd
 import kau.brave.breakthecycle.ui.component.HeightSpacer
-import kau.brave.breakthecycle.ui.splash.SocialLoginBtn
+import kau.brave.breakthecycle.ui.component.SocialLoginBtn
+import kau.brave.breakthecycle.ui.component.WidthSpacerWithLine
 import kau.brave.breakthecycle.utils.Constants
 import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_GRAPH

@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.ui.auth.login
+package kau.brave.breakthecycle.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer

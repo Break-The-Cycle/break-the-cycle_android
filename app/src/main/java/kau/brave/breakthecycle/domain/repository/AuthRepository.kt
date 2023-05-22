@@ -12,5 +12,8 @@ interface AuthRepository {
     fun login(loginRequest: LoginRequest): Flow<ApiWrapper<JwtResponse>>
 
     suspend fun setToken(type: Preferences.Key<String>, value: String)
+
     fun getToken(type: Preferences.Key<String>): Flow<String>
+    fun validateAccessToken(): Flow<ApiWrapper<String>>
+    fun refreshToken(refreshToken: String): Flow<ApiWrapper<JwtResponse>>
 }

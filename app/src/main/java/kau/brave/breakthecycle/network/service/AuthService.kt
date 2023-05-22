@@ -19,7 +19,7 @@ interface AuthService {
     @GET("/v1/auth/refresh")
     suspend fun refreshToken(
         @Header("Refresh-Token") refreshToken: String
-    ): Response<BraveResponse<String>>
+    ): Response<BraveResponse<JwtResponse>>
 
     @GET("/v1/auth/duplicate-check/{loginId}")
     suspend fun duplicateIdCheck(
@@ -45,5 +45,8 @@ interface AuthService {
     suspend fun login(
         @Body loginRequest: LoginRequest
     ): Response<BraveResponse<JwtResponse>>
+
+    @POST("/v1/auth/user")
+    suspend fun validateAccessToken(): Response<BraveResponse<String>>
 
 }

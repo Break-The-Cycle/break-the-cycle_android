@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.ui.splash
+package kau.brave.breakthecycle.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image

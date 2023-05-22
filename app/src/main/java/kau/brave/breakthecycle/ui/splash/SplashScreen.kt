@@ -14,23 +14,38 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.theme.White
 import kau.brave.breakthecycle.utils.Constants.AUTH_GRAPH
+import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH
 import kau.brave.breakthecycle.utils.Constants.SPLASH_ROUTE
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(appState: ApplicationState) {
 
+    val viewModel: SplashViewModel = hiltViewModel()
+
     LaunchedEffect(key1 = Unit) {
         delay(2000L)
-        appState.navController.navigate(AUTH_GRAPH) {
-            popUpTo(SPLASH_ROUTE) {
-                inclusive = true
-            }
-        }
+        viewModel.loginCheck(
+            navigateToLogin = {
+                appState.navController.navigate(AUTH_GRAPH) {
+                    popUpTo(SPLASH_ROUTE) {
+                        inclusive = true
+                    }
+                }
+            },
+            navigateToMain = {
+                appState.navController.navigate(MAIN_GRAPH) {
+                    popUpTo(SPLASH_ROUTE) {
+                        inclusive = true
+                    }
+                }
+            },
+        )
     }
 
     Column(

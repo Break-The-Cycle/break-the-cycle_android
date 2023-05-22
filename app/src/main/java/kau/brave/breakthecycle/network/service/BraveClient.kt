@@ -9,5 +9,8 @@ class BraveClient @Inject constructor(
 
     /** Auth */
     suspend fun login(loginRequest: LoginRequest) = authService.login(loginRequest = loginRequest)
+    suspend fun validateAccessToken() = authService.validateAccessToken()
+    suspend fun refreshToken(refreshToken: String) =
+        authService.refreshToken(refreshToken = refreshToken)
 
 }

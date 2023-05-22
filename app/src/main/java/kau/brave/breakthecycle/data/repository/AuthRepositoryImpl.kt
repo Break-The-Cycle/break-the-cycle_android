@@ -26,6 +26,15 @@ class AuthRepositoryImpl @Inject constructor(
         braveClient.login(loginRequest = loginRequest)
     }
 
+    override fun validateAccessToken(): Flow<ApiWrapper<String>> = apiFlow {
+        braveClient.validateAccessToken()
+    }
+
+    override fun refreshToken(refreshToken: String): Flow<ApiWrapper<JwtResponse>> = apiFlow {
+        braveClient.refreshToken(refreshToken = refreshToken)
+    }
+
+
     override suspend fun setToken(type: Preferences.Key<String>, value: String) {
         preferenceDataStore.edit { settings ->
             settings[type] = value
