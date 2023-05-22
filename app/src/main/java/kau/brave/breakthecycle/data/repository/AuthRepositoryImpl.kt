@@ -5,6 +5,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import kau.brave.breakthecycle.data.request.LoginRequest
+import kau.brave.breakthecycle.data.request.PhoneAndCertificationNumber
+import kau.brave.breakthecycle.data.request.PhoneNumber
 import kau.brave.breakthecycle.data.response.JwtResponse
 import kau.brave.breakthecycle.domain.repository.AuthRepository
 import kau.brave.breakthecycle.network.model.apiFlow
@@ -33,6 +35,20 @@ class AuthRepositoryImpl @Inject constructor(
     override fun refreshToken(refreshToken: String): Flow<ApiWrapper<JwtResponse>> = apiFlow {
         braveClient.refreshToken(refreshToken = refreshToken)
     }
+
+    override fun checkDupNickname(loginId: String): Flow<ApiWrapper<String>> = apiFlow {
+        braveClient.dupIdCheck(loginId = loginId)
+    }
+
+    override fun sendCertificationCode(phoneNumber: PhoneNumber): Flow<ApiWrapper<String>> =
+        apiFlow {
+            braveClient.sendCertificationCode(phoneNumber = phoneNumber)
+        }
+
+    override fun confirmCetificationCode(phoneAndCertificationNumber: PhoneAndCertificationNumber): Flow<ApiWrapper<String>> =
+        apiFlow {
+            braveClient.confirmCetificationCode(phoneAndCertificationNumber)
+        }
 
 
     override suspend fun setToken(type: Preferences.Key<String>, value: String) {

@@ -2,6 +2,8 @@ package kau.brave.breakthecycle.domain.repository
 
 import androidx.datastore.preferences.core.Preferences
 import kau.brave.breakthecycle.data.request.LoginRequest
+import kau.brave.breakthecycle.data.request.PhoneAndCertificationNumber
+import kau.brave.breakthecycle.data.request.PhoneNumber
 import kau.brave.breakthecycle.data.response.JwtResponse
 import kau.brave.breakthecycle.utils.ApiWrapper
 import kotlinx.coroutines.flow.Flow
@@ -16,4 +18,10 @@ interface AuthRepository {
     fun getToken(type: Preferences.Key<String>): Flow<String>
     fun validateAccessToken(): Flow<ApiWrapper<String>>
     fun refreshToken(refreshToken: String): Flow<ApiWrapper<JwtResponse>>
+
+    fun checkDupNickname(nickname: String): Flow<ApiWrapper<String>>
+
+    fun sendCertificationCode(phoneNumber: PhoneNumber): Flow<ApiWrapper<String>>
+
+    fun confirmCetificationCode(phoneAndCertificationNumber: PhoneAndCertificationNumber): Flow<ApiWrapper<String>>
 }

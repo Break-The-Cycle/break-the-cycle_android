@@ -79,7 +79,7 @@ fun SignInPhoneVerify(appState: ApplicationState = rememberApplicationState()) {
                         value = uiState.phone,
                         maxSize = 11,
                         placeholderText = "전화번호를 입력해주세요.",
-                        onvalueChanged = viewModel::updateVerifyPhoneNumber,
+                        onvalueChanged = viewModel::updatePhoneNumber,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
 
@@ -115,7 +115,7 @@ fun SignInPhoneVerify(appState: ApplicationState = rememberApplicationState()) {
                         value = uiState.verifyCode,
                         maxSize = 6,
                         placeholderText = "인증번호를 입력해주세요.",
-                        onvalueChanged = viewModel::updateVerifyCode,
+                        onvalueChanged = viewModel::updateCertificationCode,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                     Button(

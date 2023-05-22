@@ -2,15 +2,21 @@ package kau.brave.breakthecycle.ui.auth.signin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kau.brave.breakthecycle.domain.repository.AuthRepository
 import kau.brave.breakthecycle.ui.model.VerificationStatus
 import kotlinx.coroutines.flow.*
 import java.util.*
+import javax.inject.Inject
 
-class SignInViewModel : ViewModel() {
+@HiltViewModel
+class SignInViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     /** 핸드폰 인증 State */
     private val _verifyPhoneNumber = MutableStateFlow("")
-    private val _verifyCode = MutableStateFlow("")
+    private val _certificationCode = MutableStateFlow("")
     private val _isVerified = MutableStateFlow(false)
     private val _retryTime = MutableStateFlow(0)
 
@@ -22,6 +28,7 @@ class SignInViewModel : ViewModel() {
     private val _secondPassword = MutableStateFlow("")
     private val _passwordCorrectCheck = MutableStateFlow(VerificationStatus.NONE)
 
+    /** 문자인증 타이머 */
     private var timer = Timer()
     private var timerTask: TimerTask = object : TimerTask() {
         override fun run() {
@@ -52,7 +59,7 @@ class SignInViewModel : ViewModel() {
     }
 
     val verifyPhoneUiState: StateFlow<SignInPhoneVerifyScreenUiState> = combine(
-        _verifyPhoneNumber, _verifyCode, _isVerified, _retryTime
+        _verifyPhoneNumber, _certificationCode, _isVerified, _retryTime
     ) { phone, verifyCode, isVerified, retryTime ->
         SignInPhoneVerifyScreenUiState(
             phone = phone,
@@ -88,7 +95,7 @@ class SignInViewModel : ViewModel() {
         }
     }
 
-    fun sendVerficyCode() {
+    fun sendCertificationCode() {
         // TODO 전화번호 인증 번호 보내기
         resetTimer()
     }
@@ -98,12 +105,12 @@ class SignInViewModel : ViewModel() {
         _idDupCheck.value = VerificationStatus.SUCCESS
     }
 
-    fun updateVerifyPhoneNumber(phoneNumber: String) {
+    fun updatePhoneNumber(phoneNumber: String) {
         _verifyPhoneNumber.value = phoneNumber
     }
 
-    fun updateVerifyCode(code: String) {
-        _verifyCode.value = code
+    fun updateCertificationCode(code: String) {
+        _certificationCode.value = code
     }
 
     fun updateId(id: String) {

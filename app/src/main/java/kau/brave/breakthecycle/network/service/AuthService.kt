@@ -1,8 +1,8 @@
 package kau.brave.breakthecycle.network.service
 
 import kau.brave.breakthecycle.data.request.LoginRequest
-import kau.brave.breakthecycle.data.request.PhoneNumberRequest
-import kau.brave.breakthecycle.data.request.PhoneNumberWithCertificationNumberRequest
+import kau.brave.breakthecycle.data.request.PhoneAndCertificationNumber
+import kau.brave.breakthecycle.data.request.PhoneNumber
 import kau.brave.breakthecycle.data.request.RegisterRequest
 import kau.brave.breakthecycle.data.response.BraveResponse
 import kau.brave.breakthecycle.data.response.JwtResponse
@@ -22,18 +22,18 @@ interface AuthService {
     ): Response<BraveResponse<JwtResponse>>
 
     @GET("v1/auth/duplicate-check/{loginId}")
-    suspend fun duplicateIdCheck(
+    suspend fun dupIdCheck(
         @Query("loginId") loginId: String
     ): Response<BraveResponse<String>>
 
     @POST("v1/auth/sms-certification/send")
-    suspend fun sendSmsCertification(
-        @Body phoneNumberRequest: PhoneNumberRequest
+    suspend fun sendSmsCertificationCode(
+        @Body phoneNumber: PhoneNumber
     ): Response<BraveResponse<String>>
 
     @POST("v1/auth/sms-certification/confirm")
-    suspend fun confirmSmsCertification(
-        @Body phoneNumberWithCertificationNumberRequest: PhoneNumberWithCertificationNumberRequest
+    suspend fun confirmCertificationCode(
+        @Body phoneAndCertificationNumber: PhoneAndCertificationNumber
     ): Response<BraveResponse<String>>
 
     @POST("v1/auth/register")
