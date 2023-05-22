@@ -20,7 +20,7 @@ fun <T : Any> apiFlow(apiFunc: suspend () -> Response<BraveResponse<T>>): Flow<A
                 }
             } else {
                 val errorBody = res.errorBody() ?: throw NullPointerException()
-                emit(ApiState.Error(errorBody.string()))
+                emit(ApiState.Error(GsonHelper.getErrorMessage(errorBody.string())))
             }
         } catch (e: Exception) {
             emit(ApiState.NotResponse(message = e.message ?: "", exception = e))

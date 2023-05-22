@@ -16,37 +16,37 @@ import retrofit2.http.Query
 
 interface AuthService {
 
-    @GET("/v1/auth/refresh")
+    @GET("v1/auth/refresh")
     suspend fun refreshToken(
         @Header("Refresh-Token") refreshToken: String
     ): Response<BraveResponse<JwtResponse>>
 
-    @GET("/v1/auth/duplicate-check/{loginId}")
+    @GET("v1/auth/duplicate-check/{loginId}")
     suspend fun duplicateIdCheck(
         @Query("loginId") loginId: String
     ): Response<BraveResponse<String>>
 
-    @POST("/v1/auth/sms-certification/send")
+    @POST("v1/auth/sms-certification/send")
     suspend fun sendSmsCertification(
         @Body phoneNumberRequest: PhoneNumberRequest
     ): Response<BraveResponse<String>>
 
-    @POST("/v1/auth/sms-certification/confirm")
+    @POST("v1/auth/sms-certification/confirm")
     suspend fun confirmSmsCertification(
         @Body phoneNumberWithCertificationNumberRequest: PhoneNumberWithCertificationNumberRequest
     ): Response<BraveResponse<String>>
 
-    @POST("/v1/auth/register")
+    @POST("v1/auth/register")
     suspend fun register(
         @Body registerRequest: RegisterRequest
     ): Response<BraveResponse<String>>
 
-    @POST("/v1/auth/login")
+    @POST("v1/auth/login")
     suspend fun login(
         @Body loginRequest: LoginRequest
     ): Response<BraveResponse<JwtResponse>>
 
-    @POST("/v1/auth/user")
+    @POST("v1/auth/user")
     suspend fun validateAccessToken(): Response<BraveResponse<String>>
 
 }
