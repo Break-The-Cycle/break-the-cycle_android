@@ -24,6 +24,7 @@ import kau.brave.breakthecycle.ui.component.HeightSpacer
 import kau.brave.breakthecycle.ui.component.SocialLoginBtn
 import kau.brave.breakthecycle.ui.component.WidthSpacerWithLine
 import kau.brave.breakthecycle.utils.Constants
+import kau.brave.breakthecycle.utils.Constants.AUTH_GRAPH
 import kau.brave.breakthecycle.utils.Constants.MAIN_GRAPH
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_GRAPH
 
@@ -38,7 +39,7 @@ fun LoginIdPasswdScreen(appState: ApplicationState = rememberApplicationState())
         viewModel.login(
             onSuccess = {
                 appState.navController.navigate(MAIN_GRAPH) {
-                    popUpTo(Constants.AUTH_GRAPH) {
+                    popUpTo(AUTH_GRAPH) {
                         inclusive = true
                     }
                 }
