@@ -7,7 +7,7 @@ import com.squareup.moshi.JsonClass
 data class BraveResponse<T>(
     @Json(name = "message")
     val message: String,
-    @Json(name = "code")
-    val code: Int,
+    @Json(name = "statusCode")
+    val statusCode: Int,
     val data: T? = null,
 )
