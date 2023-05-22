@@ -33,6 +33,21 @@ fun LoginIdPasswdScreen(appState: ApplicationState = rememberApplicationState())
 
     val viewModel: LoginViewModel = hiltViewModel()
 
+    val login: () -> Unit = {
+        viewModel.login(
+            onSuccess = {
+                appState.navController.navigate(MAIN_GRAPH) {
+                    popUpTo(Constants.AUTH_GRAPH) {
+                        inclusive = true
+                    }
+                }
+            },
+            onError = {
+                appState.showSnackbar(it)
+            }
+        )
+    }
+
     Box {
         Image(
             painter = painterResource(id = R.mipmap.img_login_background),
@@ -57,15 +72,9 @@ fun LoginIdPasswdScreen(appState: ApplicationState = rememberApplicationState())
                 LoginIdPasswd(
                     id = viewModel.id.value,
                     passwd = viewModel.passwd.value,
-                    updateId = viewModel::updateId,
-                    updatePasswd = viewModel::updatePasswd,
-                    navigateToMainGraph = {
-                        appState.navController.navigate(MAIN_GRAPH) {
-                            popUpTo(Constants.AUTH_GRAPH) {
-                                inclusive = true
-                            }
-                        }
-                    }
+                    updateId = viewModel.updateId,
+                    updatePasswd = viewModel.updatePasswd,
+                    login = login
                 )
 
                 HeightSpacer(20.dp)

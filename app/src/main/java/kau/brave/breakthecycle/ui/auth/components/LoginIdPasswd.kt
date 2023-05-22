@@ -15,10 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kau.brave.breakthecycle.ui.component.CustomTextField
 import kau.brave.breakthecycle.ui.component.HeightSpacer
-import kau.brave.breakthecycle.theme.Disabled
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.theme.White
-import kau.brave.breakthecycle.utils.Constants
 
 @Preview
 @Composable
@@ -27,7 +25,7 @@ fun LoginIdPasswd(
     passwd: String = "",
     updateId: (String) -> Unit = {},
     updatePasswd: (String) -> Unit = {},
-    navigateToMainGraph: () -> Unit = {},
+    login: () -> Unit = {},
 ) {
     Text(text = "안녕하세요.\n로즈 데이즈입니다.", fontSize = 18.sp, fontWeight = FontWeight.Bold)
     HeightSpacer(30.dp)
@@ -57,7 +55,7 @@ fun LoginIdPasswd(
             backgroundColor = Main,
             contentColor = White
         ),
-        onClick = navigateToMainGraph,
+        onClick = login,
     ) {
         Text(text = "로그인", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = White)
     }
