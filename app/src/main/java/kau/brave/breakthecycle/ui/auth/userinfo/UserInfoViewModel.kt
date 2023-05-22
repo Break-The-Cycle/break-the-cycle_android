@@ -3,10 +3,18 @@ package kau.brave.breakthecycle.ui.auth.userinfo
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kau.brave.breakthecycle.domain.model.BraveDate
+import kau.brave.breakthecycle.domain.repository.AuthRepository
+import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class UserInfoViewModel : ViewModel() {
+@HiltViewModel
+class UserInfoViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     private val _duration = mutableStateOf(7)
     val duration: State<Int> get() = _duration
@@ -30,7 +38,8 @@ class UserInfoViewModel : ViewModel() {
         _mensturationDay.value = braveDate
     }
 
-    fun fetchUserInfo() {
+    fun fetchUserInfo() = viewModelScope.launch {
+        
         // TODO 서버에 유저 정보 저장
     }
 

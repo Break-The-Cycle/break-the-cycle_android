@@ -1,9 +1,6 @@
 package kau.brave.breakthecycle.network.service
 
-import kau.brave.breakthecycle.data.request.LoginRequest
-import kau.brave.breakthecycle.data.request.PhoneAndCertificationNumber
-import kau.brave.breakthecycle.data.request.PhoneNumber
-import kau.brave.breakthecycle.data.request.RegisterRequest
+import kau.brave.breakthecycle.data.request.*
 import kau.brave.breakthecycle.data.response.BraveResponse
 import kau.brave.breakthecycle.data.response.JwtResponse
 import retrofit2.Response
@@ -36,7 +33,7 @@ interface AuthService {
         @Body phoneAndCertificationNumber: PhoneAndCertificationNumber
     ): Response<BraveResponse<String>>
 
-    @POST("v1/auth/register")
+    @POST("v1/auth/register/use-person")
     suspend fun register(
         @Body registerRequest: RegisterRequest
     ): Response<BraveResponse<String>>
@@ -48,5 +45,11 @@ interface AuthService {
 
     @POST("v1/auth/user")
     suspend fun validateAccessToken(): Response<BraveResponse<String>>
+
+    @POST("v1/use-persons/{usePersonId}/on-board")
+    suspend fun onBoard(
+        @Query("usePersonId") usePersonId: Int,
+        @Body onBoardRequest: OnBoardRequest
+    ): Response<BraveResponse<String>>
 
 }

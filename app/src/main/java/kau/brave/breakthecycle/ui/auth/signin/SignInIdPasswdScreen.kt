@@ -33,6 +33,28 @@ fun SignInIdPasswdScreen(appState: ApplicationState) {
     val viewModel: SignInViewModel = hiltViewModel()
     val uiState by viewModel.signInIdPasswordScreenUiState.collectAsStateWithLifecycle()
 
+    val checkIdDuplication: () -> Unit = {
+        viewModel.checkIdDuplication(
+            onError = {
+                appState.showSnackbar(it)
+            }
+        )
+    }
+    val signIn: () -> Unit = {
+        viewModel.signIn(
+            onSuccess = {
+                appState.navController.navigate("$ONBOARD_ROUTE/true") {
+                    popUpTo(SIGNIN_GRAPH) {
+                        inclusive = true
+                    }
+                }
+            },
+            onError = {
+                appState.showSnackbar(it)
+            }
+        )
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -76,7 +98,7 @@ fun SignInIdPasswdScreen(appState: ApplicationState) {
                         onvalueChanged = viewModel::updateId
                     )
                     Button(
-                        onClick = viewModel::checkIdDuplication,
+                        onClick = checkIdDuplication,
                         modifier = Modifier
                             .weight(3f),
                         contentPadding = PaddingValues(vertical = 0.dp, horizontal = 3.dp),
@@ -173,13 +195,7 @@ fun SignInIdPasswdScreen(appState: ApplicationState) {
 
                 Spacer(modifier = Modifier.weight(1f))
                 SignInGraphBottomConfirmButton(
-                    onClick = {
-                        appState.navController.navigate("$ONBOARD_ROUTE/true") {
-                            popUpTo(SIGNIN_GRAPH) {
-                                inclusive = true
-                            }
-                        }
-                    },
+                    onClick = signIn,
                     enabled = uiState.idDupCheck == VerificationStatus.SUCCESS &&
                             uiState.passwordCorrectCheck == VerificationStatus.SUCCESS &&
                             uiState.passwordRegexCheck == VerificationStatus.SUCCESS

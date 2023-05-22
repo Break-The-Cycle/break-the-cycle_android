@@ -40,6 +40,25 @@ fun SignInPhoneVerify(appState: ApplicationState = rememberApplicationState()) {
     val viewModel: SignInViewModel = hiltViewModel()
     val uiState by viewModel.verifyPhoneUiState.collectAsStateWithLifecycle()
 
+    val sendCertificationCode: () -> Unit = {
+        viewModel.sendCertificationCode(
+            onSuccess = {
+                appState.showSnackbar("인증번호를 전송했습니다.")
+            },
+            onError = {
+                appState.showSnackbar(it)
+            }
+        )
+    }
+
+    val confirmCertificationCode: () -> Unit = {
+        viewModel.confirmCertificationCode(
+            onError = {
+                appState.showSnackbar(it)
+            }
+        )
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -84,7 +103,7 @@ fun SignInPhoneVerify(appState: ApplicationState = rememberApplicationState()) {
                     )
 
                     Button(
-                        onClick = viewModel::sendVerficyCode,
+                        onClick = sendCertificationCode,
                         modifier = Modifier
                             .weight(3f),
                         contentPadding = PaddingValues(vertical = 0.dp, horizontal = 3.dp),
@@ -119,9 +138,7 @@ fun SignInPhoneVerify(appState: ApplicationState = rememberApplicationState()) {
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                     Button(
-                        onClick = {
-                            viewModel.verifyCode()
-                        },
+                        onClick = confirmCertificationCode,
                         modifier = Modifier
                             .weight(3f),
                         contentPadding = PaddingValues(vertical = 0.dp, horizontal = 3.dp),

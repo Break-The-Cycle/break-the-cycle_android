@@ -3,9 +3,13 @@ package kau.brave.breakthecycle.ui.auth.signin
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kau.brave.breakthecycle.data.request.PhoneAndCertificationNumber
+import kau.brave.breakthecycle.data.request.PhoneNumber
+import kau.brave.breakthecycle.data.request.RegisterRequest
 import kau.brave.breakthecycle.domain.repository.AuthRepository
 import kau.brave.breakthecycle.ui.model.VerificationStatus
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
@@ -86,23 +90,49 @@ class SignInViewModel @Inject constructor(
         viewModelScope, SharingStarted.WhileSubscribed(5000), SignInIdPasswordScreenUiState()
     )
 
-    fun verifyCode() {
+    fun confirmCertificationCode(
+        onError: (String) -> Unit,
+    ) = viewModelScope.launch {
         if (_retryTime.value <= 0) {
-            // onFailed
-        } else {
-            // TODO 전화번호 검증수행
-            _isVerified.value = true
+            onError("인증번호를 다시 받아주세요.")
+            return@launch
+        }
+        authRepository.confirmCetificationCode(
+            PhoneAndCertificationNumber(
+                phoneNumber = _verifyPhoneNumber.value,
+                certificationNumber = _certificationCode.value
+            )
+        ).collectLatest { apiState ->
+            apiState.onSuccess {
+                _isVerified.value = true
+            }
+            apiState.onError(onError)
         }
     }
 
-    fun sendCertificationCode() {
-        // TODO 전화번호 인증 번호 보내기
+    fun sendCertificationCode(
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) = viewModelScope.launch {
         resetTimer()
+        authRepository.sendCertificationCode(PhoneNumber(_verifyPhoneNumber.value))
+            .collectLatest { apiState ->
+                apiState.onSuccess {
+                    onSuccess()
+                }
+                apiState.onError(onError)
+            }
     }
 
-    fun checkIdDuplication() {
-        // TODO 아이디 중복 검사
-        _idDupCheck.value = VerificationStatus.SUCCESS
+    fun checkIdDuplication(
+        onError: (String) -> Unit
+    ) = viewModelScope.launch {
+        authRepository.checkDupNickname(_id.value).collectLatest { apiState ->
+            apiState.onSuccess {
+                _idDupCheck.value = VerificationStatus.SUCCESS
+            }
+            apiState.onError { onError(it) }
+        }
     }
 
     fun updatePhoneNumber(phoneNumber: String) {
@@ -139,6 +169,24 @@ class SignInViewModel @Inject constructor(
         }
     }
 
+    fun signIn(
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) = viewModelScope.launch {
+        authRepository.signIn(
+            RegisterRequest(
+                phoneNumber = _verifyPhoneNumber.value,
+                password = _password.value,
+                password2 = _secondPassword.value,
+                loginId = _id.value
+            )
+        ).collectLatest { apiState ->
+            apiState.onSuccess {
+                onSuccess()
+            }
+            apiState.onError { onError(it) }
+        }
+    }
 
     companion object {
         const val DEFAULT_RETRY_TIME = 180

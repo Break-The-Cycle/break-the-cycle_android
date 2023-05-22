@@ -1,8 +1,6 @@
 package kau.brave.breakthecycle.network.service
 
-import kau.brave.breakthecycle.data.request.LoginRequest
-import kau.brave.breakthecycle.data.request.PhoneAndCertificationNumber
-import kau.brave.breakthecycle.data.request.PhoneNumber
+import kau.brave.breakthecycle.data.request.*
 import javax.inject.Inject
 
 class BraveClient @Inject constructor(
@@ -24,4 +22,9 @@ class BraveClient @Inject constructor(
     suspend fun confirmCetificationCode(phoneAndCertificationNumber: PhoneAndCertificationNumber) =
         authService.confirmCertificationCode(phoneAndCertificationNumber)
 
+    suspend fun register(registerRequest: RegisterRequest) =
+        authService.register(registerRequest = registerRequest)
+
+    suspend fun onboard(usePersonId: Int, onBoardRequest: OnBoardRequest) =
+        authService.onBoard(usePersonId = usePersonId, onBoardRequest = onBoardRequest)
 }
