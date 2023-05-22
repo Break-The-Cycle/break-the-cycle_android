@@ -1,8 +1,15 @@
 package kau.brave.breakthecycle.utils
 
+import androidx.datastore.preferences.core.stringPreferencesKey
+import kau.brave.breakthecycle.domain.model.BraveDate
 import kau.brave.breakthecycle.ui.model.Screen
 
 object Constants {
+
+    const val DEV_URL = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/"
+    const val BRAVE_DATASTORE = "BRAVE_DATASTORE"
+    val PREF_ACCESS_TOKEN = stringPreferencesKey("access_token")
+    val PREF_REFRESH_TOKEN = stringPreferencesKey("refresh_token")
 
     val BOTTOM_NAV_ITEMS = listOf<Screen>(Screen.Home, Screen.Calendar, Screen.Mypage)
     val PASSWD_REGEX =

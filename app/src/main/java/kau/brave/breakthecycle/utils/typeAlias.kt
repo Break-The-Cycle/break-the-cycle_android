@@ -1,29 +1,7 @@
 package kau.brave.breakthecycle.utils
 
-import androidx.compose.ui.graphics.Color
-import kau.brave.breakthecycle.theme.*
-
-data class BraveDate(val year: Int, val month: Int, val day: Int) {
+import kau.brave.breakthecycle.data.response.BraveResponse
+import kau.brave.breakthecycle.network.model.ApiState
 
 
-    fun getBackgroundColor(
-        selectedDay: BraveDate,
-        tempMenDate: List<BraveDate>,
-        tempBenDate: List<BraveDate>
-    ): Color {
-        return if (selectedDay == this) Sub1
-        else if (tempMenDate.contains(this)) Menstrual
-        else if (tempBenDate.contains(this)) ChildBearing
-        else White
-    }
-
-    fun getTextColor(
-        selectedDay: BraveDate,
-        tempMenDate: List<BraveDate>,
-        tempBenDate: List<BraveDate>,
-        defaultColor: Color
-    ): Color {
-        return if (selectedDay == this || tempMenDate.contains(this) || tempBenDate.contains(this)) White
-        else defaultColor
-    }
-}
+typealias ApiWrapper<T> = ApiState<BraveResponse<T>>
