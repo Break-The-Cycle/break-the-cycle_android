@@ -1,16 +1,21 @@
 package kau.brave.breakthecycle.di
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kau.brave.breakthecycle.network.ServiceInterceptor
+import kau.brave.breakthecycle.network.service.AuthService
+import kau.brave.breakthecycle.network.service.BraveClient
+import kau.brave.breakthecycle.utils.Constants.DEV_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -38,18 +43,27 @@ object NetworkModule {
     ): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl("BASE_URL")
+            .baseUrl(DEV_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideTestService(
-//        retrofit: Retrofit,
-//    ): TestService {
-//        return retrofit.create(TestService::class.java)
-//    }
+
+    @Provides
+    @Singleton
+    fun provideAuthService(
+        retrofit: Retrofit
+    ): AuthService {
+        return retrofit.create(AuthService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBraveClient(
+        authService: AuthService
+    ): BraveClient {
+        return BraveClient(authService = authService)
+    }
 
 }
