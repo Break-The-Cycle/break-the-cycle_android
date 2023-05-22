@@ -5,7 +5,7 @@ import kau.brave.breakthecycle.data.response.BraveResponse
 
 sealed class ApiState<out T : Any> {
     data class Success<T : Any>(val data: T) : ApiState<T>()
-    data class Error(val errorResponse: BraveResponse<String>) : ApiState<Nothing>()
+    data class Error(val errorMessage: String) : ApiState<Nothing>()
     data class NotResponse(val message: String?, val exception: Throwable? = null) :
         ApiState<Nothing>()
 
@@ -17,12 +17,12 @@ sealed class ApiState<out T : Any> {
         }
     }
 
-    fun onError(onError: (BraveResponse<String>) -> Unit) {
+    fun onError(onError: (String) -> Unit) {
         if (this is Error) {
-            onError(this@ApiState.errorResponse)
+            onError(this@ApiState.errorMessage)
         }
         if (this is NotResponse) {
-            onError(BraveResponse("500", message ?: "알 수 없는 오류"))
+            onError("네트워크 오류")
         }
     }
 

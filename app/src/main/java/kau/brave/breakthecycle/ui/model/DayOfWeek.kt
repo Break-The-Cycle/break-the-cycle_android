@@ -1,7 +1,7 @@
 package kau.brave.breakthecycle.ui.model
 
 import androidx.compose.ui.graphics.Color
-import kau.brave.breakthecycle.utils.BraveDate
+import kau.brave.breakthecycle.domain.model.BraveDate
 import java.util.*
 
 enum class DayOfWeek(val day: Int, val dayName: String, val color: Color) {

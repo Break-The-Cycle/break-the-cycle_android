@@ -3,7 +3,7 @@ package kau.brave.breakthecycle.ui.auth.userinfo
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import kau.brave.breakthecycle.utils.BraveDate
+import kau.brave.breakthecycle.domain.model.BraveDate
 import java.util.*
 
 class UserInfoViewModel : ViewModel() {

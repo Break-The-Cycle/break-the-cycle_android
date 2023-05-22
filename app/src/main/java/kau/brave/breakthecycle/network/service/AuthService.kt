@@ -5,6 +5,7 @@ import kau.brave.breakthecycle.data.request.PhoneNumberRequest
 import kau.brave.breakthecycle.data.request.PhoneNumberWithCertificationNumberRequest
 import kau.brave.breakthecycle.data.request.RegisterRequest
 import kau.brave.breakthecycle.data.response.BraveResponse
+import kau.brave.breakthecycle.data.response.JwtResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,7 +20,6 @@ interface AuthService {
     suspend fun refreshToken(
         @Header("Refresh-Token") refreshToken: String
     ): Response<BraveResponse<String>>
-
 
     @GET("/v1/auth/duplicate-check/{loginId}")
     suspend fun duplicateIdCheck(
@@ -44,6 +44,6 @@ interface AuthService {
     @POST("/v1/auth/login")
     suspend fun login(
         @Body loginRequest: LoginRequest
-    ): Response<BraveResponse<String>>
+    ): Response<BraveResponse<JwtResponse>>
 
 }

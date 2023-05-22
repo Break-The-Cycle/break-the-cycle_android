@@ -26,7 +26,7 @@ import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.theme.White
 import kau.brave.breakthecycle.ui.model.DayOfWeek
-import kau.brave.breakthecycle.utils.BraveDate
+import kau.brave.breakthecycle.domain.model.BraveDate
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_COMPLETE_ROUTE
 import java.util.*
 

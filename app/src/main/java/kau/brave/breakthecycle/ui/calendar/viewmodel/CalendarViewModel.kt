@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kau.brave.breakthecycle.utils.BraveDate
+import kau.brave.breakthecycle.domain.model.BraveDate
 import java.util.*
 import javax.inject.Inject
 

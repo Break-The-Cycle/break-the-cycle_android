@@ -39,7 +39,7 @@ import kau.brave.breakthecycle.utils.rememberApplicationState
 import kau.brave.breakthecycle.ui.calendar.viewmodel.CalendarViewModel
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.theme.White
-import kau.brave.breakthecycle.utils.BraveDate
+import kau.brave.breakthecycle.domain.model.BraveDate
 import kau.brave.breakthecycle.ui.component.BraveLogoIcon
 import kau.brave.breakthecycle.ui.model.DayOfWeek
 import kau.brave.breakthecycle.ui.model.Emotions
