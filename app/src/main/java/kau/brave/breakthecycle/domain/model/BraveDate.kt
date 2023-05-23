@@ -26,4 +26,7 @@ data class BraveDate(val year: Int, val month: Int, val day: Int) {
         return if (selectedDay == this || tempMenDate.contains(this) || tempBenDate.contains(this)) White
         else defaultColor
     }
+
+    fun format(seperator: Char = '-'): String = "$year$seperator$month$seperator$day"
+
 }
