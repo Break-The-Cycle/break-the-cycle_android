@@ -12,8 +12,9 @@ import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_COMPLETE_ROUTE
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_SETTING_ROUTE
 import kau.brave.breakthecycle.utils.Constants.USERINFO_GRAPH
-import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_DATE_ROUTE
+import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_START_DATE_ROUTE
 import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_DURATION_ROUTE
+import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_END_DATE_ROUTE
 
 fun NavGraphBuilder.userInfoGraph(appState: ApplicationState) {
     navigation(
@@ -30,10 +31,15 @@ fun NavGraphBuilder.userInfoGraph(appState: ApplicationState) {
                 rememberNavBackStackEntry(USERINFO_GRAPH, entry, appState)
             UserInfoMenstruationDuration(appState, hiltViewModel(parentEntry))
         }
-        composable(USERINFO_MENSTRUATION_DATE_ROUTE) { entry ->
+        composable(USERINFO_MENSTRUATION_START_DATE_ROUTE) { entry ->
             val parentEntry: NavBackStackEntry =
                 rememberNavBackStackEntry(USERINFO_GRAPH, entry, appState)
-            UserInfoMenstruationDate(appState, hiltViewModel(parentEntry))
+            UserInfoMenstruationDateStart(appState, hiltViewModel(parentEntry))
+        }
+        composable(USERINFO_MENSTRUATION_END_DATE_ROUTE) { entry ->
+            val parentEntry: NavBackStackEntry =
+                rememberNavBackStackEntry(USERINFO_GRAPH, entry, appState)
+            UserInfoMenstruationDateEnd(appState, hiltViewModel(parentEntry))
         }
         composable(SIGNIN_COMPLETE_ROUTE) { entry ->
             val parentEntry: NavBackStackEntry =

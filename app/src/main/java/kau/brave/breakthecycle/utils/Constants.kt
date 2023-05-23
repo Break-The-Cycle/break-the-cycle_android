@@ -16,6 +16,11 @@ object Constants {
         Regex("""^(?=.*[A-Za-z])(?=.*\d)(?=.*[@${'$'}!%*#?&])[A-Za-z\d@${'$'}!%*#?&]{8,}${'$'}""")
 
 
+    const val MAXIMUM_MENSTURATION_PEROID = 40
+    const val MINIMUM_MENSTURATION_PEROID = 20
+    const val AVERAGE_MENSTURATION_PEROID = 20
+
+
     const val SPLASH_ROUTE = "nav-splash"
 
     const val LOGIN_ROUTE = "nav-login"
@@ -28,7 +33,8 @@ object Constants {
     const val SIGNIN_SETTING_ROUTE = "nav-signin-setting"
     const val SIGNIN_COMPLETE_ROUTE = "nav-signin-complete"
     const val USERINFO_MENSTRUATION_DURATION_ROUTE = "nav-userinfo-menstruation-duration"
-    const val USERINFO_MENSTRUATION_DATE_ROUTE = "nav-userinfo-menstruation-date"
+    const val USERINFO_MENSTRUATION_START_DATE_ROUTE = "nav-userinfo-menstruation-start-date"
+    const val USERINFO_MENSTRUATION_END_DATE_ROUTE = "nav-userinfo-menstruation-end-date"
 
     // Onboard Graph
     const val SECERET_ONBOARD_ROUTE = "nav-secret-onboard"

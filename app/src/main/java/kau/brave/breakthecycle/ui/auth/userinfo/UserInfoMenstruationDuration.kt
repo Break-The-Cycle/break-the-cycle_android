@@ -20,22 +20,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.utils.rememberApplicationState
 import kau.brave.breakthecycle.theme.Gray300
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.theme.White
-import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_DATE_ROUTE
+import kau.brave.breakthecycle.utils.Constants.MAXIMUM_MENSTURATION_PEROID
+import kau.brave.breakthecycle.utils.Constants.MINIMUM_MENSTURATION_PEROID
+import kau.brave.breakthecycle.utils.Constants.USERINFO_MENSTRUATION_START_DATE_ROUTE
 
 
 @Composable
 fun UserInfoMenstruationDuration(
     appState: ApplicationState = rememberApplicationState(),
-    viewModel: UserInfoViewModel
+    viewModel: UserInfoViewModel = hiltViewModel()
 ) {
 
-    val duration by viewModel.duration
+    val duration by viewModel.period
 
     Box(
         modifier = Modifier
@@ -60,7 +63,7 @@ fun UserInfoMenstruationDuration(
             ) {
 
                 Text(
-                    text = "생리 주기를 설정해주세요.",
+                    text = "생리 기간을 설정해주세요.",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(top = 84.dp)
@@ -86,7 +89,7 @@ fun UserInfoMenstruationDuration(
                             modifier = Modifier
                                 .size(40.dp)
                                 .clickable {
-                                    if (duration > 3) {
+                                    if (duration > MINIMUM_MENSTURATION_PEROID) {
                                         viewModel.updateDuration(duration - 1)
                                     }
                                 },
@@ -113,7 +116,7 @@ fun UserInfoMenstruationDuration(
                             modifier = Modifier
                                 .size(40.dp)
                                 .clickable {
-                                    if (duration < 7) {
+                                    if (duration < MAXIMUM_MENSTURATION_PEROID) {
                                         viewModel.updateDuration(duration + 1)
                                     }
                                 },
@@ -131,7 +134,7 @@ fun UserInfoMenstruationDuration(
 
                 Button(
                     onClick = {
-                        appState.navigate(USERINFO_MENSTRUATION_DATE_ROUTE)
+                        appState.navigate(USERINFO_MENSTRUATION_START_DATE_ROUTE)
                     },
                     modifier = Modifier
                         .fillMaxWidth()

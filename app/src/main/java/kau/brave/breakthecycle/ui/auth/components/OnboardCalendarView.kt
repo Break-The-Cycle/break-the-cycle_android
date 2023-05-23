@@ -1,107 +1,26 @@
-package kau.brave.breakthecycle.ui.auth.userinfo
+package kau.brave.breakthecycle.ui.auth.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import kau.brave.breakthecycle.R
-import kau.brave.breakthecycle.utils.rememberApplicationState
-import kau.brave.breakthecycle.ui.model.ApplicationState
-import kau.brave.breakthecycle.theme.Main
-import kau.brave.breakthecycle.theme.White
-import kau.brave.breakthecycle.ui.model.DayOfWeek
 import kau.brave.breakthecycle.domain.model.BraveDate
-import kau.brave.breakthecycle.utils.Constants.SIGNIN_COMPLETE_ROUTE
+import kau.brave.breakthecycle.theme.Main
 import java.util.*
 
-
-@Preview
 @Composable
-fun UserInfoMenstruationDate(
-    appState: ApplicationState = rememberApplicationState(),
-    viewModel: UserInfoViewModel = hiltViewModel()
-) {
-
-    val selectedDay by viewModel.mensturationDay
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Main),
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(bottom = 44.dp)
-                .statusBarsPadding()
-                .fillMaxSize()
-                .shadow(5.dp, RoundedCornerShape(topStart = 70.dp, bottomEnd = 70.dp))
-                .clip(RoundedCornerShape(topStart = 70.dp, bottomEnd = 70.dp))
-                .background(White),
-        ) {
-            Column(
-                modifier = Modifier
-                    .statusBarsPadding()
-                    .fillMaxSize()
-                    .background(White)
-                    .padding(horizontal = 28.dp)
-            ) {
-
-                Text(
-                    text = "최근 생리를 시작한\n날이 언제인가요?",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 84.dp)
-                )
-
-                CalendarView(
-                    setSelectedDay = viewModel::updateMensturationDay,
-                    selectedDay = selectedDay,
-                    modifier = Modifier.padding(top = 10.dp)
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Button(
-                    onClick = {
-                        appState.navigate(SIGNIN_COMPLETE_ROUTE)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 110.dp),
-                    shape = RoundedCornerShape(5.dp),
-                    colors = ButtonDefaults.buttonColors(Main)
-                ) {
-                    Text(
-                        text = "다음",
-                        color = White,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
-        }
-    }
-}
-
-
-@Composable
-fun CalendarView(
+fun OnboardCalendarView(
     selectedDay: BraveDate,
     setSelectedDay: (BraveDate) -> Unit,
     modifier: Modifier
@@ -223,43 +142,11 @@ fun CalendarView(
             .padding(start = 10.dp, end = 10.dp, top = 20.dp)
     ) {
         itemsIndexed(items = days.chunked(7)) { index, week ->
-            CalendarRow(
+            OnboardCalendarRow(
                 days = week,
                 selectedDay = selectedDay,
                 setSelectDay = setSelectedDay
             )
-        }
-    }
-}
-
-
-@Composable
-fun CalendarRow(
-    days: List<BraveDate>,
-    selectedDay: BraveDate,
-    setSelectDay: (BraveDate) -> Unit
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        for (day in days) {
-
-            Box(
-                modifier = Modifier
-                    .background(Main)
-                    .background(if (selectedDay == day) Main else Color.White)
-                    .clickable { setSelectDay(day) }
-                    .weight(1f)
-                    .aspectRatio(1f)
-            ) {
-                Text(
-                    text = day.day.toString(),
-                    modifier = Modifier
-                        .align(Alignment.Center),
-                    fontWeight = FontWeight.Bold,
-                    color = DayOfWeek.getDayOfWeekFromDate(day).color,
-                )
-            }
         }
     }
 }
