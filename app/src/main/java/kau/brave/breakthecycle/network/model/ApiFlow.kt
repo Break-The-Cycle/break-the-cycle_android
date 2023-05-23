@@ -13,11 +13,7 @@ fun <T : Any> apiFlow(apiFunc: suspend () -> Response<BraveResponse<T>>): Flow<A
         try {
             val res = apiFunc.invoke()
             if (res.isSuccessful) {
-                if (res.body()?.statusCode == 200) {
-                    emit(ApiState.Success(res.body() ?: throw NullPointerException()))
-                } else {
-                    emit(ApiState.Error(res.body()?.message ?: "오류 메시지 파싱이 불가능합니다."))
-                }
+                emit(ApiState.Success(res.body() ?: throw NullPointerException()))
             } else {
                 val errorBody = res.errorBody() ?: throw NullPointerException()
                 emit(ApiState.Error(GsonHelper.getErrorMessage(errorBody.string())))

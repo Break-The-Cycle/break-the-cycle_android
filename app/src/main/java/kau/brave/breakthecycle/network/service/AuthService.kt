@@ -3,11 +3,14 @@ package kau.brave.breakthecycle.network.service
 import kau.brave.breakthecycle.data.request.*
 import kau.brave.breakthecycle.data.response.BraveResponse
 import kau.brave.breakthecycle.data.response.JwtResponse
+import kau.brave.breakthecycle.data.response.MensturationInfoResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -46,10 +49,35 @@ interface AuthService {
     @POST("v1/auth/user")
     suspend fun validateAccessToken(): Response<BraveResponse<String>>
 
+    /** 온보딩 초기 생리주기 설정 */
     @POST("v1/use-persons/{usePersonId}/on-board")
     suspend fun onBoard(
-        @Query("usePersonId") usePersonId: Int,
+        @Path("usePersonId") usePersonId: Int,
         @Body onBoardRequest: OnBoardRequest
     ): Response<BraveResponse<String>>
+
+    /** 생리 기간 재 설정 */
+    @PUT("v1/use-persons/{usePersonId}/menstruation-period")
+    suspend fun updateMenstruationPeriod(
+        @Path("usePersonId") usePersonId: Int,
+        @Query("period") period: Int
+    ): Response<BraveResponse<String>>
+
+    /** 생리 주기 재 등록 */
+    @POST("v1/use-persons/{usePersonId}/menstruation")
+    suspend fun updateMenstruation(
+        @Path("usePersonId") usePersonId: Int,
+        @Body menstruationRequest: MenstruationRequest
+    ): Response<BraveResponse<String>>
+
+
+    /** 생리 기록 가져오기 */
+    @GET("v1/use-persons/{usePersonId}/menstruation")
+    suspend fun getMenstruation(
+        @Path("usePersonId") usePersonId: Int,
+        @Query("fromDate") startDate: String,
+        @Query("toDate") endDate: String
+    ): Response<BraveResponse<MensturationInfoResponse>>
+
 
 }
