@@ -8,22 +8,27 @@ data class BraveDate(val year: Int, val month: Int, val day: Int) {
 
     fun getBackgroundColor(
         selectedDay: BraveDate,
-        tempMenDate: List<BraveDate>,
-        tempBenDate: List<BraveDate>
+        menstruationDays: List<BraveDate>,
+        childBearingDays: List<BraveDate>,
+        ovulationsDays: List<BraveDate>
     ): Color {
         return if (selectedDay == this) Sub1
-        else if (tempMenDate.contains(this)) Menstrual
-        else if (tempBenDate.contains(this)) ChildBearing
+        else if (ovulationsDays.contains(this)) Ovulation
+        else if (menstruationDays.contains(this)) Menstrual
+        else if (childBearingDays.contains(this)) ChildBearing
         else White
     }
 
     fun getTextColor(
         selectedDay: BraveDate,
-        tempMenDate: List<BraveDate>,
-        tempBenDate: List<BraveDate>,
+        menstruationDays: List<BraveDate>,
+        childBearingDays: List<BraveDate>,
+        ovulationsDays: List<BraveDate>,
         defaultColor: Color
     ): Color {
-        return if (selectedDay == this || tempMenDate.contains(this) || tempBenDate.contains(this)) White
+        return if (selectedDay == this || menstruationDays.contains(this) ||
+            childBearingDays.contains(this) || ovulationsDays.contains(this)
+        ) White
         else defaultColor
     }
 

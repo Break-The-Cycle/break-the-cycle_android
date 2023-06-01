@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import kau.brave.breakthecycle.domain.model.BraveDate
 import kau.brave.breakthecycle.ui.model.DayOfWeek
-import kau.brave.breakthecycle.utils.Constants
 
 @Composable
 fun CalendarRow(
@@ -21,7 +20,8 @@ fun CalendarRow(
     selectedDay: BraveDate,
     setSelectDay: (BraveDate) -> Unit,
     menstruationDays: List<BraveDate>,
-    childBearingDays: List<BraveDate>
+    childBearingDays: List<BraveDate>,
+    ovulationDays: List<BraveDate>
 ) {
     Row(
         modifier = Modifier.fillMaxWidth()
@@ -34,6 +34,7 @@ fun CalendarRow(
                             selectedDay,
                             menstruationDays,
                             childBearingDays,
+                            ovulationDays
                         )
                     )
                     .clickable { setSelectDay(day) }
@@ -49,6 +50,7 @@ fun CalendarRow(
                         selectedDay,
                         menstruationDays,
                         childBearingDays,
+                        ovulationDays,
                         DayOfWeek.getDayOfWeekFromDate(day).color
                     ),
                 )

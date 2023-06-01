@@ -268,6 +268,7 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                 selectedDay = uiState.selectedDay,
                 menstruationDays = uiState.menstruationDays,
                 childBearingDays = uiState.childBearingDays,
+                ovulationDays = uiState.ovulationDays,
                 updateRange = viewModel::updateRange,
             )
         }

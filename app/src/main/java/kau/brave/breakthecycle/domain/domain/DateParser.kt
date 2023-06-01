@@ -5,5 +5,6 @@ import kau.brave.breakthecycle.domain.model.BraveDate
 interface DateParser {
 
     fun parseDateRange(startDate: String, endDate: String): List<BraveDate>
+    fun parseDate(startDate: String): BraveDate
 
 }

@@ -60,6 +60,7 @@ class SplashViewModel @Inject constructor(
                 setToken(PREF_USER_ID, newUserId.toString())
                 setToken(PREF_ACCESS_TOKEN, newAccessToken)
                 setToken(PREF_REFRESH_TOKEN, newRrefreshToken)
+                ServiceInterceptor.usePersonId = newUserId
                 ServiceInterceptor.accessToken = newAccessToken
                 ServiceInterceptor.refreshToken = newRrefreshToken
                 launch(MainDispatcher) { navigateToMain() }

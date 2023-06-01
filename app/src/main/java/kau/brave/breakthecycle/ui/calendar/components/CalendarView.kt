@@ -26,7 +26,8 @@ fun CalendarView(
     setSelectedDay: (BraveDate) -> Unit,
     updateRange: (BraveDate, BraveDate) -> Unit,
     menstruationDays: List<BraveDate>,
-    childBearingDays: List<BraveDate>
+    childBearingDays: List<BraveDate>,
+    ovulationDays: List<BraveDate>
 ) {
     var calendar by remember {
         mutableStateOf<Calendar>(Calendar.getInstance())
@@ -152,7 +153,8 @@ fun CalendarView(
                 selectedDay = selectedDay,
                 setSelectDay = setSelectedDay,
                 menstruationDays = menstruationDays,
-                childBearingDays = childBearingDays
+                childBearingDays = childBearingDays,
+                ovulationDays = ovulationDays
             )
         }
     }

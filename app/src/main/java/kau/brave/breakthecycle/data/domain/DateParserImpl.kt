@@ -33,4 +33,17 @@ class DateParserImpl @Inject constructor() : DateParser {
         return dateList
 
     }
+
+    override fun parseDate(startDate: String): BraveDate {
+        return try {
+            val date = startDate.split("-").map { it.toInt() }
+            BraveDate(
+                year = date[0],
+                month = date[1],
+                day = date[2]
+            )
+        } catch (e: Exception) {
+            throw IllegalArgumentException("${startDate}가 잘못된 날짜 형식입니다.")
+        }
+    }
 }

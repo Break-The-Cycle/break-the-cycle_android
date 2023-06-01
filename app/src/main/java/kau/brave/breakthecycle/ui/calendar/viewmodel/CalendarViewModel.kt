@@ -25,6 +25,7 @@ data class CalendarScreenUiState(
     val selectedDay: BraveDate = BraveDate(1900, 1, 1),
     val menstruationDays: List<BraveDate> = emptyList(),
     val childBearingDays: List<BraveDate> = emptyList(),
+    val ovulationDays: List<BraveDate> = emptyList()
 )
 
 @HiltViewModel
@@ -44,14 +45,16 @@ class CalendarViewModel @Inject constructor(
     )
     private val _menstruationDays = MutableStateFlow(emptyList<BraveDate>())
     private val _childBearingDays = MutableStateFlow(emptyList<BraveDate>())
+    private val _ovulationDays = MutableStateFlow(emptyList<BraveDate>())
 
     val uiState: StateFlow<CalendarScreenUiState> = combine(
-        _selectedDay, _menstruationDays, _childBearingDays
-    ) { selectedDay, menstruationDays, childBearingDays ->
+        _selectedDay, _menstruationDays, _childBearingDays, _ovulationDays
+    ) { selectedDay, menstruationDays, childBearingDays, ovulationDays ->
         CalendarScreenUiState(
             selectedDay = selectedDay,
             menstruationDays = menstruationDays,
-            childBearingDays = childBearingDays
+            childBearingDays = childBearingDays,
+            ovulationDays = ovulationDays
         )
     }.stateIn(
         viewModelScope, SharingStarted.WhileSubscribed(5000), CalendarScreenUiState()
@@ -71,6 +74,7 @@ class CalendarViewModel @Inject constructor(
                 val menstruation = response.data ?: return@onSuccess
                 val menstruationDays = mutableListOf<BraveDate>()
                 val childBearingDays = mutableListOf<BraveDate>()
+                val ovulationDays = mutableListOf<BraveDate>()
                 menstruation.forEach {
                     when (it.division) {
                         EXPECTED_MENSTRUATION, REAL_MENSTRUATION -> {
@@ -82,7 +86,7 @@ class CalendarViewModel @Inject constructor(
                             )
                         }
                         EXPECTED_OVULATION -> {
-
+                            ovulationDays.add(dateParser.parseDate(it.startDate))
                         }
                         EXPECTED_CHILDBEARING_PERIOD -> {
                             childBearingDays.addAll(
@@ -96,6 +100,7 @@ class CalendarViewModel @Inject constructor(
                 }
                 _menstruationDays.value = menstruationDays
                 _childBearingDays.value = childBearingDays
+                _ovulationDays.value = ovulationDays
             }
         }
     }
