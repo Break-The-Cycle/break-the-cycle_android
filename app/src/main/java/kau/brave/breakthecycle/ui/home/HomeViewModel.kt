@@ -11,6 +11,7 @@ import kau.brave.breakthecycle.domain.model.BraveDate
 import kau.brave.breakthecycle.domain.usecase.HomeUseCase
 import kau.brave.breakthecycle.theme.Gray100
 import kau.brave.breakthecycle.theme.Main
+import kau.brave.breakthecycle.ui.model.DateType
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
@@ -27,15 +28,10 @@ data class HomeUiState(
     val homeSubText: String = "",
 )
 
-enum class HomeGraphType {
-    NORMAL,
-    MENSTRUATION,
-    CHILDBEARING,
-}
 
 data class HomeGraphItem(
     val date: BraveDate,
-    val homeGraphType: HomeGraphType,
+    val dateType: DateType,
     val color: List<Color> = listOf(Gray100, Gray100),
     val width: Dp = 0.dp,
     val startAngle: Float = 0f,
@@ -132,21 +128,21 @@ class HomeViewModel @Inject constructor(
                 calendar.get(Calendar.DAY_OF_MONTH)
             )
             if (menstruationDays.contains(date)) {
-                homeGraphItems.add(HomeGraphItem(date, HomeGraphType.MENSTRUATION))
+                homeGraphItems.add(HomeGraphItem(date, DateType.MENSTRUATION))
             } else if (childBearingDays.contains(date)) {
-                homeGraphItems.add(HomeGraphItem(date, HomeGraphType.CHILDBEARING))
+                homeGraphItems.add(HomeGraphItem(date, DateType.CHILDBEARING))
             } else {
-                homeGraphItems.add(HomeGraphItem(date, HomeGraphType.NORMAL))
+                homeGraphItems.add(HomeGraphItem(date, DateType.NORMAL))
             }
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
-        if (homeGraphItems.first().homeGraphType == HomeGraphType.MENSTRUATION) {
+        if (homeGraphItems.first().dateType == DateType.MENSTRUATION) {
             _homeMainText.value = "생리중"
             _homeSubText.value = ""
         } else {
             _homeMainText.value = "생리까지"
             _homeSubText.value =
-                "D-${homeGraphItems.indexOfFirst { it.homeGraphType == HomeGraphType.MENSTRUATION }}"
+                "D-${homeGraphItems.indexOfFirst { it.dateType == DateType.MENSTRUATION }}"
         }
         _homeGraphItems.value = splitListByType(homeGraphItems)
     }
@@ -156,7 +152,7 @@ class HomeViewModel @Inject constructor(
         var currentList = mutableListOf<HomeGraphItem>()
 
         for (item in items) {
-            if (currentList.isEmpty() || currentList.last().homeGraphType != item.homeGraphType) {
+            if (currentList.isEmpty() || currentList.last().dateType != item.dateType) {
                 currentList = mutableListOf()
                 result.add(currentList)
             }
@@ -165,20 +161,20 @@ class HomeViewModel @Inject constructor(
 
         var startAngle = -90f
         return result.map { homeGraphItem ->
-            val graphType = homeGraphItem.first().homeGraphType
+            val graphType = homeGraphItem.first().dateType
             val sweepAngle = homeGraphItem.size.toFloat() / result.sumOf { it.size }
                 .toFloat() * 360f
             val width = when (graphType) {
-                HomeGraphType.MENSTRUATION -> 30.dp
-                HomeGraphType.CHILDBEARING -> 30.dp
-                HomeGraphType.NORMAL -> 20.dp
+                DateType.MENSTRUATION -> 30.dp
+                DateType.CHILDBEARING -> 30.dp
+                else -> 20.dp
             }
             val color = when (graphType) {
-                HomeGraphType.MENSTRUATION ->
+                DateType.MENSTRUATION ->
                     listOf(Main, Main, Color(0xFFFFC2C2))
-                HomeGraphType.CHILDBEARING ->
+                DateType.CHILDBEARING ->
                     listOf(Color(0xFFE742EB), Color(0xFF3D70F1))
-                HomeGraphType.NORMAL -> listOf(Gray100, Gray100)
+                else -> listOf(Gray100, Gray100)
             }
 
             HomeGraphItem(
@@ -191,7 +187,7 @@ class HomeViewModel @Inject constructor(
             ).also {
                 startAngle += sweepAngle
             }
-        }.sortedBy { it.homeGraphType }
+        }.sortedBy { it.dateType }
 
     }
 
