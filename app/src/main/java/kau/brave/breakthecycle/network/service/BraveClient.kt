@@ -1,6 +1,11 @@
 package kau.brave.breakthecycle.network.service
 
 import kau.brave.breakthecycle.data.request.*
+import kau.brave.breakthecycle.data.response.BraveResponse
+import kau.brave.breakthecycle.data.response.MensturationInfoResponse
+import retrofit2.Response
+import retrofit2.http.Path
+import retrofit2.http.Query
 import javax.inject.Inject
 
 class BraveClient @Inject constructor(
@@ -27,4 +32,12 @@ class BraveClient @Inject constructor(
 
     suspend fun onboard(usePersonId: Int, onBoardRequest: OnBoardRequest) =
         authService.onBoard(usePersonId = usePersonId, onBoardRequest = onBoardRequest)
+
+    suspend fun getMenstruation(
+        usePersonId: Int,
+        startDate: String,
+        endDate: String
+    ) = authService.getMenstruation(usePersonId, startDate, endDate)
+
+
 }
