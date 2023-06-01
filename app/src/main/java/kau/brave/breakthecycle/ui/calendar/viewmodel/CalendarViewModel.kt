@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kau.brave.breakthecycle.domain.domain.DateParser
 import kau.brave.breakthecycle.domain.model.BraveDate
-import kau.brave.breakthecycle.domain.repository.MenstruationRepository
 import kau.brave.breakthecycle.domain.usecase.CalendarUseCase
 import kau.brave.breakthecycle.network.ServiceInterceptor
+import kau.brave.breakthecycle.ui.model.DateType
 import kau.brave.breakthecycle.utils.Constants.EXPECTED_CHILDBEARING_PERIOD
 import kau.brave.breakthecycle.utils.Constants.EXPECTED_MENSTRUATION
 import kau.brave.breakthecycle.utils.Constants.EXPECTED_OVULATION
@@ -24,7 +24,8 @@ data class CalendarScreenUiState(
     val selectedDay: BraveDate = BraveDate(1900, 1, 1),
     val menstruationDays: List<BraveDate> = emptyList(),
     val childBearingDays: List<BraveDate> = emptyList(),
-    val ovulationDays: List<BraveDate> = emptyList()
+    val ovulationDays: List<BraveDate> = emptyList(),
+    val selectedDateType: DateType = DateType.NORMAL
 )
 
 @HiltViewModel
@@ -42,18 +43,20 @@ class CalendarViewModel @Inject constructor(
             )
         }
     )
+    private val _selectedDateType = MutableStateFlow(DateType.NORMAL)
     private val _menstruationDays = MutableStateFlow(emptyList<BraveDate>())
     private val _childBearingDays = MutableStateFlow(emptyList<BraveDate>())
     private val _ovulationDays = MutableStateFlow(emptyList<BraveDate>())
 
     val uiState: StateFlow<CalendarScreenUiState> = combine(
-        _selectedDay, _menstruationDays, _childBearingDays, _ovulationDays
-    ) { selectedDay, menstruationDays, childBearingDays, ovulationDays ->
+        _selectedDay, _menstruationDays, _childBearingDays, _ovulationDays, _selectedDateType
+    ) { selectedDay, menstruationDays, childBearingDays, ovulationDays, selectedDateType ->
         CalendarScreenUiState(
             selectedDay = selectedDay,
             menstruationDays = menstruationDays,
             childBearingDays = childBearingDays,
-            ovulationDays = ovulationDays
+            ovulationDays = ovulationDays,
+            selectedDateType = selectedDateType,
         )
     }.stateIn(
         viewModelScope, SharingStarted.WhileSubscribed(5000), CalendarScreenUiState()
@@ -61,6 +64,7 @@ class CalendarViewModel @Inject constructor(
 
     fun updateMensturationDay(braveDate: BraveDate) {
         _selectedDay.value = braveDate
+        updateSelectedDateType()
     }
 
     fun updateRange(startDate: BraveDate, endDate: BraveDate) = viewModelScope.launch {
@@ -100,7 +104,20 @@ class CalendarViewModel @Inject constructor(
                 _menstruationDays.value = menstruationDays
                 _childBearingDays.value = childBearingDays
                 _ovulationDays.value = ovulationDays
+                updateSelectedDateType()
             }
+        }
+    }
+
+    private fun updateSelectedDateType() {
+        if (_menstruationDays.value.contains(_selectedDay.value)) {
+            _selectedDateType.value = DateType.MENSTRUATION
+        } else if (_ovulationDays.value.contains(_selectedDay.value)) {
+            _selectedDateType.value = DateType.OVULATION
+        } else if (_childBearingDays.value.contains(_selectedDay.value)) {
+            _selectedDateType.value = DateType.CHILDBEARING
+        } else {
+            _selectedDateType.value = DateType.NORMAL
         }
     }
 }
