@@ -8,6 +8,7 @@ import dagger.hilt.components.SingletonComponent
 import kau.brave.breakthecycle.network.ServiceInterceptor
 import kau.brave.breakthecycle.network.service.AuthService
 import kau.brave.breakthecycle.network.service.BraveClient
+import kau.brave.breakthecycle.network.service.ViolentRecordService
 import kau.brave.breakthecycle.utils.Constants.DEV_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -60,10 +61,22 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideViloentRecordService(
+        retrofit: Retrofit
+    ): ViolentRecordService {
+        return retrofit.create(ViolentRecordService::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun provideBraveClient(
-        authService: AuthService
+        authService: AuthService,
+        violentRecordService: ViolentRecordService
     ): BraveClient {
-        return BraveClient(authService = authService)
+        return BraveClient(
+            authService = authService,
+            violentRecordService = violentRecordService
+        )
     }
 
 }

@@ -1,10 +1,17 @@
 package kau.brave.breakthecycle.network.service
 
 import kau.brave.breakthecycle.data.request.*
+import kau.brave.breakthecycle.data.response.BraveResponse
+import kau.brave.breakthecycle.data.response.DiaryDetailResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Response
+import retrofit2.http.*
 import javax.inject.Inject
 
 class BraveClient @Inject constructor(
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val violentRecordService: ViolentRecordService
 ) {
 
     /** Auth */
@@ -34,5 +41,27 @@ class BraveClient @Inject constructor(
         endDate: String
     ) = authService.getMenstruation(usePersonId, startDate, endDate)
 
+
+    /** 일기 관련 */
+    suspend fun getViolentRecordDates(
+        usePersonId: Int,
+        startDate: String,
+        endDate: String
+    ) = violentRecordService.getViolentRecordDates(
+        usePersonId = usePersonId,
+        startDate = startDate,
+        endDate = endDate
+    )
+
+    suspend fun uploadViolentRecord(
+        diaryContents: HashMap<String, RequestBody>,
+        pictureList: List<MultipartBody.Part>
+    ) = violentRecordService.uploadViolentRecord(diaryContents, pictureList)
+
+    suspend fun getViolentRecord(
+        usePersonId: Int,
+        targetDate: String,
+        passwordRequest: PasswordRequest
+    ) = violentRecordService.getViolentRecord(usePersonId, targetDate, passwordRequest)
 
 }

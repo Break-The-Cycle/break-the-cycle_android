@@ -1,7 +1,9 @@
 package kau.brave.breakthecycle.network.service
 
+import kau.brave.breakthecycle.data.response.DiaryDetailResponse
+import kau.brave.breakthecycle.data.request.PasswordRequest
+import kau.brave.breakthecycle.data.request.RecordsOutRequest
 import kau.brave.breakthecycle.data.response.BraveResponse
-import kau.brave.breakthecycle.data.response.MenstruationInfoResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -11,11 +13,11 @@ interface ViolentRecordService {
 
     /** 폭력 일기 기록 범위만큼 불러오기(내용 미포함) */
     @GET("v1/violent-records/{usePersonId}/dates")
-    fun getViolentRecordDates(
+    suspend fun getViolentRecordDates(
         @Path("usePersonId") usePersonId: Int,
         @Query("fromDate") startDate: String,
         @Query("toDate") endDate: String
-    ): Response<BraveResponse<MenstruationInfoResponse>>
+    ): Response<BraveResponse<List<String>>>
 
     /** 폭력 기록/일기 업로드 */
     @Multipart
@@ -26,11 +28,18 @@ interface ViolentRecordService {
     ): Response<BraveResponse<String>>
 
 
-    // TODO 수정필요
     /** 특정 날짜 폭력 일기 기록 불러오기(내용 포함) */
     @POST("v1/violent-records/{usePersonId}")
     suspend fun getViolentRecord(
         @Path("usePersonId") usePersonId: Int,
-        @Body date: String
-    ): Response<BraveResponse<String>>
+        @Query("targetDate") targetDate: String,
+        @Body passwordRequest: PasswordRequest
+    ): Response<BraveResponse<DiaryDetailResponse>>
+
+    /** 폭력 일기 내보내기 */
+    @POST("v1/violent-records/out")
+    suspend fun outViolentRecord(
+        @Body recordsOutRequest: RecordsOutRequest
+    ): Response<BraveResponse<DiaryDetailResponse>>
+
 }

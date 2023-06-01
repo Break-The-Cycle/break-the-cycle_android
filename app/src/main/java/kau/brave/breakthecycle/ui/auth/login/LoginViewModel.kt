@@ -1,5 +1,6 @@
 package kau.brave.breakthecycle.ui.auth.login
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.preferences.core.Preferences
@@ -52,6 +53,7 @@ class LoginViewModel @Inject constructor(
                 ServiceInterceptor.usePersonId = it.data.userId
                 ServiceInterceptor.accessToken = it.data.accessToken
                 ServiceInterceptor.refreshToken = it.data.refreshToken
+                Log.i("HASHED-PW", shA256Encoder.encode(passwd.value))
                 setToken(type = PREF_HASHED_PW, value = shA256Encoder.encode(passwd.value))
                 setToken(type = PREF_USER_ID, value = it.data.userId.toString())
                 setToken(type = PREF_ACCESS_TOKEN, value = it.data.accessToken)

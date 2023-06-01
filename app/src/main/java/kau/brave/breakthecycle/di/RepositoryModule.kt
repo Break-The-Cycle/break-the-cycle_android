@@ -7,8 +7,10 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import kau.brave.breakthecycle.data.repository.AuthRepositoryImpl
 import kau.brave.breakthecycle.data.repository.MenstruationRepositoryImpl
+import kau.brave.breakthecycle.data.repository.ViolentRecordRepositoryImpl
 import kau.brave.breakthecycle.domain.repository.AuthRepository
 import kau.brave.breakthecycle.domain.repository.MenstruationRepository
+import kau.brave.breakthecycle.domain.repository.ViolentRecordRepository
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -25,4 +27,10 @@ abstract class RepositoryModule {
     abstract fun bindCalendarRepository(
         menstruationRepositoryImpl: MenstruationRepositoryImpl
     ): MenstruationRepository
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindViolentRecordRepository(
+        violentRecordRepositoryImpl: ViolentRecordRepositoryImpl
+    ): ViolentRecordRepository
 }
