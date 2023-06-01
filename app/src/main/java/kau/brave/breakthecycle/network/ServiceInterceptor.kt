@@ -6,6 +6,7 @@ import okhttp3.Response
 class ServiceInterceptor : Interceptor {
 
     companion object {
+        var usePersonId: Int = -1
         var accessToken: String? = null
         var refreshToken: String = ""
     }
@@ -15,9 +16,9 @@ class ServiceInterceptor : Interceptor {
 
         if (request.header("No-Authentication") == null) {
             if (!accessToken.isNullOrEmpty()) {
-                val finalToken = "$accessToken"
+                val finalToken = "Bearer $accessToken"
                 request = request.newBuilder().apply {
-                    addHeader("X-AUTH-TOKEN", finalToken)
+                    addHeader("Authorization", finalToken)
                 }.build()
             }
         }

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kau.brave.breakthecycle.data.request.LoginRequest
-import kau.brave.breakthecycle.domain.SHA256Encoder
+import kau.brave.breakthecycle.domain.domain.SHA256Encoder
 import kau.brave.breakthecycle.domain.repository.AuthRepository
 import kau.brave.breakthecycle.network.ServiceInterceptor
 import kau.brave.breakthecycle.utils.Constants.PREF_ACCESS_TOKEN
@@ -49,6 +49,7 @@ class LoginViewModel @Inject constructor(
         ).collectLatest { apiState ->
             apiState.onSuccess {
                 if (it.data == null) return@onSuccess
+                ServiceInterceptor.usePersonId = it.data.userId
                 ServiceInterceptor.accessToken = it.data.accessToken
                 ServiceInterceptor.refreshToken = it.data.refreshToken
                 setToken(type = PREF_HASHED_PW, value = shA256Encoder.encode(passwd.value))
