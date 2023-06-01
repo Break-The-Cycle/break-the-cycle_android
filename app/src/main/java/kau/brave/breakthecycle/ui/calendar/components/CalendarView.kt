@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package kau.brave.breakthecycle.ui.calendar.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -147,8 +150,12 @@ fun CalendarView(
             .fillMaxWidth()
             .padding(start = 10.dp, end = 10.dp, top = 20.dp)
     ) {
-        itemsIndexed(items = days.chunked(7)) { _, week ->
+        itemsIndexed(
+            items = days.chunked(7),
+            key = { _, week -> week.first().day }
+        ) { _, week ->
             CalendarRow(
+                modifier = Modifier.animateItemPlacement(),
                 days = week,
                 selectedDay = selectedDay,
                 setSelectDay = setSelectedDay,

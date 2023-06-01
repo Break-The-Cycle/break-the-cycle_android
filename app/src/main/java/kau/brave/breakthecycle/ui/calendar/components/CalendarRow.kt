@@ -16,6 +16,7 @@ import kau.brave.breakthecycle.ui.model.DayOfWeek
 
 @Composable
 fun CalendarRow(
+    modifier: Modifier = Modifier,
     days: List<BraveDate>,
     selectedDay: BraveDate,
     setSelectDay: (BraveDate) -> Unit,
@@ -24,7 +25,8 @@ fun CalendarRow(
     ovulationDays: List<BraveDate>
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
     ) {
         for (day in days) {
             Box(
