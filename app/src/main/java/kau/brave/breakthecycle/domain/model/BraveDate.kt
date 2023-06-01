@@ -7,7 +7,7 @@ data class BraveDate(val year: Int, val month: Int, val day: Int) {
 
 
     fun getBackgroundColor(
-        selectedDay: BraveDate,
+        selectedDay: BraveDate = BraveDate(1999, 1, 1),
         menstruationDays: List<BraveDate>,
         childBearingDays: List<BraveDate>,
         ovulationsDays: List<BraveDate>
@@ -20,11 +20,11 @@ data class BraveDate(val year: Int, val month: Int, val day: Int) {
     }
 
     fun getTextColor(
-        selectedDay: BraveDate,
+        selectedDay: BraveDate = BraveDate(1999, 1, 1),
         menstruationDays: List<BraveDate>,
         childBearingDays: List<BraveDate>,
         ovulationsDays: List<BraveDate>,
-        defaultColor: Color
+        defaultColor: Color = Color.Black
     ): Color {
         return if (selectedDay == this || menstruationDays.contains(this) ||
             childBearingDays.contains(this) || ovulationsDays.contains(this)
