@@ -1,14 +1,13 @@
 package kau.brave.breakthecycle.ui.calendar.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kau.brave.breakthecycle.domain.domain.DateParser
 import kau.brave.breakthecycle.domain.model.BraveDate
-import kau.brave.breakthecycle.domain.repository.CalendarRepository
+import kau.brave.breakthecycle.domain.repository.MenstruationRepository
+import kau.brave.breakthecycle.domain.usecase.CalendarUseCase
 import kau.brave.breakthecycle.network.ServiceInterceptor
 import kau.brave.breakthecycle.utils.Constants.EXPECTED_CHILDBEARING_PERIOD
 import kau.brave.breakthecycle.utils.Constants.EXPECTED_MENSTRUATION
@@ -30,7 +29,7 @@ data class CalendarScreenUiState(
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
-    private val calendarRepository: CalendarRepository,
+    private val calendarUseCase: CalendarUseCase,
     private val dateParser: DateParser
 ) : ViewModel() {
 
@@ -65,7 +64,7 @@ class CalendarViewModel @Inject constructor(
     }
 
     fun updateRange(startDate: BraveDate, endDate: BraveDate) = viewModelScope.launch {
-        calendarRepository.getMensturation(
+        calendarUseCase.getMenstruation(
             usePersonId = ServiceInterceptor.usePersonId,
             startDate = startDate.format(),
             endDate = endDate.format()
