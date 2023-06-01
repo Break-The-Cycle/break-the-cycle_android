@@ -27,6 +27,8 @@ data class BraveDate(val year: Int, val month: Int, val day: Int) {
         else defaultColor
     }
 
-    fun format(seperator: Char = '-'): String = "$year$seperator$month$seperator$day"
+    fun format(seperator: Char = '-'): String =
+        "$year$seperator${"%02d".format(month)}$seperator${"%02d".format(day)}"
+
 
 }

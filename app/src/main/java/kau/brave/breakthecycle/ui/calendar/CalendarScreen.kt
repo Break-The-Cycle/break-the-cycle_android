@@ -10,14 +10,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -31,21 +29,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.RoseDaysApplication.Companion.isSecretMode
 import kau.brave.breakthecycle.theme.Gray300
-import kau.brave.breakthecycle.ui.model.ApplicationState
-import kau.brave.breakthecycle.utils.rememberApplicationState
-import kau.brave.breakthecycle.ui.calendar.viewmodel.CalendarViewModel
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.theme.White
-import kau.brave.breakthecycle.domain.model.BraveDate
+import kau.brave.breakthecycle.ui.calendar.components.CalendarView
+import kau.brave.breakthecycle.ui.calendar.viewmodel.CalendarViewModel
 import kau.brave.breakthecycle.ui.component.BraveLogoIcon
-import kau.brave.breakthecycle.ui.model.DayOfWeek
+import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.ui.model.Emotions
 import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_GRAPH
-import kau.brave.breakthecycle.utils.Constants.tempBenDays
-import kau.brave.breakthecycle.utils.Constants.tempMenDays
+import kau.brave.breakthecycle.utils.rememberApplicationState
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -55,10 +51,10 @@ import java.util.*
 fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
 
     val viewModel: CalendarViewModel = hiltViewModel()
-    val selectedDay by viewModel.mensturationDay
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
 
-    val scope = rememberCoroutineScope()
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val localDensity = LocalDensity.current
     var contentsHeight by remember {
@@ -71,12 +67,10 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
         mutableStateOf(false)
     }
 
-
     LaunchedEffect(key1 = contentsHeight) {
         pickHeight = screenHeight - contentsHeight + 106.dp
     }
 
-//    val dummyDiary = List(3) { "테스트$it" }
     val dummyDiary = emptyList<String>()
 
     BottomSheetScaffold(
@@ -107,7 +101,7 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
 
                 if (isSecretMode.value) {
                     Text(
-                        text = "${selectedDay.month}월 ${selectedDay.day}일의 일기",
+                        text = "${uiState.selectedDay.month}월 ${uiState.selectedDay.day}일의 일기",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(20.dp)
@@ -214,8 +208,8 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_fill_check_28),
-                                    contentDescription = "IC_CHEKC",
-                                    tint = if (selected) Gray300 else Main,
+                                    contentDescription = "IC_CHECK",
+                                    tint = if (selected) Main else Gray300,
                                 )
                                 Text(text = "사랑한 날")
                             }
@@ -271,17 +265,18 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
             }
             CalendarView(
                 setSelectedDay = viewModel::updateMensturationDay,
-                selectedDay = selectedDay,
+                selectedDay = uiState.selectedDay,
+                menstruationDays = uiState.menstruationDays,
+                childBearingDays = uiState.childBearingDays,
+                updateRange = viewModel::updateRange,
             )
         }
     }
-
 
     if (dialogVisiblity) {
         var selectedEmotion by remember {
             mutableStateOf(Emotions.NONE)
         }
-
         Dialog(onDismissRequest = { dialogVisiblity = false }) {
             Surface(
                 modifier = Modifier
@@ -337,170 +332,3 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
     }
 }
 
-
-@Composable
-fun CalendarView(
-    selectedDay: BraveDate,
-    setSelectedDay: (BraveDate) -> Unit,
-) {
-    var calendar by remember {
-        mutableStateOf<Calendar>(Calendar.getInstance())
-    }
-
-    var month by remember {
-        mutableStateOf(calendar.get(Calendar.MONTH) + 1)
-    }
-
-    val days = remember {
-        mutableStateListOf<BraveDate>()
-    }
-
-    var date by remember {
-        mutableStateOf("${calendar.get(Calendar.YEAR)}년 ${calendar.get(Calendar.MONTH) + 1}월")
-    }
-
-    LaunchedEffect(key1 = month) {
-        days.clear()
-
-        /** 이번 달 날짜 가져오기 */
-        calendar.set(Calendar.DAY_OF_MONTH, 1)
-        date = "${calendar.get(Calendar.YEAR)}년 ${calendar.get(Calendar.MONTH) + 1}월"
-        days.addAll(
-            (1..calendar.getActualMaximum(Calendar.DAY_OF_MONTH)).map {
-                BraveDate(
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH) + 1,
-                    it
-                )
-            }
-        )
-        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-
-        /** 지난 달 날짜 가져오기 */
-        if (dayOfWeek != Calendar.SUNDAY) {
-            val lastMonth = calendar.clone() as Calendar
-            lastMonth.add(Calendar.MONTH, -1)
-            val emptyDays = (1 until dayOfWeek).map {
-                BraveDate(
-                    lastMonth.get(Calendar.YEAR),
-                    lastMonth.get(Calendar.MONTH) + 1,
-                    lastMonth.getActualMaximum(Calendar.DAY_OF_MONTH) - it + 1
-                )
-            }.reversed()
-            days.addAll(0, emptyDays)
-        }
-
-        /** 다음 달 날짜 가져오기 */
-        val nextMonth = calendar.clone() as Calendar
-        nextMonth.add(Calendar.MONTH, 1)
-        nextMonth.set(Calendar.DAY_OF_MONTH, 1)
-        val nextDayOfWeek = nextMonth.get(Calendar.DAY_OF_WEEK)
-        if (nextDayOfWeek != Calendar.SUNDAY) {
-            val emptyDays = (1..(8 - nextDayOfWeek)).map {
-                BraveDate(
-                    nextMonth.get(Calendar.YEAR),
-                    nextMonth.get(Calendar.MONTH) + 1,
-                    it
-                )
-            }
-            days.addAll(emptyDays)
-        }
-    }
-
-    /** 년 월, 달력 버튼 */
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp, top = 10.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        IconButton(
-            modifier = Modifier.size(50.dp), onClick = {
-                calendar = calendar.apply {
-                    add(Calendar.MONTH, -1)
-                }
-                month = if (month == 1) 12 else (month - 1)
-            }) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_arrow_24),
-                contentDescription = "IC_ARROW",
-                tint = Main,
-                modifier = Modifier.size(36.dp)
-            )
-        }
-        Text(
-            text = date,
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp,
-            color = Main
-        )
-
-        IconButton(
-            modifier = Modifier.size(50.dp), onClick = {
-                calendar = calendar.apply {
-                    add(Calendar.MONTH, 1)
-                }
-                month = if (month == 12) 1 else (month + 1)
-            }) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_arrow_24),
-                contentDescription = "IC_ARROW",
-                tint = Main,
-                modifier = Modifier
-                    .size(36.dp)
-                    .rotate(180f)
-            )
-        }
-    }
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 10.dp, end = 10.dp, top = 20.dp)
-    ) {
-        itemsIndexed(items = days.chunked(7)) { _, week ->
-            CalendarRow(
-                days = week,
-                selectedDay = selectedDay,
-                setSelectDay = setSelectedDay
-            )
-        }
-    }
-
-}
-
-
-@Composable
-fun CalendarRow(
-    days: List<BraveDate>,
-    selectedDay: BraveDate,
-    setSelectDay: (BraveDate) -> Unit
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        for (day in days) {
-            Box(
-                modifier = Modifier
-                    .background(day.getBackgroundColor(selectedDay, tempMenDays, tempBenDays))
-                    .clickable { setSelectDay(day) }
-                    .weight(1f)
-                    .aspectRatio(1f)
-            ) {
-                Text(
-                    text = day.day.toString(),
-                    modifier = Modifier
-                        .align(Alignment.Center),
-                    fontWeight = FontWeight.Bold,
-                    color = day.getTextColor(
-                        selectedDay,
-                        tempMenDays,
-                        tempBenDays,
-                        DayOfWeek.getDayOfWeekFromDate(day).color
-                    ),
-                )
-            }
-        }
-    }
-}

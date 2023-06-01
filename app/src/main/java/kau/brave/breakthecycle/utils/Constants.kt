@@ -55,6 +55,17 @@ object Constants {
 //    const val SECERT_ONBOARD_GRAPH = "secret-onboard_graph"
     const val DIARY_WRITE_GRAPH = "diary-write_graph"
 
+
+    // 예상 생리일
+    const val EXPECTED_MENSTRUATION = "EXPECTED_MENSTRUATION"
+    const val REAL_MENSTRUATION = "REAL"
+
+    // 예상 배란일
+    const val EXPECTED_OVULATION = "EXPECTED_OVULATION"
+
+    // 예상 가임기
+    const val EXPECTED_CHILDBEARING_PERIOD = "EXPECTED_CHILDBEARING_PERIOD"
+
     // 생리일 샘플
     val tempMenDays = listOf<BraveDate>(
         BraveDate(2023, 5, 10),
@@ -64,7 +75,7 @@ object Constants {
         BraveDate(2023, 5, 14),
     )
 
-    // 배란일 샘플
+    // 가임기 샘플
     val tempBenDays = listOf<BraveDate>(
         BraveDate(2023, 5, 20),
         BraveDate(2023, 5, 21),
