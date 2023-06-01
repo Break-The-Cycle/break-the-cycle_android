@@ -10,6 +10,7 @@ import kau.brave.breakthecycle.domain.repository.AuthRepository
 import kau.brave.breakthecycle.network.ServiceInterceptor
 import kau.brave.breakthecycle.utils.Constants.PREF_ACCESS_TOKEN
 import kau.brave.breakthecycle.utils.Constants.PREF_REFRESH_TOKEN
+import kau.brave.breakthecycle.utils.Constants.PREF_USER_ID
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -50,10 +51,13 @@ class SplashViewModel @Inject constructor(
                     navigateToLogin()
                     return@onSuccess
                 }
+                val newUserId = it.data.userId
                 val newAccessToken = it.data.accessToken
                 val newRrefreshToken = it.data.refreshToken
+                Log.i("USER-ID", newUserId.toString())
                 Log.i("ACCESS-TOKEN", newAccessToken)
                 Log.i("REFRESH-TOKEN", newRrefreshToken)
+                setToken(PREF_USER_ID, newUserId.toString())
                 setToken(PREF_ACCESS_TOKEN, newAccessToken)
                 setToken(PREF_REFRESH_TOKEN, newRrefreshToken)
                 ServiceInterceptor.accessToken = newAccessToken

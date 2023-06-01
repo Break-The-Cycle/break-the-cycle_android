@@ -8,6 +8,8 @@ object Constants {
 
     const val DEV_URL = "http://dev-break-the-cycle.ap-northeast-2.elasticbeanstalk.com/api/"
     const val BRAVE_DATASTORE = "BRAVE_DATASTORE"
+    val PREF_USER_ID = stringPreferencesKey("user_id")
+    val PREF_HASHED_PW = stringPreferencesKey("hashed_pw")
     val PREF_ACCESS_TOKEN = stringPreferencesKey("access_token")
     val PREF_REFRESH_TOKEN = stringPreferencesKey("refresh_token")
 

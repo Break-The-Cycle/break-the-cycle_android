@@ -4,6 +4,7 @@ import kau.brave.breakthecycle.data.request.*
 import kau.brave.breakthecycle.data.response.BraveResponse
 import kau.brave.breakthecycle.data.response.JwtResponse
 import kau.brave.breakthecycle.data.response.MensturationInfoResponse
+import kau.brave.breakthecycle.data.response.RegisterIdResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -39,7 +40,7 @@ interface AuthService {
     @POST("v1/auth/register/use-person")
     suspend fun register(
         @Body registerRequest: RegisterRequest
-    ): Response<BraveResponse<String>>
+    ): Response<BraveResponse<RegisterIdResponse>>
 
     @POST("v1/auth/login")
     suspend fun login(

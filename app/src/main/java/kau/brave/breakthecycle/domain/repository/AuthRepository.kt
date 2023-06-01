@@ -3,6 +3,7 @@ package kau.brave.breakthecycle.domain.repository
 import androidx.datastore.preferences.core.Preferences
 import kau.brave.breakthecycle.data.request.*
 import kau.brave.breakthecycle.data.response.JwtResponse
+import kau.brave.breakthecycle.data.response.RegisterIdResponse
 import kau.brave.breakthecycle.utils.ApiWrapper
 import kotlinx.coroutines.flow.Flow
 
@@ -22,6 +23,6 @@ interface AuthRepository {
 
     fun confirmCetificationCode(phoneAndCertificationNumber: PhoneAndCertificationNumber): Flow<ApiWrapper<String>>
 
-    fun signIn(registerRequest: RegisterRequest): Flow<ApiWrapper<String>>
+    fun signIn(registerRequest: RegisterRequest): Flow<ApiWrapper<RegisterIdResponse>>
     fun onboard(usePersonId: Int, onBoardRequest: OnBoardRequest): Flow<ApiWrapper<String>>
 }

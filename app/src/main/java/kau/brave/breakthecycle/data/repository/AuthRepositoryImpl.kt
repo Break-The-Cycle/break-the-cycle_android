@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import kau.brave.breakthecycle.data.request.*
 import kau.brave.breakthecycle.data.response.JwtResponse
+import kau.brave.breakthecycle.data.response.RegisterIdResponse
 import kau.brave.breakthecycle.domain.repository.AuthRepository
 import kau.brave.breakthecycle.network.model.apiFlow
 import kau.brave.breakthecycle.network.service.BraveClient
@@ -48,9 +49,10 @@ class AuthRepositoryImpl @Inject constructor(
             braveClient.confirmCetificationCode(phoneAndCertificationNumber)
         }
 
-    override fun signIn(registerRequest: RegisterRequest): Flow<ApiWrapper<String>> = apiFlow {
-        braveClient.register(registerRequest = registerRequest)
-    }
+    override fun signIn(registerRequest: RegisterRequest): Flow<ApiWrapper<RegisterIdResponse>> =
+        apiFlow {
+            braveClient.register(registerRequest = registerRequest)
+        }
 
     override fun onboard(
         usePersonId: Int,
