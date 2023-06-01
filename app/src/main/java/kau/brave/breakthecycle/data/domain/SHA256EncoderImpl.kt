@@ -1,6 +1,6 @@
-package kau.brave.breakthecycle.data.repository
+package kau.brave.breakthecycle.data.domain
 
-import kau.brave.breakthecycle.domain.SHA256Encoder
+import kau.brave.breakthecycle.domain.domain.SHA256Encoder
 import java.math.BigInteger
 import java.security.MessageDigest
 import javax.inject.Inject
