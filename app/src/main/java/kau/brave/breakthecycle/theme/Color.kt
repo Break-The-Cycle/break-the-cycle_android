@@ -30,8 +30,8 @@ val Gray900 = Color(0xFF242528)
 
 val Menstrual = Color(0xFFFE91B0)
 val NonMenstrual = Color(0xFFF2F1F3)
-val ChildBearing = Color(0xFF8342EB)
-val Ovulation = Color(0xFF6465F0)
+val ChildBearing = Color(0xFF6465F0)
+val Ovulation = Color(0xFF8122B4)
 
 val IOSBlue = Color(0xFF007AFF)
 val IOSRed = Color(0xFFFF3B30)
