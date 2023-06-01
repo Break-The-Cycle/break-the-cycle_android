@@ -3,7 +3,7 @@ package kau.brave.breakthecycle.network.service
 import kau.brave.breakthecycle.data.request.*
 import kau.brave.breakthecycle.data.response.BraveResponse
 import kau.brave.breakthecycle.data.response.JwtResponse
-import kau.brave.breakthecycle.data.response.MensturationInfoResponse
+import kau.brave.breakthecycle.data.response.MenstruationInfoResponse
 import kau.brave.breakthecycle.data.response.RegisterIdResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -78,7 +78,7 @@ interface AuthService {
         @Path("usePersonId") usePersonId: Int,
         @Query("fromDate") startDate: String,
         @Query("toDate") endDate: String
-    ): Response<BraveResponse<MensturationInfoResponse>>
+    ): Response<BraveResponse<MenstruationInfoResponse>>
 
 
 }

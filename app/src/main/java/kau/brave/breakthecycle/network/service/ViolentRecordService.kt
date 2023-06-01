@@ -1,7 +1,7 @@
 package kau.brave.breakthecycle.network.service
 
 import kau.brave.breakthecycle.data.response.BraveResponse
-import kau.brave.breakthecycle.data.response.MensturationInfoResponse
+import kau.brave.breakthecycle.data.response.MenstruationInfoResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -15,7 +15,7 @@ interface ViolentRecordService {
         @Path("usePersonId") usePersonId: Int,
         @Query("fromDate") startDate: String,
         @Query("toDate") endDate: String
-    ): Response<BraveResponse<MensturationInfoResponse>>
+    ): Response<BraveResponse<MenstruationInfoResponse>>
 
     /** 폭력 기록/일기 업로드 */
     @Multipart

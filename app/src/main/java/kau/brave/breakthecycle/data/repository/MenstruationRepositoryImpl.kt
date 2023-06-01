@@ -1,22 +1,22 @@
 package kau.brave.breakthecycle.data.repository
 
-import kau.brave.breakthecycle.data.response.MensturationInfoResponse
-import kau.brave.breakthecycle.domain.repository.CalendarRepository
+import kau.brave.breakthecycle.data.response.MenstruationInfoResponse
+import kau.brave.breakthecycle.domain.repository.MenstruationRepository
 import kau.brave.breakthecycle.network.model.apiFlow
 import kau.brave.breakthecycle.network.service.BraveClient
 import kau.brave.breakthecycle.utils.ApiWrapper
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class CalendarRepositoryImpl @Inject constructor(
+class MenstruationRepositoryImpl @Inject constructor(
     private val braveClient: BraveClient
-) : CalendarRepository {
+) : MenstruationRepository {
 
-    override fun getMensturation(
+    override fun getMenstruation(
         usePersonId: Int,
         startDate: String,
         endDate: String
-    ): Flow<ApiWrapper<MensturationInfoResponse>> = apiFlow {
+    ): Flow<ApiWrapper<MenstruationInfoResponse>> = apiFlow {
         braveClient.getMenstruation(usePersonId, startDate, endDate)
     }
 }

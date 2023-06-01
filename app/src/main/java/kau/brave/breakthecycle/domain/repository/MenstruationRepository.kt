@@ -1,14 +1,14 @@
 package kau.brave.breakthecycle.domain.repository
 
-import kau.brave.breakthecycle.data.response.MensturationInfoResponse
+import kau.brave.breakthecycle.data.response.MenstruationInfoResponse
 import kau.brave.breakthecycle.utils.ApiWrapper
 import kotlinx.coroutines.flow.Flow
 
-interface CalendarRepository {
+interface MenstruationRepository {
 
-    fun getMensturation(
+    fun getMenstruation(
         usePersonId: Int,
         startDate: String,
         endDate: String
-    ): Flow<ApiWrapper<MensturationInfoResponse>>
+    ): Flow<ApiWrapper<MenstruationInfoResponse>>
 }
