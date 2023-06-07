@@ -1,5 +1,8 @@
 package kau.brave.breakthecycle.data.usecase
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.emptyPreferences
 import kau.brave.breakthecycle.data.request.PasswordRequest
 import kau.brave.breakthecycle.data.response.DiaryDetailResponse
 import kau.brave.breakthecycle.data.response.MenstruationInfoResponse
@@ -8,13 +11,17 @@ import kau.brave.breakthecycle.domain.repository.ViolentRecordRepository
 import kau.brave.breakthecycle.domain.usecase.CalendarUseCase
 import kau.brave.breakthecycle.utils.ApiWrapper
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.io.IOException
 import javax.inject.Inject
 
 class CalendarUseCaseImpl @Inject constructor(
     private val menstruationRepository: MenstruationRepository,
-    private val violentRecordRepository: ViolentRecordRepository
+    private val violentRecordRepository: ViolentRecordRepository,
+    private val preferenceDataStore: DataStore<Preferences>
 ) : CalendarUseCase {
     override fun getMenstruation(
         usePersonId: Int,
@@ -60,5 +67,19 @@ class CalendarUseCaseImpl @Inject constructor(
             diaryContents = diaryContents,
             pictureList = pictureList
         )
+    }
+
+    override fun getToken(type: Preferences.Key<String>): Flow<String> {
+        return preferenceDataStore.data
+            .catch { exception ->
+                if (exception is IOException) {
+                    exception.printStackTrace()
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }.map { prefs ->
+                prefs[type] ?: ""
+            }
     }
 }

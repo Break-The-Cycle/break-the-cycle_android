@@ -1,5 +1,6 @@
 package kau.brave.breakthecycle.domain.usecase
 
+import androidx.datastore.preferences.core.Preferences
 import kau.brave.breakthecycle.data.request.PasswordRequest
 import kau.brave.breakthecycle.data.response.DiaryDetailResponse
 import kau.brave.breakthecycle.data.response.MenstruationInfoResponse
@@ -32,4 +33,7 @@ interface CalendarUseCase {
         diaryContents: HashMap<String, RequestBody>,
         pictureList: List<MultipartBody.Part>
     ): Flow<ApiWrapper<String>>
+
+    fun getToken(type: Preferences.Key<String>): Flow<String>
+
 }

@@ -1,12 +1,8 @@
 package kau.brave.breakthecycle.network.service
 
 import kau.brave.breakthecycle.data.request.*
-import kau.brave.breakthecycle.data.response.BraveResponse
-import kau.brave.breakthecycle.data.response.DiaryDetailResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Response
-import retrofit2.http.*
 import javax.inject.Inject
 
 class BraveClient @Inject constructor(

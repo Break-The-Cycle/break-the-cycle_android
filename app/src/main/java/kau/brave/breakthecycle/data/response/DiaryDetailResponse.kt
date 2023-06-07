@@ -1,3 +1,4 @@
 package kau.brave.breakthecycle.data.response
 
-class DiaryDetailResponse : ArrayList<DiaryDetailResponseItem>()
+class DiaryDetailResponse : ArrayList<DiaryObject>()
+

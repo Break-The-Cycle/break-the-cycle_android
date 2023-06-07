@@ -1,6 +1,6 @@
 package kau.brave.breakthecycle.data.response
 
-data class Diary(
+data class DiaryContents(
     val contents: String,
     val title: String
 )

@@ -2,7 +2,6 @@
 
 package kau.brave.breakthecycle.ui.calendar
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -25,13 +24,14 @@ import kau.brave.breakthecycle.utils.rememberApplicationState
 import kotlinx.coroutines.launch
 import java.util.*
 
-@SuppressLint("RememberReturnType")
 @Preview
 @Composable
 fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
 
     val viewModel: CalendarViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val secretUiState by viewModel.secretUiState.collectAsStateWithLifecycle()
+
     val scope = rememberCoroutineScope()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
@@ -87,8 +87,9 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                 }
             }
             CalendarView(
-                setSelectedDay = viewModel::updateMensturationDay,
+                setSelectedDay = viewModel::setSelectedDay,
                 selectedDay = uiState.selectedDay,
+                violentDays = secretUiState.violentDays,
                 menstruationDays = uiState.menstruationDays,
                 childBearingDays = uiState.childBearingDays,
                 ovulationDays = uiState.ovulationDays,

@@ -1,7 +1,7 @@
 package kau.brave.breakthecycle.domain.repository
 
+import androidx.datastore.preferences.core.Preferences
 import kau.brave.breakthecycle.data.request.PasswordRequest
-import kau.brave.breakthecycle.data.response.BraveResponse
 import kau.brave.breakthecycle.data.response.DiaryDetailResponse
 import kau.brave.breakthecycle.utils.ApiWrapper
 import kotlinx.coroutines.flow.Flow
@@ -26,4 +26,5 @@ interface ViolentRecordRepository {
         diaryContents: HashMap<String, RequestBody>,
         pictureList: List<MultipartBody.Part>
     ): Flow<ApiWrapper<String>>
+    
 }
