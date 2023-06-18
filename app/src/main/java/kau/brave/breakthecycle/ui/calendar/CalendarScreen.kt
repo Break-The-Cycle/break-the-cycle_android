@@ -68,7 +68,7 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                 selectedDay = uiState.selectedDay,
                 navigateToDiaryWrite = navigateToDiaryWrite,
                 updateDialogVisibiliy = { dialogVisiblity = it },
-                diaries = emptyList()
+                violentDiaries = listOf(secretUiState.violentDiary),
             )
         }
     ) {

@@ -29,7 +29,7 @@ interface ViolentRecordService {
 
 
     /** 특정 날짜 폭력 일기 기록 불러오기(내용 포함) */
-    @POST("v1/violent-records/{usePersonId}")
+    @POST("v1/violent-records/{usePersonId}/contents")
     suspend fun getViolentRecord(
         @Path("usePersonId") usePersonId: Int,
         @Query("targetDate") targetDate: String,

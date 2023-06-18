@@ -8,6 +8,7 @@ import kau.brave.breakthecycle.RoseDaysApplication.Companion.isSecretMode
 import kau.brave.breakthecycle.data.request.PasswordRequest
 import kau.brave.breakthecycle.domain.domain.DateParser
 import kau.brave.breakthecycle.domain.model.BraveDate
+import kau.brave.breakthecycle.domain.model.BraveDiary
 import kau.brave.breakthecycle.domain.usecase.CalendarUseCase
 import kau.brave.breakthecycle.network.ServiceInterceptor
 import kau.brave.breakthecycle.ui.model.DateType
@@ -36,6 +37,7 @@ data class CalendarScreenUiState(
 data class SecretCalendarScreenUiState(
     val selectedDay: BraveDate = BraveDate(1900, 1, 1),
     val violentDays: List<BraveDate> = emptyList(),
+    val violentDiary: BraveDiary = BraveDiary.default(),
 )
 
 @HiltViewModel
@@ -59,6 +61,7 @@ class CalendarViewModel @Inject constructor(
     private val _ovulationDays = MutableStateFlow(emptyList<BraveDate>())
 
     private val _violentDays = MutableStateFlow(emptyList<BraveDate>())
+    private val _violentDiary = MutableStateFlow(BraveDiary.default())
 
     val uiState: StateFlow<CalendarScreenUiState> = combine(
         _selectedDay, _menstruationDays, _childBearingDays, _ovulationDays, _selectedDateType
@@ -75,11 +78,12 @@ class CalendarViewModel @Inject constructor(
     )
 
     val secretUiState: StateFlow<SecretCalendarScreenUiState> = combine(
-        _selectedDay, _violentDays,
-    ) { selectedDay, violentDays ->
+        _selectedDay, _violentDays, _violentDiary
+    ) { selectedDay, violentDays, violentDiary ->
         SecretCalendarScreenUiState(
             selectedDay = selectedDay,
             violentDays = violentDays,
+            violentDiary = violentDiary
         )
     }.stateIn(
         viewModelScope, SharingStarted.WhileSubscribed(5000), SecretCalendarScreenUiState()
@@ -109,9 +113,18 @@ class CalendarViewModel @Inject constructor(
                 val diaryDetail = response.data ?: return@onSuccess
                 diaryDetail.forEach {
                     if (it.division == "DIARY") {
-
+                        val diaryContents = it.diaryContents ?: return@forEach
+                        _violentDiary.value = _violentDiary.value.copy(
+                            title = diaryContents.title,
+                            contents = diaryContents.contents,
+                        )
                     } else if (it.division == "PICTURE") {
-
+                        val image = it.image ?: return@forEach
+                        _violentDiary.value = _violentDiary.value.copy(
+                            images = _violentDiary.value.images.apply {
+                                add(image)
+                            }
+                        )
                     }
                 }
             }

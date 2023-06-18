@@ -32,40 +32,16 @@ fun CalendarRow(
             .fillMaxWidth()
     ) {
         for (day in days) {
-
+            // 시크릿 모드일 때
             if (RoseDaysApplication.isSecretMode.value) {
-                Box(
-                    modifier = Modifier
-                        .background(day.getBackgroundColor(selectedDay = selectedDay))
-                        .clickable { setSelectDay(day) }
-                        .weight(1f)
-                        .aspectRatio(1f)
-                ) {
-                    Text(
-                        text = day.day.toString(),
-                        modifier = Modifier
-                            .align(Alignment.Center),
-                        fontWeight = FontWeight.Bold,
-                        color = day.getTextColor(
-                            selectedDay = selectedDay,
-                            defaultColor = DayOfWeek.getDayOfWeekFromDate(day).color
-                        ),
-                    )
-
-                    if (violentDays.contains(day)) {
-                        Canvas(
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .padding(10.dp)
-                        ) {
-                            drawCircle(
-                                color = IOSRed,
-                                radius = 10f
-                            )
-                        }
-                    }
-                }
+                SescretDateItem(
+                    day = day,
+                    selectedDay = selectedDay,
+                    setSelectDay = setSelectDay,
+                    violentDays = violentDays
+                )
             } else {
+                // 시크릿 모드가 아닐 때
                 DateItem(
                     day = day,
                     selectedDay = selectedDay,
@@ -76,44 +52,5 @@ fun CalendarRow(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun RowScope.DateItem(
-    day: BraveDate,
-    selectedDay: BraveDate,
-    menstruationDays: List<BraveDate>,
-    childBearingDays: List<BraveDate>,
-    ovulationDays: List<BraveDate>,
-    setSelectDay: (BraveDate) -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .background(
-                day.getBackgroundColor(
-                    selectedDay,
-                    menstruationDays,
-                    childBearingDays,
-                    ovulationDays
-                )
-            )
-            .clickable { setSelectDay(day) }
-            .weight(1f)
-            .aspectRatio(1f)
-    ) {
-        Text(
-            text = day.day.toString(),
-            modifier = Modifier
-                .align(Alignment.Center),
-            fontWeight = FontWeight.Bold,
-            color = day.getTextColor(
-                selectedDay,
-                menstruationDays,
-                childBearingDays,
-                ovulationDays,
-                DayOfWeek.getDayOfWeekFromDate(day).color
-            ),
-        )
     }
 }

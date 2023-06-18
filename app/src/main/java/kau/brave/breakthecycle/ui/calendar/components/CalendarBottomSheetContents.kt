@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalGlideComposeApi::class)
+
 package kau.brave.breakthecycle.ui.calendar.components
 
+import android.util.Base64
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,9 +27,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.RoseDaysApplication
 import kau.brave.breakthecycle.domain.model.BraveDate
+import kau.brave.breakthecycle.domain.model.BraveDiary
 import kau.brave.breakthecycle.theme.Gray300
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.ui.model.DateType
@@ -37,10 +43,10 @@ fun CalendarBottomSheetContents(
     screenHeight: Dp,
     pickHeight: Dp,
     selectedDay: BraveDate,
-    diaries: List<String>,
+    violentDiaries: List<BraveDiary>,
     navigateToDiaryWrite: () -> Unit,
     updateDialogVisibiliy: (Boolean) -> Unit,
-    selectedDateType: DateType
+    selectedDateType: DateType,
 ) {
     Column(
         modifier = Modifier
@@ -62,8 +68,8 @@ fun CalendarBottomSheetContents(
         if (RoseDaysApplication.isSecretMode.value) {
             SecretBottomSheetContents(
                 selectedDay = selectedDay,
-                diaries = diaries,
-                navigateToDiaryWrite = navigateToDiaryWrite
+                violentDiaries = violentDiaries,
+                navigateToDiaryWrite = navigateToDiaryWrite,
             )
         } else {
             BottomSheetContents(
@@ -168,7 +174,7 @@ private fun BottomSheetContents(
 @Composable
 private fun SecretBottomSheetContents(
     selectedDay: BraveDate,
-    diaries: List<String>,
+    violentDiaries: List<BraveDiary>,
     navigateToDiaryWrite: () -> Unit
 ) {
     Text(
@@ -183,7 +189,7 @@ private fun SecretBottomSheetContents(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (diaries.isEmpty()) {
+        if (violentDiaries.isEmpty()) {
             item {
                 Text(
                     text = "작성된 일기가 없습니다.",
@@ -206,32 +212,45 @@ private fun SecretBottomSheetContents(
                 }
             }
         }
-        items(diaries) {
+        items(violentDiaries) { diary ->
+
+            val imageByteArrays: List<ByteArray> = diary.images.map {
+                Base64.decode(it, Base64.DEFAULT)
+            }
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(2.2f)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                GlideImage(
+                    model = imageByteArrays.firstOrNull(),
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(20.dp)),
                     contentScale = ContentScale.Crop
                 )
+//                Image(
+//                    painter = painterResource(id = R.drawable.ic_launcher_background),
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .clip(RoundedCornerShape(20.dp)),
+//                    contentScale = ContentScale.Crop
+//                )
                 Column(
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .padding(20.dp),
                 ) {
                     Text(
-                        text = it,
+                        text = diary.title,
                         fontSize = 18.sp,
                         color = Color.White
                     )
                     Text(
-                        text = "content",
+                        text = diary.contents,
                         fontSize = 18.sp,
                         color = Color.White
                     )
