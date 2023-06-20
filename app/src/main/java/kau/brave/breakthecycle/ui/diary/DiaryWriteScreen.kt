@@ -34,6 +34,7 @@ import coil.request.ImageRequest
 import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.contentprovider.CameraFileProvider
 import kau.brave.breakthecycle.theme.*
+import kau.brave.breakthecycle.ui.diary.viewmodel.DiaryWriteViewModel
 import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.utils.rememberApplicationState
 import kotlinx.coroutines.launch

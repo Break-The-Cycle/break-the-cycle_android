@@ -1,9 +1,7 @@
-package kau.brave.breakthecycle.ui.diary
+package kau.brave.breakthecycle.ui.diary.viewmodel
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
-import androidx.core.net.toFile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +13,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -91,36 +88,18 @@ class DiaryWriteViewModel @Inject constructor(
                 "password" to passwordSHA256.await().first().toPlainRequestBody(),
                 "reportDate" to selectedDate.toPlainRequestBody(),
             )
-            Log.i(
-                "dlgocks1", "title : ${_title.value}" +
-                        "contents : ${_contents.value}" +
-                        "password : ${passwordSHA256.await().first()}" +
-                        "reportDate : $selectedDate"
-            )
-
 
             val pictureList = _photoUris.value.map {
-                Log.i("dlgocks1", "it : $it")
                 val file = context.contentResolver.openInputStream(it)?.use { inputStream ->
                     val file = File(context.cacheDir, it.lastPathSegment)
                     file.outputStream().use { outputStream ->
                         inputStream.copyTo(outputStream)
                     }
                     file
-                } ?: throw IllegalStateException("이미지 파일을 찾지 못했스빈다.")
-                Log.i("dlgocks1", "file : $file")
+                } ?: throw IllegalStateException("이미지 파일을 찾지 못했습니다.")
                 val requestBody: RequestBody = file.asRequestBody("image/*".toMediaType())
-                Log.i("dlgocks1", "requestBody : $requestBody")
                 MultipartBody.Part.createFormData("pictureList", file.name, requestBody)
             }
-
-            Log.i(
-                "dlgocks1", "title : ${_title.value}" +
-                        "contents : ${_contents.value}" +
-                        "password : ${passwordSHA256.await().first()}" +
-                        "reportDate : $selectedDate" +
-                        "pictureList : ${_photoUris.value}"
-            )
 
             violentRecordRepository.uploadViolentRecord(
                 userPersonId = usePersonId,

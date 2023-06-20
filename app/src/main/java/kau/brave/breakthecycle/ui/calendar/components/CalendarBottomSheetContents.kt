@@ -41,6 +41,7 @@ import kau.brave.breakthecycle.theme.Gray300
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.ui.component.HeightSpacer
 import kau.brave.breakthecycle.ui.model.DateType
+import kau.brave.breakthecycle.utils.Constants
 
 
 @Composable
@@ -50,6 +51,7 @@ fun CalendarBottomSheetContents(
     selectedDay: BraveDate,
     violentDiaries: List<BraveDiary>,
     navigateToDiaryWrite: () -> Unit,
+    navigateToDiaryDetail: (BraveDate) -> Unit,
     updateDialogVisibiliy: (Boolean) -> Unit,
     selectedDateType: DateType,
 ) {
@@ -75,6 +77,7 @@ fun CalendarBottomSheetContents(
                 selectedDay = selectedDay,
                 violentDiaries = violentDiaries,
                 navigateToDiaryWrite = navigateToDiaryWrite,
+                navigateToDiaryDetail = navigateToDiaryDetail,
             )
         } else {
             BottomSheetContents(
@@ -180,7 +183,8 @@ private fun BottomSheetContents(
 private fun SecretBottomSheetContents(
     selectedDay: BraveDate,
     violentDiaries: List<BraveDiary>,
-    navigateToDiaryWrite: () -> Unit
+    navigateToDiaryWrite: () -> Unit,
+    navigateToDiaryDetail: (BraveDate) -> Unit,
 ) {
     Text(
         text = "${selectedDay.month}월 ${selectedDay.day}일의 일기",
@@ -213,7 +217,7 @@ private fun SecretBottomSheetContents(
             val pagerState = rememberPagerState()
             Column(
                 modifier = Modifier.clickable {
-                    // TODO 일기 디테일로 이동
+                    navigateToDiaryDetail(selectedDay)
                 }
             ) {
                 if (imageByteArrays.isNotEmpty()) {

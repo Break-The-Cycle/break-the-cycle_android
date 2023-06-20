@@ -14,15 +14,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kau.brave.breakthecycle.domain.model.BraveDate
 import kau.brave.breakthecycle.ui.calendar.components.CalendarBottomSheetContents
 import kau.brave.breakthecycle.ui.calendar.components.CalendarView
 import kau.brave.breakthecycle.ui.calendar.viewmodel.CalendarViewModel
 import kau.brave.breakthecycle.ui.component.BraveLogoIcon
 import kau.brave.breakthecycle.ui.model.ApplicationState
-import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_GRAPH
+import kau.brave.breakthecycle.utils.Constants
 import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_ROUTE
 import kau.brave.breakthecycle.utils.rememberApplicationState
 import kotlinx.coroutines.launch
+import okhttp3.internal.format
 import java.util.*
 
 @Preview
@@ -50,6 +52,9 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
         uiState.selectedDay.format()
         appState.navigate("$DIARY_WRITE_ROUTE/${uiState.selectedDay.format()}")
     }
+    val navigateToDetail: (BraveDate) -> Unit = { targetDate ->
+        appState.navigate("${Constants.DIARY_DETAIL_ROUTE}/${targetDate.format()}")
+    }
     LaunchedEffect(key1 = contentsHeight) {
         pickHeight = screenHeight - contentsHeight + 106.dp
     }
@@ -68,6 +73,7 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                 pickHeight = pickHeight,
                 selectedDateType = uiState.selectedDateType,
                 selectedDay = uiState.selectedDay,
+                navigateToDiaryDetail = navigateToDetail,
                 navigateToDiaryWrite = navigateToDiaryWrite,
                 updateDialogVisibiliy = { dialogVisiblity = it },
                 violentDiaries = secretUiState.violentDiary,
