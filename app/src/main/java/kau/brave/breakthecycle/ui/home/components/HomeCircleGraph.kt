@@ -66,14 +66,14 @@ fun HomeCircleGraph(
         if (RoseDaysApplication.isSecretMode.value) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(0.7f)
-                    .fillMaxHeight(0.7f)
                     .align(Alignment.Center)
+                    .fillMaxWidth(0.5f)
+                    .aspectRatio(1f)
                     .clip(CircleShape)
+                    .background(ReportColor)
                     .clickable {
 
                     }
-                    .background(ReportColor)
             ) {
                 Text(
                     text = "신고하기", color = Color.White, fontSize = 34.sp,
@@ -99,31 +99,33 @@ fun HomeCircleGraph(
                         fontSize = 50.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
-                    )
+
+                        )
                 }
+            }
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(5.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                Text(
+                    text = "TODAY",
+                    color = Color.Black,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_location_brave_24),
+                    contentDescription = "IC_LOCATION_BRAVE_24",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .size(24.dp, 34.dp)
+                )
             }
         }
 
-        Column(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(5.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            Text(
-                text = "TODAY",
-                color = Color.Black,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Image(
-                painter = painterResource(id = R.drawable.ic_location_brave_24),
-                contentDescription = "IC_LOCATION_BRAVE_24",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .size(24.dp, 34.dp)
-            )
-        }
     }
 }

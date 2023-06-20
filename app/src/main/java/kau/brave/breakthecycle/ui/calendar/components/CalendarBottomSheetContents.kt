@@ -38,6 +38,7 @@ import kau.brave.breakthecycle.RoseDaysApplication
 import kau.brave.breakthecycle.domain.model.BraveDate
 import kau.brave.breakthecycle.domain.model.BraveDiary
 import kau.brave.breakthecycle.theme.Gray300
+import kau.brave.breakthecycle.theme.Gray600
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.ui.component.HeightSpacer
 import kau.brave.breakthecycle.ui.model.DateType
@@ -192,6 +193,7 @@ private fun SecretBottomSheetContents(
         fontWeight = FontWeight.Bold,
         modifier = Modifier.padding(20.dp)
     )
+    
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -263,9 +265,9 @@ private fun SecretBottomSheetContents(
                         color = Color.Black
                     )
                     Text(
-                        text = diary.contents,
-                        fontSize = 18.sp,
-                        color = Color.Black
+                        text = diary.contents.take(100),
+                        fontSize = 16.sp,
+                        color = Gray600
                     )
                 }
             }
