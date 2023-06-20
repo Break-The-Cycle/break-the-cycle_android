@@ -40,10 +40,12 @@ class ViolentRecordRepositoryImpl @Inject constructor(
     }
 
     override fun uploadViolentRecord(
+        userPersonId: Int,
         diaryContents: HashMap<String, RequestBody>,
         pictureList: List<MultipartBody.Part>
     ): Flow<ApiWrapper<String>> = apiFlow {
         braveClient.uploadViolentRecord(
+            userPersonId = userPersonId,
             diaryContents = diaryContents,
             pictureList = pictureList
         )

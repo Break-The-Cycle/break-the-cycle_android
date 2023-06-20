@@ -23,8 +23,8 @@ interface ViolentRecordRepository {
     ): Flow<ApiWrapper<List<String>>>
 
     fun uploadViolentRecord(
+        userPersonId: Int,
         diaryContents: HashMap<String, RequestBody>,
         pictureList: List<MultipartBody.Part>
     ): Flow<ApiWrapper<String>>
-    
 }

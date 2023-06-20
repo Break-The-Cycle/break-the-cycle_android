@@ -29,11 +29,6 @@ interface CalendarUseCase {
         endDate: String
     ): Flow<ApiWrapper<List<String>>>
 
-    fun uploadViolentRecord(
-        diaryContents: HashMap<String, RequestBody>,
-        pictureList: List<MultipartBody.Part>
-    ): Flow<ApiWrapper<String>>
-
     fun getToken(type: Preferences.Key<String>): Flow<String>
 
 }

@@ -19,6 +19,7 @@ fun <T : Any> apiFlow(apiFunc: suspend () -> Response<BraveResponse<T>>): Flow<A
                 emit(ApiState.Error(GsonHelper.getErrorMessage(errorBody.string())))
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             emit(ApiState.NotResponse(message = e.message ?: "", exception = e))
         }
     }.flowOn(Dispatchers.IO)

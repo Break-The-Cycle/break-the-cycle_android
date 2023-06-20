@@ -21,8 +21,9 @@ interface ViolentRecordService {
 
     /** 폭력 기록/일기 업로드 */
     @Multipart
-    @POST("v1/violent-records")
+    @POST("v1/violent-records/{usePersonId}")
     suspend fun uploadViolentRecord(
+        @Path("usePersonId") usePersonId: Int,
         @PartMap diaryContents: HashMap<String, RequestBody>,
         @Part pictureList: List<MultipartBody.Part>
     ): Response<BraveResponse<String>>

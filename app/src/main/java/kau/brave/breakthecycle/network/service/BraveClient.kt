@@ -50,9 +50,10 @@ class BraveClient @Inject constructor(
     )
 
     suspend fun uploadViolentRecord(
+        userPersonId: Int,
         diaryContents: HashMap<String, RequestBody>,
         pictureList: List<MultipartBody.Part>
-    ) = violentRecordService.uploadViolentRecord(diaryContents, pictureList)
+    ) = violentRecordService.uploadViolentRecord(userPersonId, diaryContents, pictureList)
 
     suspend fun getViolentRecord(
         usePersonId: Int,

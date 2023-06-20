@@ -37,7 +37,7 @@ data class CalendarScreenUiState(
 data class SecretCalendarScreenUiState(
     val selectedDay: BraveDate = BraveDate(1900, 1, 1),
     val violentDays: List<BraveDate> = emptyList(),
-    val violentDiary: BraveDiary = BraveDiary.default(),
+    val violentDiary: List<BraveDiary> = emptyList(),
 )
 
 @HiltViewModel
@@ -61,7 +61,7 @@ class CalendarViewModel @Inject constructor(
     private val _ovulationDays = MutableStateFlow(emptyList<BraveDate>())
 
     private val _violentDays = MutableStateFlow(emptyList<BraveDate>())
-    private val _violentDiary = MutableStateFlow(BraveDiary.default())
+    private val _violentDiary = MutableStateFlow(emptyList<BraveDiary>())
 
     val uiState: StateFlow<CalendarScreenUiState> = combine(
         _selectedDay, _menstruationDays, _childBearingDays, _ovulationDays, _selectedDateType
@@ -98,10 +98,10 @@ class CalendarViewModel @Inject constructor(
     }
 
     private fun getDiaryDetail() = viewModelScope.launch {
+        _violentDiary.value = mutableListOf()
         val passwordSHA256 = async {
             calendarUseCase.getToken(PREF_HASHED_PW)
         }
-
         calendarUseCase.getViolentRecord(
             usePersonId = ServiceInterceptor.usePersonId,
             targetDate = _selectedDay.value.format(),
@@ -112,19 +112,52 @@ class CalendarViewModel @Inject constructor(
             apiState.onSuccess { response ->
                 val diaryDetail = response.data ?: return@onSuccess
                 diaryDetail.forEach {
-                    if (it.division == "DIARY") {
-                        val diaryContents = it.diaryContents ?: return@forEach
-                        _violentDiary.value = _violentDiary.value.copy(
-                            title = diaryContents.title,
-                            contents = diaryContents.contents,
-                        )
-                    } else if (it.division == "PICTURE") {
-                        val image = it.image ?: return@forEach
-                        _violentDiary.value = _violentDiary.value.copy(
-                            images = _violentDiary.value.images.apply {
-                                add(image)
-                            }
-                        )
+                    // 이미 존재하는 일기일 때
+                    if (_violentDiary.value.find { diary -> diary.reportDate == it.reportDate } != null) {
+                        val index =
+                            _violentDiary.value.indexOf(_violentDiary.value.find { diary -> diary.reportDate == it.reportDate }!!)
+                        var diary = _violentDiary.value[index]
+                        if (it.division == "DIARY") {
+                            val diaryContents = it.diary ?: return@forEach
+                            diary = _violentDiary.value[index].copy(
+                                title = diaryContents.title,
+                                contents = diaryContents.contents,
+                                reportDate = it.reportDate
+                            )
+                        } else if (it.division == "PICTURE") {
+                            val image = it.image ?: return@forEach
+                            diary = _violentDiary.value[index].copy(
+                                images = _violentDiary.value[index].images.apply {
+                                    add(image)
+                                },
+                                reportDate = it.reportDate
+                            )
+                        }
+                        _violentDiary.update {
+                            _violentDiary.value.toMutableList().apply {
+                                set(index, diary)
+                            }.toList()
+                        }
+                    } else {
+                        // 존재하지 않는 일기일 때
+                        var diary = BraveDiary.default()
+                        if (it.division == "DIARY") {
+                            val diaryContents = it.diary ?: return@forEach
+                            diary = diary.copy(
+                                title = diaryContents.title,
+                                contents = diaryContents.contents,
+                                reportDate = it.reportDate
+                            )
+                        } else if (it.division == "PICTURE") {
+                            val image = it.image ?: return@forEach
+                            diary = diary.copy(
+                                images = diary.images.apply {
+                                    add(image)
+                                },
+                                reportDate = it.reportDate
+                            )
+                        }
+                        _violentDiary.value = _violentDiary.value + diary
                     }
                 }
             }

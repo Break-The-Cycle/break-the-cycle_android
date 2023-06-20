@@ -4,6 +4,7 @@ package kau.brave.breakthecycle.ui.diary
 
 import android.icu.util.Calendar
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
@@ -26,6 +27,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import kau.brave.breakthecycle.R
@@ -37,19 +40,17 @@ import kotlinx.coroutines.launch
 
 @Preview
 @Composable
-fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
+fun DiaryWriteScreen(
+    appState: ApplicationState = rememberApplicationState(),
+    selectedDate: String = ""
+) {
+
+    val viewModel: DiaryWriteViewModel = hiltViewModel()
 
     val context = LocalContext.current
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
-
-    var title by remember {
-        mutableStateOf("")
-    }
-
-    var content by remember {
-        mutableStateOf("")
-    }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     var hasImage by remember {
         mutableStateOf(false)
@@ -58,22 +59,9 @@ fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
         mutableStateOf<Uri?>(null)
     }
 
-    var addedImage by remember {
-        mutableStateOf<List<Uri?>>(emptyList())
-    }
-
-    val navigateToReviewWrite: (Uri?) -> Unit = { uri ->
-        if (uri != null) {
-            // TODO 손글씨는 나중에 넣는걸로..
-//            appState.navController.currentBackStackEntry?.arguments?.putParcelable("uri", uri)
-//            appState.navigate(DIARY_WRITE_PHOTO_ROUTE)
-            addedImage = addedImage + uri
-        }
-    }
-
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            navigateToReviewWrite(uri)
+            viewModel.addPhotoUri(uri)
         }
     val camearLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) {
@@ -82,7 +70,7 @@ fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
 
     LaunchedEffect(key1 = hasImage) {
         if (hasImage) {
-            navigateToReviewWrite(imageUri)
+            viewModel.addPhotoUri(imageUri)
         }
     }
 
@@ -198,7 +186,22 @@ fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
                         modifier = Modifier
                             .align(Alignment.CenterEnd)
                             .clickable {
-                                appState.popBackStack()
+                                viewModel.uploadDiary(
+                                    context = context,
+                                    selectedDate = selectedDate,
+                                    onSuccess = {
+                                        appState.navController.popBackStack()
+                                    },
+                                    onError = {
+                                        Toast
+                                            .makeText(
+                                                context,
+                                                it,
+                                                Toast.LENGTH_SHORT
+                                            )
+                                            .show()
+                                    }
+                                )
                             }
                             .padding(10.dp)
                     )
@@ -208,10 +211,8 @@ fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 20.dp),
-                    value = title,
-                    onValueChange = {
-                        title = it
-                    },
+                    value = uiState.title,
+                    onValueChange = viewModel::updateTitle,
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
@@ -222,7 +223,7 @@ fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.padding(0.dp, 10.dp)
                         ) {
-                            if (title.isEmpty()) {
+                            if (uiState.title.isEmpty()) {
                                 Text(
                                     "제목을 입력해주세요.",
                                     style = LocalTextStyle.current.copy(
@@ -247,11 +248,11 @@ fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
                             )
                         }일"
                     Text(
-                        text = "$now", fontSize = 14.sp,
+                        text = now, fontSize = 14.sp,
                         color = Gray300,
                     )
                     Text(
-                        text = "${content.length} / 1,000 ", fontSize = 14.sp,
+                        text = "${uiState.contents.length} / 1,000 ", fontSize = 14.sp,
                         color = Gray300,
                     )
                 }
@@ -265,10 +266,10 @@ fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
                         fontSize = 16.sp,
                         color = Color.Black,
                     ),
-                    value = content,
+                    value = uiState.contents,
                     onValueChange = {
-                        if (it.length < 1_000) {
-                            content = it
+                        if (uiState.contents.length < 1_000) {
+                            viewModel.updateContents(it)
                         }
                     },
                     decorationBox = { innerTextField ->
@@ -279,7 +280,7 @@ fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
                                 .wrapContentHeight()
                                 .padding(0.dp, 10.dp)
                         ) {
-                            if (content.isEmpty()) {
+                            if (uiState.contents.isEmpty()) {
                                 Text(
                                     "내용을 입력해주세요.",
                                     style = LocalTextStyle.current.copy(
@@ -301,7 +302,7 @@ fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Text(
-                    text = "사진을 등록해주세요.(${addedImage.size}/5)",
+                    text = "사진을 등록해주세요.(${uiState.photoUris.size}/5)",
                     fontSize = 18.sp,
                     color = Gray800
                 )
@@ -309,7 +310,7 @@ fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier.horizontalScroll(rememberScrollState())
                 ) {
-                    addedImage.forEach {
+                    uiState.photoUris.forEach {
                         Image(
                             painter = rememberAsyncImagePainter(
                                 ImageRequest
@@ -325,7 +326,7 @@ fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
                                 .background(Gray300)
                         )
                     }
-                    if (addedImage.size < 5) {
+                    if (uiState.photoUris.size < 5) {
                         Box(
                             modifier = Modifier
                                 .size(106.dp)
@@ -349,8 +350,6 @@ fun DiaryWriteScreen(appState: ApplicationState = rememberApplicationState()) {
                     }
                 }
             }
-
-
         }
     }
 }

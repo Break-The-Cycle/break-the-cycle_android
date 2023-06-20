@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalGlideComposeApi::class)
+@file:OptIn(ExperimentalGlideComposeApi::class, ExperimentalPagerApi::class)
 
 package kau.brave.breakthecycle.ui.calendar.components
 
@@ -29,12 +29,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.RoseDaysApplication
 import kau.brave.breakthecycle.domain.model.BraveDate
 import kau.brave.breakthecycle.domain.model.BraveDiary
 import kau.brave.breakthecycle.theme.Gray300
 import kau.brave.breakthecycle.theme.Main
+import kau.brave.breakthecycle.ui.component.HeightSpacer
 import kau.brave.breakthecycle.ui.model.DateType
 
 
@@ -199,62 +204,79 @@ private fun SecretBottomSheetContents(
                     fontWeight = FontWeight.Bold,
                 )
             }
-            item {
-                Button(
-                    colors = ButtonDefaults.buttonColors(Main),
-                    shape = RoundedCornerShape(10.dp),
-                    onClick = navigateToDiaryWrite
-                ) {
-                    Text(
-                        text = "일기 작성하기", fontSize = 18.sp,
-                        color = Color.White, fontWeight = FontWeight.Bold
-                    )
-                }
-            }
         }
-        items(violentDiaries) { diary ->
 
+        items(violentDiaries) { diary ->
             val imageByteArrays: List<ByteArray> = diary.images.map {
                 Base64.decode(it, Base64.DEFAULT)
             }
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(2.2f)
+            val pagerState = rememberPagerState()
+            Column(
+                modifier = Modifier.clickable {
+                    // TODO 일기 디테일로 이동
+                }
             ) {
-                GlideImage(
-                    model = imageByteArrays.firstOrNull(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(20.dp)),
-                    contentScale = ContentScale.Crop
-                )
-//                Image(
-//                    painter = painterResource(id = R.drawable.ic_launcher_background),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .clip(RoundedCornerShape(20.dp)),
-//                    contentScale = ContentScale.Crop
-//                )
+                if (imageByteArrays.isNotEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(2.2f)
+                    ) {
+                        HorizontalPager(
+                            count = imageByteArrays.size,
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            state = pagerState
+                        ) { page ->
+                            GlideImage(
+                                model = imageByteArrays[page],
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(20.dp))
+                                    .background(Color.Gray),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                        HorizontalPagerIndicator(
+                            pagerState = pagerState,
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(10.dp),
+                            activeColor = Color.White,
+                            inactiveColor = Gray300
+                        )
+                    }
+                    HeightSpacer(dp = 10.dp)
+                }
                 Column(
                     modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(20.dp),
+                        .fillMaxWidth()
                 ) {
                     Text(
                         text = diary.title,
                         fontSize = 18.sp,
-                        color = Color.White
+                        color = Color.Black
                     )
                     Text(
                         text = diary.contents,
                         fontSize = 18.sp,
-                        color = Color.White
+                        color = Color.Black
                     )
                 }
+            }
+        }
+
+        item {
+            Button(
+                colors = ButtonDefaults.buttonColors(Main),
+                shape = RoundedCornerShape(10.dp),
+                onClick = navigateToDiaryWrite
+            ) {
+                Text(
+                    text = "일기 작성하기", fontSize = 18.sp,
+                    color = Color.White, fontWeight = FontWeight.Bold
+                )
             }
         }
     }

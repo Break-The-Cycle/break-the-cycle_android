@@ -20,6 +20,7 @@ import kau.brave.breakthecycle.ui.calendar.viewmodel.CalendarViewModel
 import kau.brave.breakthecycle.ui.component.BraveLogoIcon
 import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_GRAPH
+import kau.brave.breakthecycle.utils.Constants.DIARY_WRITE_ROUTE
 import kau.brave.breakthecycle.utils.rememberApplicationState
 import kotlinx.coroutines.launch
 import java.util.*
@@ -46,7 +47,8 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
         mutableStateOf(false)
     }
     val navigateToDiaryWrite = {
-        appState.navigate(DIARY_WRITE_GRAPH)
+        uiState.selectedDay.format()
+        appState.navigate("$DIARY_WRITE_ROUTE/${uiState.selectedDay.format()}")
     }
     LaunchedEffect(key1 = contentsHeight) {
         pickHeight = screenHeight - contentsHeight + 106.dp
@@ -68,7 +70,7 @@ fun CalendarScreen(appState: ApplicationState = rememberApplicationState()) {
                 selectedDay = uiState.selectedDay,
                 navigateToDiaryWrite = navigateToDiaryWrite,
                 updateDialogVisibiliy = { dialogVisiblity = it },
-                violentDiaries = listOf(secretUiState.violentDiary),
+                violentDiaries = secretUiState.violentDiary,
             )
         }
     ) {

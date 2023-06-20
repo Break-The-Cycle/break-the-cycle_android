@@ -5,6 +5,7 @@ data class BraveDiary(
     val contents: String = "",
     val date: String = "",
     val images: MutableList<String> = mutableListOf<String>(), // 바이트코드
+    val reportDate: String = "",
 ) {
     companion object {
         fun default(): BraveDiary {

@@ -59,15 +59,6 @@ class CalendarUseCaseImpl @Inject constructor(
         )
     }
 
-    override fun uploadViolentRecord(
-        diaryContents: HashMap<String, RequestBody>,
-        pictureList: List<MultipartBody.Part>
-    ): Flow<ApiWrapper<String>> {
-        return violentRecordRepository.uploadViolentRecord(
-            diaryContents = diaryContents,
-            pictureList = pictureList
-        )
-    }
 
     override fun getToken(type: Preferences.Key<String>): Flow<String> {
         return preferenceDataStore.data

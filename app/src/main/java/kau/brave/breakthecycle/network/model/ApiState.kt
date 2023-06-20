@@ -22,7 +22,7 @@ sealed class ApiState<out T : Any> {
             onError(this@ApiState.errorMessage)
         }
         if (this is NotResponse) {
-            onError("네트워크 오류")
+            onError(this@ApiState.message ?: "네트워크 오류")
         }
     }
 
