@@ -1,9 +1,10 @@
 package kau.brave.breakthecycle.network.service
 
 import kau.brave.breakthecycle.data.request.PasswordRequest
-import kau.brave.breakthecycle.data.request.RecordsOutRequest
+import kau.brave.breakthecycle.data.request.ExportViolentRequest
 import kau.brave.breakthecycle.data.response.BraveResponse
 import kau.brave.breakthecycle.data.response.DiaryDetailResponse
+import kau.brave.breakthecycle.data.response.ExportViolentResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -38,9 +39,10 @@ interface ViolentRecordService {
     ): Response<BraveResponse<DiaryDetailResponse>>
 
     /** 폭력 일기 내보내기 */
-    @POST("v1/violent-records/out")
-    suspend fun outViolentRecord(
-        @Body recordsOutRequest: RecordsOutRequest
-    ): Response<BraveResponse<DiaryDetailResponse>>
+    @POST("v1/violent-records/{usePersonId}/out")
+    suspend fun exportViolentToken(
+        @Path("usePersonId") usePersonId: Int,
+        @Body exportViolentRequest: ExportViolentRequest
+    ): Response<BraveResponse<ExportViolentResponse>>
 
 }

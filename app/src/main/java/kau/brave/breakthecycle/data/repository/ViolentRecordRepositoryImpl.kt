@@ -1,7 +1,9 @@
 package kau.brave.breakthecycle.data.repository
 
+import kau.brave.breakthecycle.data.request.ExportViolentRequest
 import kau.brave.breakthecycle.data.request.PasswordRequest
 import kau.brave.breakthecycle.data.response.DiaryDetailResponse
+import kau.brave.breakthecycle.data.response.ExportViolentResponse
 import kau.brave.breakthecycle.domain.repository.ViolentRecordRepository
 import kau.brave.breakthecycle.network.model.apiFlow
 import kau.brave.breakthecycle.network.service.BraveClient
@@ -48,6 +50,16 @@ class ViolentRecordRepositoryImpl @Inject constructor(
             userPersonId = userPersonId,
             diaryContents = diaryContents,
             pictureList = pictureList
+        )
+    }
+
+    override fun exportViolentToken(
+        usePersonId: Int,
+        exportViolentRequest: ExportViolentRequest
+    ): Flow<ApiWrapper<ExportViolentResponse>> = apiFlow {
+        braveClient.exportViolentToken(
+            usePersonId = usePersonId,
+            exportViolentRequest = exportViolentRequest
         )
     }
 

@@ -45,6 +45,7 @@ object Constants {
     const val DIARY_WRITE_PHOTO_ROUTE = "nav-diary-photo-write"
     const val DIARY_WRITE_ROUTE = "nav-diary-write"
     const val DIARY_DETAIL_ROUTE = "nav-diary-detail"
+    const val DATA_EXPORT_ROUTE = "nav-data-export"
 
     // Garphs
     const val MAIN_GRAPH = "main_graph"

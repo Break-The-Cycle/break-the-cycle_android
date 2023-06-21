@@ -10,8 +10,10 @@ import kau.brave.breakthecycle.ui.diary.DiaryDetailScreen
 import kau.brave.breakthecycle.ui.diary.DiaryWriteScreen
 import kau.brave.breakthecycle.ui.home.view.HomeScreen
 import kau.brave.breakthecycle.ui.model.Screen
+import kau.brave.breakthecycle.ui.mypage.DataExportScreen
 import kau.brave.breakthecycle.ui.mypage.MypageScreen
 import kau.brave.breakthecycle.utils.Constants
+import kau.brave.breakthecycle.utils.Constants.DATA_EXPORT_ROUTE
 import kau.brave.breakthecycle.utils.Constants.DIARY_DETAIL_ROUTE
 
 fun NavGraphBuilder.mainGraph(appState: ApplicationState) {
@@ -42,6 +44,10 @@ fun NavGraphBuilder.mainGraph(appState: ApplicationState) {
                 appState = appState,
                 targetDate = targetDate
             )
+        }
+
+        composable(DATA_EXPORT_ROUTE) {
+            DataExportScreen(appState)
         }
 
     }

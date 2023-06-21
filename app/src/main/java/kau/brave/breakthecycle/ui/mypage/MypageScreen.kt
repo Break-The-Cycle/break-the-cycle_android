@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalPermissionsApi::class)
+
 package kau.brave.breakthecycle.ui.mypage
 
+import android.Manifest
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,11 +18,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.RoseDaysApplication.Companion.isSecretMode
 import kau.brave.breakthecycle.theme.Gray300
 import kau.brave.breakthecycle.ui.component.BraveLogoIcon
 import kau.brave.breakthecycle.ui.model.ApplicationState
+import kau.brave.breakthecycle.utils.Constants.DATA_EXPORT_ROUTE
 import kau.brave.breakthecycle.utils.Constants.ONBOARD_ROUTE
 import kau.brave.breakthecycle.utils.Constants.SECERET_ONBOARD_ROUTE
 import kau.brave.breakthecycle.utils.Constants.USERINFO_GRAPH
@@ -39,6 +45,7 @@ fun MypageScreen(appState: ApplicationState) {
             // TODO 비밀번호 변경 그래프 이동
         }),
         MypageItem(title = "개인 정보 이용 약관", onClick = {
+
         }),
         MypageItem(title = "이용 약관", onClick = {
         }),
@@ -50,18 +57,22 @@ fun MypageScreen(appState: ApplicationState) {
         }),
     )
 
+
     val secretModeItem = listOf(
         MypageItem(title = "시크릿모드의 기능에 대하여", onClick = {
             appState.navigate("$SECERET_ONBOARD_ROUTE/false")
         }),
         MypageItem(title = "흔들어서 신고하기 설정", istoggle = true, onToggleClick = {
             // TODO 흔들어서 신고하기 설정
+            if (it) {
+
+            }
         }),
         MypageItem(title = "신고 범위 설정", onClick = {
             // TODO 신고 범위 설정
         }),
         MypageItem(title = "데이터 내보내기", onClick = {
-            // TODO 데이터 내보내기
+            appState.navigate(DATA_EXPORT_ROUTE)
         }),
     )
 
@@ -146,3 +157,9 @@ fun MypageContent(item: MypageItem) {
 
     }
 }
+
+@Composable
+fun RequestSmsPermission() {
+
+}
+

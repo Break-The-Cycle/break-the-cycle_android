@@ -1,8 +1,7 @@
 package kau.brave.breakthecycle.data.request
 
-data class RecordsOutRequest(
-    val fromDate: String,
-    val loginId: String,
+data class ExportViolentRequest(
     val password: String,
+    val fromDate: String,
     val toDate: String
 )

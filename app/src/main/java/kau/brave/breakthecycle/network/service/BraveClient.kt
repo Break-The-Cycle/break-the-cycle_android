@@ -1,8 +1,14 @@
 package kau.brave.breakthecycle.network.service
 
 import kau.brave.breakthecycle.data.request.*
+import kau.brave.breakthecycle.data.response.BraveResponse
+import kau.brave.breakthecycle.data.response.ExportViolentResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.POST
+import retrofit2.http.Path
 import javax.inject.Inject
 
 class BraveClient @Inject constructor(
@@ -60,5 +66,11 @@ class BraveClient @Inject constructor(
         targetDate: String,
         passwordRequest: PasswordRequest
     ) = violentRecordService.getViolentRecord(usePersonId, targetDate, passwordRequest)
+
+    suspend fun exportViolentToken(
+        usePersonId: Int,
+        exportViolentRequest: ExportViolentRequest
+    ) = violentRecordService.exportViolentToken(usePersonId, exportViolentRequest)
+
 
 }
