@@ -27,6 +27,7 @@ import kau.brave.breakthecycle.ui.component.BraveLogoIcon
 import kau.brave.breakthecycle.ui.model.ApplicationState
 import kau.brave.breakthecycle.utils.Constants.DATA_EXPORT_ROUTE
 import kau.brave.breakthecycle.utils.Constants.ONBOARD_ROUTE
+import kau.brave.breakthecycle.utils.Constants.REPORT_ADDRESS_ROUTE
 import kau.brave.breakthecycle.utils.Constants.SECERET_ONBOARD_ROUTE
 import kau.brave.breakthecycle.utils.Constants.USERINFO_GRAPH
 import kau.brave.breakthecycle.utils.noRippleClickable
@@ -69,7 +70,7 @@ fun MypageScreen(appState: ApplicationState) {
             }
         }),
         MypageItem(title = "신고 범위 설정", onClick = {
-            // TODO 신고 범위 설정
+            appState.navigate(REPORT_ADDRESS_ROUTE)
         }),
         MypageItem(title = "데이터 내보내기", onClick = {
             appState.navigate(DATA_EXPORT_ROUTE)
