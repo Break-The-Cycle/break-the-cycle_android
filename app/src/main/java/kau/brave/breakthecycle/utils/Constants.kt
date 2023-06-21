@@ -12,7 +12,8 @@ object Constants {
     val PREF_HASHED_PW = stringPreferencesKey("hashed_pw")
     val PREF_ACCESS_TOKEN = stringPreferencesKey("access_token")
     val PREF_REFRESH_TOKEN = stringPreferencesKey("refresh_token")
-
+    val PREF_MESSAGE_TEXT = stringPreferencesKey("message_text")
+    
     val BOTTOM_NAV_ITEMS = listOf<Screen>(Screen.Home, Screen.Calendar, Screen.Mypage)
     val PASSWD_REGEX =
         Regex("""^(?=.*[A-Za-z])(?=.*\d)(?=.*[@${'$'}!%*#?&])[A-Za-z\d@${'$'}!%*#?&]{8,}${'$'}""")

@@ -1,4 +1,4 @@
-package kau.brave.breakthecycle.ui.mypage
+package kau.brave.breakthecycle.ui.mypage.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf

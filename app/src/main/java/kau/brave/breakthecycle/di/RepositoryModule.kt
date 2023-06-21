@@ -5,6 +5,8 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import kau.brave.breakthecycle.data.database.AddressRepository
+import kau.brave.breakthecycle.data.repository.AddressRepositoryImpl
 import kau.brave.breakthecycle.data.repository.AuthRepositoryImpl
 import kau.brave.breakthecycle.data.repository.MenstruationRepositoryImpl
 import kau.brave.breakthecycle.data.repository.ViolentRecordRepositoryImpl
@@ -33,4 +35,10 @@ abstract class RepositoryModule {
     abstract fun bindViolentRecordRepository(
         violentRecordRepositoryImpl: ViolentRecordRepositoryImpl
     ): ViolentRecordRepository
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindAddressRepository(
+        addressRepositoryImpl: AddressRepositoryImpl
+    ): AddressRepository
 }

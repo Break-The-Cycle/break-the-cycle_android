@@ -86,6 +86,8 @@ dependencies {
     // Accompanist - Pager, Indicator
     implementation "com.google.accompanist:accompanist-pager:0.28.0"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.28.0"
+    // Accompanist - Permissions
+    implementation "com.google.accompanist:accompanist-permissions:0.31.3-beta"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
@@ -96,6 +98,9 @@ dependencies {
     // DataStore
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
 
-    implementation "com.google.accompanist:accompanist-permissions:0.31.3-beta"
-
+    // Room DB
+    implementation("androidx.room:room-runtime:2.5.0")
+    kapt("androidx.room:room-compiler:2.5.0")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:2.5.0")
 }

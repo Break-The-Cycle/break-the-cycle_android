@@ -30,12 +30,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import kau.brave.breakthecycle.R
+import kau.brave.breakthecycle.domain.model.Address
 import kau.brave.breakthecycle.theme.*
 import kau.brave.breakthecycle.ui.component.HeightSpacer
 import kau.brave.breakthecycle.ui.model.ApplicationState
+import kau.brave.breakthecycle.ui.mypage.viewmodel.ReportAddressViewModel
 import kau.brave.breakthecycle.utils.rememberApplicationState
 import kotlinx.coroutines.launch
 
@@ -45,8 +48,9 @@ import kotlinx.coroutines.launch
 fun ReportAddressScreen(appState: ApplicationState = rememberApplicationState()) {
 
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
 
+    val viewModel: ReportAddressViewModel = hiltViewModel()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val radioOptions = listOf("문자", "전화")
     val (selectedItem, onItemSelected) = remember { mutableStateOf(radioOptions[0]) }
 
@@ -80,8 +84,12 @@ fun ReportAddressScreen(appState: ApplicationState = rememberApplicationState())
                             val phoneNumberColumnIndex =
                                 phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
                             val phoneNumber = phoneCursor.getString(phoneNumberColumnIndex)
-
-                            Log.i("dlgocks1", "name: $name, phoneNumber: $phoneNumber")
+                            viewModel.insertAddress(
+                                Address(
+                                    name = name,
+                                    phoneNumber = phoneNumber.replace("-", "")
+                                )
+                            )
                         }
                     }
                 }
@@ -129,7 +137,13 @@ fun ReportAddressScreen(appState: ApplicationState = rememberApplicationState())
                 )
             }
 
-            Text(text = "완료", fontSize = 16.sp, color = Main, fontWeight = FontWeight.Bold)
+            Text(
+                text = "완료", fontSize = 16.sp, color = Main, fontWeight = FontWeight.Bold,
+                modifier = Modifier.clickable {
+                    viewModel.setMessageText()
+                    appState.navController.popBackStack()
+                }
+            )
         }
 
         HeightSpacer(dp = 20.dp)
@@ -201,6 +215,17 @@ fun ReportAddressScreen(appState: ApplicationState = rememberApplicationState())
                         .padding(horizontal = 10.dp, vertical = 5.dp)
                 )
             }
+            HeightSpacer(dp = 20.dp)
+            Column(
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+            ) {
+                uiState.addresses.forEach {
+                    AddressItem(
+                        address = it,
+                        updateAddress = viewModel::insertAddress
+                    )
+                }
+            }
 
         }
 
@@ -216,7 +241,7 @@ fun ReportAddressScreen(appState: ApplicationState = rememberApplicationState())
             Text(text = "위급할 때 보낼 메시지 내용을 적어주세요. (주소, 위치 등)", fontSize = 15.sp, color = Gray700)
 
             Text(
-                text = "0/500",
+                text = "${uiState.messageText.length}/500",
                 fontSize = 12.sp,
                 color = Gray300,
                 modifier = Modifier
@@ -233,11 +258,11 @@ fun ReportAddressScreen(appState: ApplicationState = rememberApplicationState())
                     fontSize = 16.sp,
                     color = Color.Black,
                 ),
-                value = "",
+                value = uiState.messageText,
                 onValueChange = {
-//                    if (uiState.contents.length < 500) {
-//                        viewModel.updateContents(it)
-//                    }
+                    if (uiState.messageText.length < 500) {
+                        viewModel.updateMessages(it)
+                    }
                 },
                 decorationBox = { innerTextField ->
                     Row(
@@ -245,7 +270,7 @@ fun ReportAddressScreen(appState: ApplicationState = rememberApplicationState())
                             .fillMaxWidth()
                             .padding(10.dp)
                     ) {
-                        if (true) {
+                        if (uiState.messageText.isEmpty()) {
                             Text(
                                 "내용을 입력해주세요.",
                                 style = LocalTextStyle.current.copy(
@@ -258,5 +283,39 @@ fun ReportAddressScreen(appState: ApplicationState = rememberApplicationState())
                     }
                 })
         }
+    }
+}
+
+@Composable
+fun AddressItem(address: Address, updateAddress: (Address) -> Unit) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                updateAddress(
+                    address.copy(
+                        isSelected = !address.isSelected
+                    )
+                )
+            }
+    ) {
+        Checkbox(
+            checked = address.isSelected,
+            onCheckedChange = {
+                updateAddress(
+                    address.copy(
+                        isSelected = !address.isSelected
+                    )
+                )
+            },
+            colors = CheckboxDefaults.colors(Main)
+        )
+        Text(
+            text = address.name,
+            fontSize = 16.sp,
+            color = Color.Black
+        )
     }
 }
