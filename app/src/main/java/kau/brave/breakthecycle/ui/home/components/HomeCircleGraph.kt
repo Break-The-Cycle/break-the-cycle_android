@@ -1,5 +1,6 @@
 package kau.brave.breakthecycle.ui.home.components
 
+import android.telephony.SmsManager
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +35,7 @@ fun HomeCircleGraph(
     homeSubText: String,
 ) {
 
+    val context = LocalContext.current
     val density = LocalDensity.current
 
     Box(modifier = Modifier.padding(top = 20.dp)) {
@@ -72,7 +75,18 @@ fun HomeCircleGraph(
                     .clip(CircleShape)
                     .background(ReportColor)
                     .clickable {
-
+//                        try {
+//                            val smsManager = SmsManager.getDefault()
+//                            smsManager.sendTextMessage(
+//                                "01029960826",
+//                                null,
+//                                "신고하기 테스트 메시지",
+//                                null,
+//                                null
+//                            )
+//                        } catch (e: Exception) {
+//                            e.printStackTrace()
+//                        }
                     }
             ) {
                 Text(

@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalPermissionsApi::class)
+
 package kau.brave.breakthecycle.ui.component
 
+import android.Manifest
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
@@ -10,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.RoseDaysApplication.Companion.isSecretMode
 import kau.brave.breakthecycle.utils.noRippleClickable
@@ -29,6 +34,15 @@ fun ColumnScope.BraveLogoIcon(onClick: () -> Unit) {
         delay(2000L)
         count = 0
     }
+
+    if (isSecretMode.value) {
+        val permissionState = rememberPermissionState(Manifest.permission.SEND_SMS)
+
+        LaunchedEffect(Unit) {
+            permissionState.launchPermissionRequest()
+        }
+    }
+
 
     Image(
         painter = painterResource(id = if (isSecretMode.value) R.mipmap.img_secret_logo_small else R.drawable.img_logo_small),
