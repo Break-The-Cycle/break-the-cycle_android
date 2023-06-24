@@ -1,19 +1,25 @@
 package kau.brave.breakthecycle.ui.home
 
+import android.telephony.SmsManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kau.brave.breakthecycle.data.database.AddressRepository
 import kau.brave.breakthecycle.domain.domain.DateParser
 import kau.brave.breakthecycle.domain.model.BraveDate
 import kau.brave.breakthecycle.domain.usecase.HomeUseCase
 import kau.brave.breakthecycle.theme.Gray100
 import kau.brave.breakthecycle.theme.Main
 import kau.brave.breakthecycle.ui.model.DateType
+import kau.brave.breakthecycle.utils.Constants
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 
@@ -41,7 +47,8 @@ data class HomeGraphItem(
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homeUseCase: HomeUseCase,
-    private val dateParser: DateParser
+    private val dateParser: DateParser,
+    private val addressRepository: AddressRepository,
 ) : ViewModel() {
 
     private val _homeDays = MutableStateFlow(emptyList<BraveDate>())
@@ -189,6 +196,24 @@ class HomeViewModel @Inject constructor(
             }
         }.sortedBy { it.dateType }
 
+    }
+
+    fun report() = viewModelScope.launch {
+        val message = withContext(Dispatchers.IO) {
+            addressRepository.getToken(Constants.PREF_MESSAGE_TEXT).first()
+        }
+        try {
+            val smsManager = SmsManager.getDefault()
+            smsManager.sendTextMessage(
+                "01029960826",
+                null,
+                message,
+                null,
+                null
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }

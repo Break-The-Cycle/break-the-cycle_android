@@ -39,6 +39,9 @@ fun HomeScreen(appState: ApplicationState) {
             homeGraphItems = uiState.homeGraphItems,
             homeMainText = uiState.homeMainText,
             homeSubText = uiState.homeSubText,
+            report = {
+                viewModel.report()
+            }
         )
         HomeLegend()
     }

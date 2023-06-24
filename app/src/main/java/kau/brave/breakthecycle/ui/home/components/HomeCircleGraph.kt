@@ -1,6 +1,5 @@
 package kau.brave.breakthecycle.ui.home.components
 
-import android.telephony.SmsManager
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,12 +26,14 @@ import kau.brave.breakthecycle.R
 import kau.brave.breakthecycle.RoseDaysApplication
 import kau.brave.breakthecycle.theme.ReportColor
 import kau.brave.breakthecycle.ui.home.HomeGraphItem
+import kotlinx.coroutines.Job
 
 @Composable
 fun HomeCircleGraph(
     homeGraphItems: List<HomeGraphItem>,
     homeMainText: String,
     homeSubText: String,
+    report: () -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -75,18 +76,7 @@ fun HomeCircleGraph(
                     .clip(CircleShape)
                     .background(ReportColor)
                     .clickable {
-//                        try {
-//                            val smsManager = SmsManager.getDefault()
-//                            smsManager.sendTextMessage(
-//                                "01029960826",
-//                                null,
-//                                "신고하기 테스트 메시지",
-//                                null,
-//                                null
-//                            )
-//                        } catch (e: Exception) {
-//                            e.printStackTrace()
-//                        }
+                        report()
                     }
             ) {
                 Text(
