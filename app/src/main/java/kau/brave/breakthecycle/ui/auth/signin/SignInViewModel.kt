@@ -43,6 +43,10 @@ class SignInViewModel @Inject constructor(
         }
     }
 
+    private fun stopTimer() {
+        timer.cancel()
+    }
+
     private fun startTimer() {
         _retryTime.value = DEFAULT_RETRY_TIME
         timer = Timer()
@@ -91,6 +95,7 @@ class SignInViewModel @Inject constructor(
     )
 
     fun confirmCertificationCode(
+        onSuccess: (String) -> Unit,
         onError: (String) -> Unit,
     ) = viewModelScope.launch {
         if (_retryTime.value <= 0) {
@@ -104,6 +109,8 @@ class SignInViewModel @Inject constructor(
             )
         ).collectLatest { apiState ->
             apiState.onSuccess {
+                onSuccess("인증에 성공했습니다.")
+                stopTimer()
                 _isVerified.value = true
             }
             apiState.onError(onError)

@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalComposeUiApi::class)
+
 package kau.brave.breakthecycle.ui.auth.signin
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -9,9 +12,11 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -39,6 +44,7 @@ fun SignInPhoneVerify(appState: ApplicationState = rememberApplicationState()) {
 
     val viewModel: SignInViewModel = hiltViewModel()
     val uiState by viewModel.verifyPhoneUiState.collectAsStateWithLifecycle()
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     val sendCertificationCode: () -> Unit = {
         viewModel.sendCertificationCode(
@@ -49,14 +55,19 @@ fun SignInPhoneVerify(appState: ApplicationState = rememberApplicationState()) {
                 appState.showSnackbar(it)
             }
         )
+        keyboardController?.hide()
     }
 
     val confirmCertificationCode: () -> Unit = {
         viewModel.confirmCertificationCode(
+            onSuccess = {
+                appState.showSnackbar(it)
+            },
             onError = {
                 appState.showSnackbar(it)
             }
         )
+        keyboardController?.hide()
     }
 
     Box(
@@ -165,6 +176,9 @@ fun SignInPhoneVerify(appState: ApplicationState = rememberApplicationState()) {
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
+                Text(text = "억지로 다음화면가기", modifier = Modifier.clickable {
+                    appState.navController.navigate(SIGNIN_ID_PASSWD_ROUTE)
+                })
                 SignInGraphBottomConfirmButton(
                     onClick = {
                         appState.navController.navigate(SIGNIN_ID_PASSWD_ROUTE)
