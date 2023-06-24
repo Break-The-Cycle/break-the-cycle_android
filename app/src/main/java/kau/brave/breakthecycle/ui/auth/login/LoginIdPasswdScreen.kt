@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalComposeUiApi::class)
+
 package kau.brave.breakthecycle.ui.auth.login
 
 import androidx.compose.foundation.*
@@ -6,9 +8,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,6 +38,7 @@ import kau.brave.breakthecycle.utils.Constants.SIGNIN_GRAPH
 fun LoginIdPasswdScreen(appState: ApplicationState = rememberApplicationState()) {
 
     val viewModel: LoginViewModel = hiltViewModel()
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     val login: () -> Unit = {
         viewModel.login(
@@ -48,6 +53,7 @@ fun LoginIdPasswdScreen(appState: ApplicationState = rememberApplicationState())
                 appState.showSnackbar(it)
             }
         )
+        keyboardController?.hide()
     }
 
     Box {

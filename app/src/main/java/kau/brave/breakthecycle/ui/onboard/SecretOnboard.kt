@@ -42,7 +42,7 @@ fun SecretOnboard(
     @DrawableRes images: List<Int> = listOf(
         R.mipmap.img_secret_onboard_enter,
         R.mipmap.img_secret_onboard_dialog,
-        R.mipmap.img_secret_onboard_dialog,
+        R.drawable.img_secret_onboard_diary,
         R.mipmap.img_secret_onboard_report,
         R.mipmap.img_secret_onboard_setting
     ),

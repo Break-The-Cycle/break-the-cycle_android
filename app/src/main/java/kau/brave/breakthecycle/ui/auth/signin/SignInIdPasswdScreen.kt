@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalComposeUiApi::class)
+
 package kau.brave.breakthecycle.ui.auth.signin
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -8,9 +11,11 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +37,7 @@ fun SignInIdPasswdScreen(appState: ApplicationState) {
 
     val viewModel: SignInViewModel = hiltViewModel()
     val uiState by viewModel.signInIdPasswordScreenUiState.collectAsStateWithLifecycle()
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     val checkIdDuplication: () -> Unit = {
         viewModel.checkIdDuplication(
@@ -39,6 +45,7 @@ fun SignInIdPasswdScreen(appState: ApplicationState) {
                 appState.showSnackbar(it)
             }
         )
+        keyboardController?.hide()
     }
     val signIn: () -> Unit = {
         viewModel.signIn(
@@ -53,6 +60,7 @@ fun SignInIdPasswdScreen(appState: ApplicationState) {
                 appState.showSnackbar(it)
             }
         )
+        keyboardController?.hide()
     }
 
     Box(
@@ -86,7 +94,26 @@ fun SignInIdPasswdScreen(appState: ApplicationState) {
                 )
 
                 /** 아이디 입력 */
-                Text(text = "아이디", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text(text = "이름", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    CustomTextField(
+                        modifier = Modifier.weight(5f),
+                        value = uiState.name,
+                        placeholderText = "이름을 입력해주세요.",
+                        onvalueChanged = viewModel::updateName
+                    )
+                }
+
+                /** 아이디 입력 */
+                Text(
+                    text = "아이디",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 15.dp)
+                )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -194,6 +221,9 @@ fun SignInIdPasswdScreen(appState: ApplicationState) {
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
+                Text(text = "억지로 다음화면 넘어가기", modifier = Modifier.clickable {
+                    appState.navController.navigate("$ONBOARD_ROUTE/true")
+                })
                 SignInGraphBottomConfirmButton(
                     onClick = signIn,
                     enabled = uiState.idDupCheck == VerificationStatus.SUCCESS &&

@@ -25,6 +25,7 @@ class SignInViewModel @Inject constructor(
     private val _retryTime = MutableStateFlow(0)
 
     /** 아이디 패드워드 인증 State */
+    private val _name = MutableStateFlow("")
     private val _id = MutableStateFlow("")
     private val _idDupCheck = MutableStateFlow(VerificationStatus.NONE)
     private val _password = MutableStateFlow("")
@@ -80,7 +81,13 @@ class SignInViewModel @Inject constructor(
     )
 
     val signInIdPasswordScreenUiState: StateFlow<SignInIdPasswordScreenUiState> = combine(
-        _id, _idDupCheck, _password, _secondPassword, _passwordCorrectCheck, _passwordRegexCheck
+        _id,
+        _idDupCheck,
+        _password,
+        _secondPassword,
+        _passwordCorrectCheck,
+        _passwordRegexCheck,
+        _name
     ) {
         SignInIdPasswordScreenUiState(
             id = it[0] as String,
@@ -88,7 +95,8 @@ class SignInViewModel @Inject constructor(
             password = it[2] as String,
             secondPassword = it[3] as String,
             passwordCorrectCheck = it[4] as VerificationStatus,
-            passwordRegexCheck = it[5] as VerificationStatus
+            passwordRegexCheck = it[5] as VerificationStatus,
+            name = it[6] as String
         )
     }.stateIn(
         viewModelScope, SharingStarted.WhileSubscribed(5000), SignInIdPasswordScreenUiState()
@@ -153,6 +161,10 @@ class SignInViewModel @Inject constructor(
     fun updateId(id: String) {
         _id.value = id
         _idDupCheck.value = VerificationStatus.NONE
+    }
+
+    fun updateName(name: String) {
+        _name.value = name
     }
 
     fun updatePassword(password: String) {

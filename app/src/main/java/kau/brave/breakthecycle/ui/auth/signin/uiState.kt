@@ -16,5 +16,7 @@ data class SignInIdPasswordScreenUiState(
     val password: String = "",
     val passwordRegexCheck: VerificationStatus = VerificationStatus.NONE,
     val secondPassword: String = "",
-    val passwordCorrectCheck: VerificationStatus = VerificationStatus.NONE
+    val passwordCorrectCheck: VerificationStatus = VerificationStatus.NONE,
+    val name: String = ""
+
 )
