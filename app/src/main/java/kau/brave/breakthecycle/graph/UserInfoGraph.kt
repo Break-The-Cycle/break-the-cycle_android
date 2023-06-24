@@ -50,7 +50,7 @@ fun NavGraphBuilder.userInfoGraph(appState: ApplicationState) {
 }
 
 @Composable
-private fun rememberNavBackStackEntry(
+ fun rememberNavBackStackEntry(
     graph: String,
     entry: NavBackStackEntry,
     appState: ApplicationState,

@@ -7,6 +7,7 @@ import kau.brave.breakthecycle.data.request.PhoneAndCertificationNumber
 import kau.brave.breakthecycle.data.request.PhoneNumber
 import kau.brave.breakthecycle.data.request.RegisterRequest
 import kau.brave.breakthecycle.domain.repository.AuthRepository
+import kau.brave.breakthecycle.network.ServiceInterceptor
 import kau.brave.breakthecycle.ui.model.VerificationStatus
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -194,6 +195,7 @@ class SignInViewModel @Inject constructor(
     ) = viewModelScope.launch {
         authRepository.signIn(
             RegisterRequest(
+                name = _name.value,
                 phoneNumber = _verifyPhoneNumber.value,
                 password = _password.value,
                 password2 = _secondPassword.value,
@@ -201,7 +203,12 @@ class SignInViewModel @Inject constructor(
             )
         ).collectLatest { apiState ->
             apiState.onSuccess {
-                onSuccess()
+                if (it.data?.id == null) {
+                    onError("회원가입에 실패했습니다.")
+                } else {
+                    ServiceInterceptor.usePersonId = it.data.id
+                    onSuccess()
+                }
             }
             apiState.onError { onError(it) }
         }

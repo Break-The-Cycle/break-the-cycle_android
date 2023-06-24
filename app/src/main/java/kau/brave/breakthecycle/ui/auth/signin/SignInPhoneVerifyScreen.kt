@@ -40,9 +40,11 @@ import kau.brave.breakthecycle.utils.Constants.SIGNIN_ID_PASSWD_ROUTE
 
 @Preview
 @Composable
-fun SignInPhoneVerify(appState: ApplicationState = rememberApplicationState()) {
+fun SignInPhoneVerify(
+    appState: ApplicationState = rememberApplicationState(),
+    viewModel: SignInViewModel = hiltViewModel()
+) {
 
-    val viewModel: SignInViewModel = hiltViewModel()
     val uiState by viewModel.verifyPhoneUiState.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -176,9 +178,9 @@ fun SignInPhoneVerify(appState: ApplicationState = rememberApplicationState()) {
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "억지로 다음화면가기", modifier = Modifier.clickable {
-                    appState.navController.navigate(SIGNIN_ID_PASSWD_ROUTE)
-                })
+//                Text(text = "억지로 다음화면가기", modifier = Modifier.clickable {
+//                    appState.navController.navigate(SIGNIN_ID_PASSWD_ROUTE)
+//                })
                 SignInGraphBottomConfirmButton(
                     onClick = {
                         appState.navController.navigate(SIGNIN_ID_PASSWD_ROUTE)

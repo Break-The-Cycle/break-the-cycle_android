@@ -33,9 +33,10 @@ import kau.brave.breakthecycle.utils.Constants.ONBOARD_ROUTE
 import kau.brave.breakthecycle.utils.Constants.SIGNIN_GRAPH
 
 @Composable
-fun SignInIdPasswdScreen(appState: ApplicationState) {
-
-    val viewModel: SignInViewModel = hiltViewModel()
+fun SignInIdPasswdScreen(
+    appState: ApplicationState,
+    viewModel: SignInViewModel = hiltViewModel()
+) {
     val uiState by viewModel.signInIdPasswordScreenUiState.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -221,9 +222,9 @@ fun SignInIdPasswdScreen(appState: ApplicationState) {
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "억지로 다음화면 넘어가기", modifier = Modifier.clickable {
-                    appState.navController.navigate("$ONBOARD_ROUTE/true")
-                })
+//                Text(text = "억지로 다음화면 넘어가기", modifier = Modifier.clickable {
+//                    appState.navController.navigate("$ONBOARD_ROUTE/true")
+//                })
                 SignInGraphBottomConfirmButton(
                     onClick = signIn,
                     enabled = uiState.idDupCheck == VerificationStatus.SUCCESS &&
